@@ -143,6 +143,13 @@ The `JuliaTests` target starts these tests against the build folder.
 The tests include all four formats, key limits, missing values, diagnostics, matrix dimensions, and legacy sample files.
 The [Julia instructions](../libs/juliaDataIO/README.md) give the build commands and test commands.
 
+The [Julia workflow](../.github/workflows/julia.yml) uses Julia 1.10 and the latest stable Julia 1 release.
+It builds and tests both versions on Linux x86-64, Windows x86-64, and macOS ARM64.
+Each job starts the package tests and examples through CTest.
+The Linux job with the latest Julia release also builds the R and Python packages from the current source.
+That job tests file exchange between Julia, R, and Python.
+The workflow stores logs, CTest reports, and dependency versions as artifacts for 30 days.
+
 ## File exchange between languages
 
 The MATLAB workflow starts tests of file exchange between R, Python, and MATLAB on Linux.

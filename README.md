@@ -3,9 +3,11 @@
 DataBionicIO contains readers and writers for data files.
 The R, Python, MATLAB, and Julia interfaces use the same C++ code for LRN, CLS, NAMES, and DATES.
 The R and MATLAB packages also contain functions for other formats.
+Excel can open the text files with tab separators.
 
 The R package name is `cdbt.DataIO`. The Python package name is `pyDataIO`.
 The MATLAB entry points are `buildDataIO` and `setupDataIO`.
+The Julia package name is `DataBionicIO`.
 
 ## License
 
@@ -27,6 +29,7 @@ Third-party components keep their own licenses.
 | `libs/qslegacy/` | An R package for legacy QS files. |
 | `cmake/` | CMake support files. |
 | `ci/matlab/` | The MATLAB build and test command for GitHub Actions. |
+| `.github/workflows/` | GitHub Actions workflows for MATLAB and Julia. |
 | `tests/` | Test programs and fixed sample files. |
 | `examples/` | Examples of package use. |
 | `build/` | Build output. |
@@ -47,6 +50,10 @@ Start the R test script from the project folder:
 ```sh
 Rscript --vanilla tests/run_tests.R
 ```
+
+The [Julia workflow](.github/workflows/julia.yml) builds and tests the package on Linux, Windows, and macOS.
+It uses Julia 1.10 and the latest stable Julia 1 release.
+Its Linux job also tests file exchange between Julia, R, and Python.
 
 ## C++ build
 
@@ -105,6 +112,27 @@ julia --startup-file=no libs/juliaDataIO/build.jl
 ```
 
 The output package is in `build/julia/libs/juliaDataIO/DataBionicIO/`.
+
+Start Julia with this package:
+
+```sh
+julia --project=build/julia/libs/juliaDataIO/DataBionicIO
+```
+
+The package supplies `read_lrn`, `read_cls`, `read_names`, and `read_dates`.
+The writers are `write_lrn`, `write_cls`, `write_names`, and `write_dates`.
+
+## Excel
+
+Excel can open LRN, CLS, NAMES, DATES, and DATA text files with tab separators.
+If Excel is the default application for the file type, a double-click opens the file in Excel.
+Otherwise, open the file with Excel.
+
+If the lines appear in one column, select that column.
+Use **Data > Text to Columns**.
+Select **Delimited**.
+Select **Tab** as the separator.
+The [Excel instructions](examples/excel/README.md) give the complete procedure and the settings for identifiers and timestamps.
 
 ## Keys
 

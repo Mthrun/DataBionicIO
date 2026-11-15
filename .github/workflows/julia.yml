@@ -1,0 +1,211 @@
+# OUTPUT
+# Julia builds, package tests, file-exchange tests, and diagnostic artifacts.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+
+name: Julia tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'libs/cDataIO/**'
+      - 'libs/juliaDataIO/**'
+      - 'libs/RDataIO/**'
+      - 'libs/pyDataIO/**'
+      - 'libs/qslegacy/**'
+      - 'tests/**'
+      - 'examples/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'README.md'
+      - 'LICENSE*'
+      - 'LICENSES/**'
+      - 'LICENSING.md'
+      - 'MATLAB-EXCEPTION.txt'
+      - 'THIRD-PARTY-NOTICES.txt'
+      - 'COMMERCIAL-LICENSE.txt'
+      - '.github/workflows/julia.yml'
+      - '.gitattributes'
+  pull_request:
+    paths:
+      - 'libs/cDataIO/**'
+      - 'libs/juliaDataIO/**'
+      - 'libs/RDataIO/**'
+      - 'libs/pyDataIO/**'
+      - 'libs/qslegacy/**'
+      - 'tests/**'
+      - 'examples/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'README.md'
+      - 'LICENSE*'
+      - 'LICENSES/**'
+      - 'LICENSING.md'
+      - 'MATLAB-EXCEPTION.txt'
+      - 'THIRD-PARTY-NOTICES.txt'
+      - 'COMMERCIAL-LICENSE.txt'
+      - '.github/workflows/julia.yml'
+      - '.gitattributes'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  JULIA_DEPOT_PATH: ${{ github.workspace }}/build/julia-depot
+  JULIA_PKG_PRECOMPILE_AUTO: '0'
+  JULIA_NUM_PRECOMPILE_TASKS: '2'
+
+concurrency:
+  group: julia-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  julia:
+    name: ${{ matrix.platform }} / Julia ${{ matrix.julia }} / C++20
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        julia: ['1.10', '1']
+        platform: [linux-x64, windows-x64, macos-arm64]
+        include:
+          - platform: linux-x64
+            os: ubuntu-24.04
+            arch: x64
+          - platform: windows-x64
+            os: windows-2022
+            arch: x64
+          - platform: macos-arm64
+            os: macos-15
+            arch: aarch64
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
+        with:
+          version: ${{ matrix.julia }}
+          arch: ${{ matrix.arch }}
+
+      - name: Cache Julia dependencies
+        uses: julia-actions/cache@d10a6fd8f31b12404a54613ebad242900567f2b9 # v2
+        with:
+          depot: ${{ env.JULIA_DEPOT_PATH }}
+          cache-name: julia-${{ hashFiles('libs/juliaDataIO/Project.toml') }}
+          delete-old-caches: 'false'
+
+      - name: Set up MinGW for the GCC CxxWrap binaries
+        if: runner.os == 'Windows'
+        id: msys2
+        uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+
+      - name: Select MinGW and Ninja
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          MSYS2_ROOT: ${{ steps.msys2.outputs.msys2-location }}
+        run: |
+          "$env:MSYS2_ROOT\mingw64\bin" >> $env:GITHUB_PATH
+          'CC=gcc' >> $env:GITHUB_ENV
+          'CXX=g++' >> $env:GITHUB_ENV
+          'CMAKE_GENERATOR=Ninja' >> $env:GITHUB_ENV
+
+      - name: Record build environment
+        run: |
+          mkdir -p build/ci/reports
+          julia --startup-file=no -e 'using InteractiveUtils; versioninfo()' > build/ci/reports/julia-version.txt
+          cmake --version > build/ci/reports/cmake-version.txt
+          "${CXX:-c++}" --version > build/ci/reports/compiler-version.txt
+          git rev-parse HEAD > build/ci/reports/source-commit.txt
+
+      - name: Build Julia package
+        run: |
+          set -o pipefail
+          julia --startup-file=no libs/juliaDataIO/build.jl build/ci/julia 2>&1 | tee build/ci/reports/julia-build.txt
+          julia --startup-file=no --project=build/ci/julia/libs/juliaDataIO/DataBionicIO \
+            -e 'using Pkg; Pkg.status(; mode=Pkg.PKGMODE_MANIFEST)' > build/ci/reports/julia-packages.txt
+
+      - name: Test Julia package and examples
+        run: |
+          set -o pipefail
+          ctest --test-dir build/ci/julia -C Release -R '^julia-' --no-tests=error \
+            --output-on-failure --output-junit julia-tests.xml 2>&1 | tee build/ci/reports/julia-tests.txt
+
+      - name: Set up Python for file exchange
+        if: runner.os == 'Linux' && matrix.julia == '1'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Install R and Python dependencies
+        if: runner.os == 'Linux' && matrix.julia == '1'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y r-base-dev r-cran-rcpp r-cran-lubridate
+          python -m pip install 'numpy>=1.21' 'pandas>=1.5' tzdata pybind11
+          python -m pip freeze > build/ci/reports/python-packages.txt
+
+      - name: Build and test R and Python packages
+        if: runner.os == 'Linux' && matrix.julia == '1'
+        run: |
+          set -o pipefail
+          Rscript --vanilla tests/run_tests.R 2>&1 | tee build/ci/reports/r-tests.txt
+          R_LIBRARY=$(Rscript --vanilla -e 'p <- Sys.glob("build/tests/*/library"); stopifnot(length(p)==1L); cat(normalizePath(p))')
+          echo "DATAIO_R_TEST_LIBRARY=$R_LIBRARY" >> "$GITHUB_ENV"
+          cmake -S . -B build/ci/python -DBUILD_RPACKAGE=OFF -DBUILD_PYPACKAGE=ON \
+            -DBUILD_JULIAPACKAGE=OFF -DBUILD_MATLABPACKAGE=OFF -DCMAKE_BUILD_TYPE=Release \
+            -DPython_EXECUTABLE="$(command -v python)" -Dpybind11_DIR="$(python -m pybind11 --cmakedir)" \
+            -DDATAIO_R_TEST_LIBRARY="$R_LIBRARY"
+          cmake --build build/ci/python --parallel 2 --target PyTests 2>&1 | tee build/ci/reports/python-tests.txt
+
+      - name: Test file exchange between Julia, R, and Python
+        if: runner.os == 'Linux' && matrix.julia == '1'
+        run: |
+          set -o pipefail
+          mkdir -p build/ci/interop
+          {
+            Rscript --vanilla tests/interop/interop.R generate build/ci/interop "$DATAIO_R_TEST_LIBRARY"
+            python tests/interop/interop.py generate build/ci/interop build/ci/python/libs/pyDataIO
+            julia --startup-file=no --project=build/ci/julia/libs/juliaDataIO/DataBionicIO \
+              tests/interop/interop.jl generate build/ci/interop
+            julia --startup-file=no --project=build/ci/julia/libs/juliaDataIO/DataBionicIO \
+              tests/interop/interop.jl verify build/ci/interop
+            Rscript --vanilla tests/interop/interop.R verify-julia build/ci/interop "$DATAIO_R_TEST_LIBRARY"
+            python tests/interop/interop.py verify-julia build/ci/interop build/ci/python/libs/pyDataIO
+          } 2>&1 | tee build/ci/reports/interop-tests.txt
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: DataBionicIO-Julia-${{ matrix.julia }}-${{ matrix.platform }}-${{ github.run_attempt }}
+          path: |
+            build/ci/reports/
+            build/ci/julia/CMakeCache.txt
+            build/ci/julia/julia-tests.xml
+            build/ci/julia/Testing/Temporary/
+            build/ci/julia/libs/juliaDataIO/DataBionicIO/Manifest.toml
+            build/ci/python/Testing/Temporary/
+            build/ci/interop/
+            build/tests/*/logs/
+            build/tests/*/results.tsv
+            build/tests/*/environment.txt
+          if-no-files-found: warn
+          retention-days: 30

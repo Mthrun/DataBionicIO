@@ -48,6 +48,26 @@ The tests use the package in the build folder.
 They examine all four formats, key limits, missing values, warnings, errors, and legacy files.
 Test output files use temporary folders.
 
+## GitHub Actions
+
+The source workflow is `.github/workflows/julia.yml`.
+It has these configurations:
+
+| Operating system | Processor | Julia versions | Compiler |
+| --- | --- | --- | --- |
+| Ubuntu 24.04 | x86-64 | 1.10 and latest stable 1.x | GCC. |
+| Windows Server 2022 | x86-64 | 1.10 and latest stable 1.x | MinGW-w64 GCC. |
+| macOS 15 | ARM64 | 1.10 and latest stable 1.x | Apple Clang. |
+
+Each configuration builds the native library and starts the package tests and examples.
+The Linux configuration with the latest Julia release also tests file exchange with R and Python.
+These tests include all four formats in both directions.
+
+The workflow uses path filters for pull requests and pushes to `main`.
+These filters select changes to source files, tests, documentation, licenses, and build configuration.
+To start it manually, select **Actions > Julia tests > Run workflow** in GitHub.
+The workflow stores build logs, dependency versions, and test reports as artifacts for 30 days.
+
 ## Package use
 
 Start Julia with the output package as its project:
