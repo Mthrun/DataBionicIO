@@ -153,10 +153,22 @@ class Wrappers(unittest.TestCase):
             self.assertEqual(result["FileHeader"], ["Key", "Version", "First", "Second"])
             frame = self.read(io.read_names, str(i))
             self.assertEqual(list(frame.columns), result["FileHeader"])
+            self.assertEqual(frame.iloc[:, 0].tolist(), self.keys)
+            self.assertEqual(frame.iloc[:, 1].tolist(), names)
             self.assertEqual(frame.iloc[:, 2:].values.tolist(), texts)
         self.write(io.WriteNames, "copy", result["Names"], Key=result["Key"],
                    FurtherTexts=result["FurtherTexts"], Header=result["FileHeader"])
         self.assertEqual(self.read(io.ReadNames, "copy")["FurtherTexts"], texts)
+
+    def test_names_frame_with_all_text_missing(self):
+        self.write(io.WriteNames, "missing", [None, None], Key=[1, 2**53],
+                   FurtherTexts=[[None], [None]], Header=["Names", "Extra"])
+        frame = self.read(io.read_names, "missing")
+        self.assertEqual(list(frame.columns), ["Key", "Names", "Extra"])
+        self.assertEqual(str(frame["Key"].dtype), "Int64")
+        self.assertEqual(frame["Key"].tolist(), [1, 2**53])
+        for value in frame.iloc[:, 1:].to_numpy().flat:
+            self.assertIsNone(value)
 
     def test_names_without_extra_columns(self):
         self.write(io.WriteNames, "a", ["a", "b"], Key=[1, 2])

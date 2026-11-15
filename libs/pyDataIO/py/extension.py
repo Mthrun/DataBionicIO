@@ -346,20 +346,21 @@ def _lrn_result(raw):
                           Types=types, DataDefined=types), comment)
 
 
-def _frame(data, header, keys, **metadata):
+def _frame(data, header, keys, *, dtype=None, **metadata):
     # Build a DataFrame with exact nullable keys.
     #
     # INPUT
     # data  Record rows.
     # header  Data column labels.
     # keys  Integer keys or None for missing keys.
+    # dtype  Data column type; None uses pandas type inference.
     # metadata  Keyword metadata stored in frame.attrs.
     #
     # OUTPUT
     # DataFrame with Key first, using pandas Int64, followed by the data columns.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    frame = pd.DataFrame(data, columns=header)
+    frame = pd.DataFrame(data, columns=header, dtype=dtype)
     # Nullable integers preserve exact IDs even when another row has no key.
     frame.insert(0, "Key", pd.array(keys, dtype="Int64"), allow_duplicates=True)
     frame.attrs.update(metadata)
@@ -556,12 +557,14 @@ def read_names(FileName, Directory=None, Verbose=True):
     #
     # OUTPUT
     # DataFrame with Key first and format-specific columns. Comments and other metadata are in frame.attrs.
+    # Text columns use object dtype and None for missing values.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Read Key, the names column and each additional text column into a DataFrame."""
     result = ReadNames(FileName, Directory, Verbose)
     data = [[name] + row for name, row in zip(result["Names"], result["FurtherTexts"])]
-    return _frame(data, result["FileHeader"][1:], result["Key"], Comments=result["Comments"])
+    return _frame(data, result["FileHeader"][1:], result["Key"],
+                  dtype=object, Comments=result["Comments"])
 
 
 def WriteNames(FileName, Names, Key=None, FurtherTexts=None, Header=None,
