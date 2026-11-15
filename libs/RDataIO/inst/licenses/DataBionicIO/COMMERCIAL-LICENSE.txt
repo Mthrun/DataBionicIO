@@ -1,0 +1,26 @@
+DataBionicIO commercial licensing
+
+DataBionicIO is available under GNU AGPL version 3, with the additional
+MATLAB permission supplied with the project. Commercial use, sale, and
+services are permitted under that license when its conditions are met.
+There is no automatic license fee merely because a user is a company.
+
+IAP-GmbH Intelligent Analytics Projects also offers paid alternative licenses
+for the DataBionicIO material for which it controls the necessary rights.
+An alternative license can permit uses that the AGPL would otherwise not
+permit, such as distribution of a covered application under proprietary
+terms without the AGPL source-code obligations.
+
+An alternative commercial license takes effect only through a separate
+written agreement with IAP-GmbH. This notice does not itself grant such a
+license, set a price, promise support, or change the AGPL grant.
+
+Third-party software is outside this alternative grant unless its rights
+are expressly included in the agreement. In particular, this notice does
+not relicense qslegacy, R, Rcpp, Python, pybind11, other dependencies, MATLAB,
+or MATLAB Runtime. Their applicable licenses and obligations remain in force.
+
+Contact for an alternative license:
+IAP-GmbH Intelligent Analytics Projects
+info@iap-gmbh.de
+https://www.iap-gmbh.de/de/impressum/

@@ -1,0 +1,19 @@
+"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" install_dependencies.R
+
+where cmake
+
+rm -rf build
+
+mkdir build
+
+cd build
+
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PYPACKAGE=OFF ..
+
+cd libs/RDataIO
+
+cmake --build .
+
+cmake --build . --target RPackageInstall
+
+cp -a . ../../../

@@ -1,0 +1,17 @@
+where cmake
+
+rm -rf build
+
+mkdir build
+
+cd build
+
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PYPACKAGE=OFF ..
+
+cd libs/RDataIO
+
+cmake --build .
+
+cmake --build . --target RPackageInstall
+
+cp -a . ../../../

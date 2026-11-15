@@ -1,0 +1,69 @@
+Source archive: DataIO.zip.
+SHA256 values refer to the original archive members.
+WritePRO..m is copied as WritePRO.m to match its function name.
+
+65edea093b52773b4691d9cbbdbcf1c760a9d8b265c0027f10ec3878792f17ad  CRC32.m -> native/CRC32.m
+9b76081a7420a6d1153553ea0ed83755ff0d2cb72dba326925cae64f23b6e1b2  DirectoryFiles2names.m -> native/DirectoryFiles2names.m
+32aa84f947d4b1aa72a49854ddf2c0cde40bd10a31e834848edc954327f57c2f  FABloadtxt.m -> native/FABloadtxt.m
+ef98e50fba0e904b56fbc87dbc43fc43ddba0e5670642d3fb420dddc2dd20e5e  FileExists.m -> native/FileExists.m
+e70832818272bf98464a077edb4b03584105fd034ca0d8f927551c2f9416c831  FileSize.m -> native/FileSize.m
+19eeae4945072de4bacb377005a3da974cd60ca8a1e718e022c8abc9ffd04960  GoThroughDirectories.m -> native/GoThroughDirectories.m
+c15a2604d97845681c408fbdf8ecad711c683d15c95eedcd1d1dcffb66299dbe  ReadBM.m -> native/ReadBM.m
+d11e1f2fa368488ac43d3e3e8c33b025a6fc6481441a12bcf04f7c0c7f3a0785  ReadCSV.m -> native/ReadCSV.m
+fbef960b094df2362b91f919cf643e23daaa847e1b62ee68b4e019650daae78f  ReadDATA.m -> native/ReadDATA.m
+12ee11ccff1104ce3bc8e29968f78b282ffcdbc6267ec384081e33adc5581581  ReadESOMdata.m -> native/ReadESOMdata.m
+acb7d61518cd6180fb0ac930f2303565f07b902ce35ec915c6d2573d37df09f7  ReadIMX.m -> native/ReadIMX.m
+eb909ab37394adb25682654b1d03fcf531938926538b56f809dd4ce0c5c0c258  ReadNSM.m -> native/ReadNSM.m
+255474803756e0fb77dc75dbe66b4991f4197f72d79e228c682a4268703c0237  ReadTSV.m -> native/ReadTSV.m
+3edcff7e67f8624270350738ed407aa7f3c8f76a90e35bf6d62721732958b5bc  ReadTXT.m -> native/ReadTXT.m
+3e2abe959243ba2288c1e37e2615637f9c3ff204bfecd9a2970515a454941a82  ReadUMX.m -> native/ReadUMX.m
+c9d420983eb2f675ebc2356dbecf7201690a0224a8444e41c63d227c196b6fd8  ReadVermoegenCSV.m -> native/ReadVermoegenCSV.m
+73f80fe754dd2874d39d40cd29091163c4f6d5927e1442524ae604b5afe1cef9  ReadWIDcsv.m -> native/ReadWIDcsv.m
+6b22d792ee7a532107eb3983a0fcaa705301b053fb40a3d49980d4d178e64fd7  ReadWTS.m -> native/ReadWTS.m
+c4739c75f8f4ea7a39c6c11a392a32351a457c7fb15852913ee552d4e37e983b  WriteBM.m -> native/WriteBM.m
+8292a0aaf386df3ae903b82eff40889787e66254f0ceb544b5b2f46dc9cb3927  WriteCSV.m -> native/WriteCSV.m
+fcf10c513133f0427336dc9a4b68ae6c607d18cd9f01ac5227e41b846799cfd6  WriteDATA.m -> native/WriteDATA.m
+41541385b02e6cba56518a209a9a082a1cdfd8778e431920dbf314bc14275a56  WriteFigureAsTIFF.m -> native/WriteFigureAsTIFF.m
+5fafd346c2352413c8b8b3a49e62cca6b845df86c27e495ca727c45da9d39109  WriteIMX.m -> native/WriteIMX.m
+37eb226d465eb6f5aea0e6f0e59b4dbb005f502094e25338c2821553889e7c23  WriteNSM.m -> native/WriteNSM.m
+0bc3285a4cac37e070e07df7902b09855c5b4adbdc0ac02d415f90fea74c0da0  WritePRO..m -> native/WritePRO.m
+18b9dd9cc2bbc8787116846efa065628694ad03bed57653b6d78959dfdaae043  WriteTSV.m -> native/WriteTSV.m
+4216aba200db5cecc3b96c74cd954d94473ce07170cbaff1497d49f2f9a72b7e  WriteTXT.m -> native/WriteTXT.m
+4e879a9063873e5b40296a6660c970e6d4c079ba3d7874ab858acda88f1152b0  WriteUMX.m -> native/WriteUMX.m
+95f385996ae8a178508c67948542ee3febd74cad2f6c0f2c5db5dbb9efdec834  WriteWTS.m -> native/WriteWTS.m
+af8deb581447351d83d99e531991317ce4c573e33de2810284a6ace3ddd98594  addfileext.m -> native/addfileext.m
+9119b5250c5274e6189d20a130d385a34021770bdec3ce1007c421244b5bf970  ask2loadFile.m -> native/ask2loadFile.m
+175a5e796a510bfae2feb8841bd217c0d0b149c7f17aef4450c8565d58f5ab10  ask2loadFiles.m -> native/ask2loadFiles.m
+f57784746a86a26e21606ccd36ae8b6be85a1f9cd0c82afc608eedbf5ee914f6  ask2writeFile.m -> native/ask2writeFile.m
+182877225aa3a0da9ea5debe4396db2272329853556f3e3d75a5cfa3427aa813  dbfDataWriteTxt.m -> native/dbfDataWriteTxt.m
+e957818b98321bbcf5fbfdf484ce6ae4a589cad9c57166581a7836af2da7ca66  dbfread.m -> native/dbfread.m
+020b935c17e5181babccd714cb12be59dffc5cc8e959b96eefb37a994ea1c9a0  decompose.m -> native/decompose.m
+57ea11354135e76dc52947f15aeb3f58817374f21faf3ef382d2668422d47b0e  defines.m -> native/defines.m
+a061f12468ecab68e4f38d5850323df1e8e618f23177bf90d43871b2dff79ab1  linecount.m -> native/linecount.m
+156f68234ede51890a7bb039c0e11d69376c23c92d8b028d0f895191ad60b6e6  listfiles.m -> native/listfiles.m
+cfef602fb65301ad2b472d6fae374de2476abb71a603aae1dad3dee293060149  loaddata.m -> native/loaddata.m
+85124626101a0e76f6cf72c2675d2b1e17c6cf6e27bda698a3b20d5848147ed9  loadrgb.m -> native/loadrgb.m
+917e678d1189526522948f6d7ae024fb988c89ce5f037e6379489125cf20bd27  loadtxt.m -> native/loadtxt.m
+df709754683cdbe8fdfcfc9f8d3b5f9c9e35b38b69e4b9620abbb82231fb3619  loadyale.m -> native/loadyale.m
+05c2b57eaff1df2eb5e5220f048cd67b473ebb55d62f549396f526c1cc57ef2f  savergb.m -> native/savergb.m
+6e35a69368c0cf45f60bf38b213a3cfef2e7e7664b8f9206721238c97bd415e0  savesvml.m -> native/savesvml.m
+2cca08db5693130aa6751aeb6dd9c15a7efe896ed0b0573762c673d15d8e33b4  savetext.m -> native/savetext.m
+dd8afd9d5a557b0d699cb193bec5764d3de1489f277669189494f70332ed54b9  saveyale.m -> native/saveyale.m
+57bec2a30011b4e2fc13eb68ad2d3af9a863c129c3d752435db5caeffcf83784  skiplines.m -> native/skiplines.m
+7560e2422007956e60830dc9f045c67d30543e3ab8a50e8f0206497bb8040460  whitespace.m -> native/whitespace.m
+
+Changes: native/skiplines.m fixes empty-line/EOF handling and replaces contains.
+The six old core functions are replaced by modern wrappers.
+The legacy reader interfaces follow the original ReadLRN, ReadCLS, and ReadNAMES.
+Their shared fallback parser removes external helpers and the old ReadLRN temporary-file write.
+No old core writer is included. headerXXX.m is a blank author template and is not included.
+Changes: FABloadtxt.m now declares FABloadtxt to match its file name.
+ReadWIDcsv.m was unfinished in the archive. The original is in archive/.
+Its public function reports that limitation before any file operation.
+
+Licensing update: the MATLAB source files contain the DataBionicIO AGPL-3.0-only
+notice and a reference to the MATLAB linking exception. Original author and
+copyright comments remain in the files. The hashes above still identify the
+original archive members, before these and the other recorded changes.
+License references follow an existing AUTHOR entry or the final OUTPUT entry
+when no author is named in the header.

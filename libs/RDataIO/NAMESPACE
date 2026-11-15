@@ -1,0 +1,11 @@
+useDynLib(cdbt.DataIO, .registration = TRUE)
+
+exportPattern("^[[:upper:]][[:alpha:]]+")
+#importFrom("digest",digest)
+import(Rcpp)
+importFrom(Rcpp, evalCpp)
+importFrom("tools",file_ext)
+importFrom("stats", "complete.cases")
+importFrom("utils", "read.table", "write.table","installed.packages")
+importFrom("grDevices", "colours")
+importFrom("lubridate", "force_tz")

@@ -1,0 +1,71 @@
+DataBionicIO third-party notices
+
+The paths in this file refer to the source repository. A component is part
+of a distribution only when that distribution includes it. External packages
+are installed separately unless a distribution expressly includes them.
+
+1. qslegacy
+
+Location: libs/qslegacy/
+License: GPL version 3. This package is not relicensed under AGPL or under
+the IAP commercial offer. The DataBionicIO MATLAB exception does not apply.
+
+The reader derives from qs 0.27.3 format definitions and decoding code by
+Travers Ching. Source: https://github.com/qsbase/qs
+The existing source notices and package author metadata are preserved.
+The GPL text is in libs/qslegacy/inst/LICENSES/GPL-3.txt.
+
+Bundled codec components retain the following licenses and notices:
+
+- Zstandard: BSD-3-Clause, with GPL version 2 as an upstream alternative.
+  The BSD alternative applies to the bundled use here. Copyright notices
+  identify Facebook, Inc. Both upstream license texts are retained.
+- LZ4: BSD-2-Clause; copyright notices identify Yann Collet.
+- xxHash: BSD-2-Clause; copyright notices identify Yann Collet.
+- Blosc unshuffle routines: BSD-3-Clause; copyright notices identify
+  Francesc Alted.
+
+Complete component texts are in libs/qslegacy/inst/LICENSES/.
+The retained basE91 notice is part of the qs provenance material; no basE91
+codec is compiled into qslegacy by the current build.
+
+2. pybind11
+
+The Python extension uses pybind11 headers. pybind11 is distributed under
+BSD-3-Clause. Copyright (c) 2016 Wenzel Jakob, All rights reserved.
+The complete text is in LICENSES/pybind11-BSD-3-Clause.txt and accompanies
+the Python wheel. Source: https://github.com/pybind/pybind11
+The retained text was verified against pybind11 v3.1.0.
+
+3. R and R dependencies
+
+R and Rcpp retain their own licenses. Rcpp permits GPL version 2 or later;
+GPL version 3 is the compatible choice for its combination with this AGPL
+project. AGPL section 13 governs combinations with GPL version 3 material.
+The Rcpp and other dependency licenses are not replaced by the IAP grant.
+
+The required R packages are Rcpp and lubridate. lubridate has an MIT license.
+Its dependencies, and optional packages listed in DESCRIPTION, retain their
+own licenses. In particular, qs2 and qslegacy have GPL version 3 licenses.
+The R package distribution does not include copies of these external packages.
+The R distribution supplies the GNU license texts in its share/licenses folder.
+
+4. Python dependencies
+
+Python, NumPy, pandas, and tzdata are separate dependencies with their own
+license terms. The DataBionicIO wheel does not include those packages.
+The Python extension contains code compiled from pybind11 headers; the
+pybind11 notice is supplied as described above.
+
+5. MathWorks software
+
+MATLAB and MATLAB Runtime are separately licensed MathWorks products.
+They are not included in this repository. The additional MATLAB permission
+applies only to IAP-controlled DataBionicIO material. It does not replace
+the MathWorks terms or a third party's license.
+
+6. License documents
+
+The GNU license text and the third-party license documents are reproduced
+under their respective copying permissions. The project's AGPL grant does
+not change the terms of those documents.

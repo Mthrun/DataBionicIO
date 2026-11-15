@@ -1,0 +1,21 @@
+DataBionicIO
+
+License administration:
+IAP-GmbH Intelligent Analytics Projects
+info@iap-gmbh.de
+
+The project source and package metadata identify the authors. Existing
+author and copyright notices, including the Databionics Research Group
+notices in the MATLAB files, are retained. The MATLAB ORIGIN.txt file records
+the provenance of the supplied archive members and changes to those files.
+
+IAP-GmbH licenses the project-controlled material under GNU AGPL version 3
+only, with the supplied MATLAB linking exception. See LICENSING.md and
+MATLAB-EXCEPTION.txt. Separately licensed components retain their own terms;
+see THIRD-PARTY-NOTICES.txt and their accompanying license files.
+
+Copyright (C) 2026 IAP-GmbH Intelligent Analytics Projects for its contributions.
+Other existing copyright notices remain in effect.
+
+MATLAB is a product of The MathWorks, Inc. The project license does not
+grant a license to MathWorks products or imply endorsement by MathWorks.

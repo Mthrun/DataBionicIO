@@ -1,0 +1,3 @@
+useDynLib(qslegacy, .registration=TRUE)
+importFrom(Rcpp,evalCpp)
+export(qread_matrices)

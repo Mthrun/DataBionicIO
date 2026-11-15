@@ -1,0 +1,33 @@
+# OUTPUT
+# Package metadata and distribution files for the selected setuptools command.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+
+from setuptools import setup, find_packages
+from setuptools.dist import Distribution
+
+class BinaryDistribution(Distribution):
+    """Distribution which always forces a binary package with platform name"""
+    def has_ext_modules(self):
+        return True
+
+setup(
+    name='@TARGET_NAME@',
+    version='@CppLIB_VERSION@',
+    description='DataBionicIO readers and writers for data files',
+    license='AGPL-3.0-only with the DataBionicIO MATLAB linking exception',
+    license_files=[
+        'LICENSE', 'LICENSING.md', 'MATLAB-EXCEPTION.txt',
+        'COMMERCIAL-LICENSE.txt', 'NOTICE.txt', 'THIRD-PARTY-NOTICES.txt',
+        'LICENSES/pybind11-BSD-3-Clause.txt'
+    ],
+    packages=find_packages(),
+    include_package_data=True,
+    package_data={
+        'pyDataIO': ['libs/*.so', 'libs/*.pyd', 'libs/*.dylib']
+    },
+    python_requires='>=3.9',
+    install_requires=['pandas>=1.5', 'numpy>=1.21', 'tzdata'],
+    options={'bdist_wheel': {'plat_name': '@PY_WHEEL_PLATFORM@'}} if '@PY_WHEEL_PLATFORM@' else {},
+    distclass=BinaryDistribution
+)

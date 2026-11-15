@@ -1,0 +1,20 @@
+Package: qslegacy
+Type: Package
+Title: Read Legacy QS Lists of Matrices
+Version: 0.1.0
+Authors@R: c(person("Travers", "Ching", role="aut"),
+    person("Michael", "Thrun", email="mthrun@mathematik.uni-marburg.de", role="cre"),
+    person("Yann", "Collet", role=c("ctb", "cph")),
+    person("Facebook, Inc.", role="cph"),
+    person("Francesc", "Alted", role=c("ctb", "cph")))
+Description: A read-only compatibility reader for lists of matrices stored in
+    the legacy qs format. Runs in the current R process using supported R APIs,
+    including R 4.6. It has no file-writing or general R-object deserialization
+    interface. Derived from the qs 0.27.3 format and bundled compression code.
+License: GPL-3
+Depends: R (>= 3.5.0)
+Imports: Rcpp
+LinkingTo: Rcpp
+SystemRequirements: C++17
+Encoding: UTF-8
+NeedsCompilation: yes

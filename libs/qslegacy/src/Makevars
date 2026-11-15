@@ -1,0 +1,3 @@
+CXX_STD = CXX17
+PKG_CPPFLAGS = -DRCPP_USE_UNWIND_PROTECT
+OBJECTS = RcppExports.o legacy_qs.o zstd.o lz4.o xxhash.o

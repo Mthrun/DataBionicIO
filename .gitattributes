@@ -1,0 +1,7 @@
+# Preserve source bytes and fixed test data across platforms.
+* -text
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
