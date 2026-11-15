@@ -1,13 +1,14 @@
 function runMatlabCI
-% runMatlabCI Build DataBionicIO and run the two MATLAB test modes.
+% runMatlabCI Build DataBionicIO and run MATLAB package and exchange tests.
 % Logs and test files are in build/ci/matlab below the source root.
 % INPUT
 % None. The source location and GitHub environment variables supply the context.
+% DATAIO_INTEROP_DIR selects an existing R/Python exchange-file directory.
 %
 
 % OUTPUT
 % Build logs, environment information, test reports, and stage status files.
-% The function raises an error if the MEX build or a test mode fails.
+% The function raises an error if the MEX build or any selected test fails.
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
 
@@ -42,6 +43,14 @@ try
         version, computer, mexext, Compiler.Name, Compiler.Version, ...
         getenv('GITHUB_SHA'), getenv('GITHUB_RUN_ID'), getenv('GITHUB_RUN_ATTEMPT'));
     writeReport(fullfile(Reports,'environment.txt'),Environment);
+    BuildInfo = struct('release',['R' version('-release')], ...
+        'version',version,'architecture',computer('arch'),'mex_extension',mexext, ...
+        'compiler',Compiler.Name,'compiler_version',Compiler.Version, ...
+        'commit',getenv('GITHUB_SHA'),'run',getenv('GITHUB_RUN_ID'), ...
+        'attempt',getenv('GITHUB_RUN_ATTEMPT'));
+    BuildInfo.source_url = [getenv('GITHUB_SERVER_URL') '/' getenv('GITHUB_REPOSITORY') ...
+        '/tree/' BuildInfo.commit];
+    writeReport(fullfile(Reports,'build.json'),jsonencode(BuildInfo));
     fprintf('%s',Environment);
     Package = buildDataIO(fullfile(Project,'build','ci','package'));
     fprintf(Summary,'build\tPASS\n');
@@ -70,6 +79,20 @@ for Modes = {'modern','legacy'}
 end
 if Failed
     error('DataIO:CI','%d MATLAB test modes failed. See the workflow reports.',Failed);
+end
+Exchange = getenv('DATAIO_INTEROP_DIR');
+if ~isempty(Exchange)
+    diary(fullfile(Reports,'interop.txt'));
+    try
+        addpath(fullfile(Project,'tests','interop'));
+        runDataIOInterop(Exchange);
+        fprintf(Summary,'interop\tPASS\n');
+    catch Problem
+        fprintf(Summary,'interop\tFAIL\n');
+        writeReport(fullfile(Reports,'interop-error.txt'),getReport(Problem,'extended','hyperlinks','off'));
+        rethrow(Problem);
+    end
+    diary('off');
 end
 fprintf('DataBionicIO MATLAB build and both test modes passed.\n');
 end

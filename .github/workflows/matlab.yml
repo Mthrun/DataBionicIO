@@ -7,66 +7,168 @@ on:
     paths:
       - 'libs/cDataIO/**'
       - 'libs/matlabDataIO/**'
+      - 'libs/RDataIO/**'
+      - 'libs/pyDataIO/**'
+      - 'libs/qslegacy/**'
       - 'ci/matlab/**'
+      - 'tests/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
       - '.github/workflows/matlab.yml'
       - '.gitattributes'
   pull_request:
     paths:
       - 'libs/cDataIO/**'
       - 'libs/matlabDataIO/**'
+      - 'libs/RDataIO/**'
+      - 'libs/pyDataIO/**'
+      - 'libs/qslegacy/**'
       - 'ci/matlab/**'
+      - 'tests/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
       - '.github/workflows/matlab.yml'
       - '.gitattributes'
 
 permissions:
   contents: read
 
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
 concurrency:
   group: matlab-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  windows-mex:
-    name: Windows / MATLAB R2024b / C++20
-    runs-on: windows-2022
+  matlab-mex:
+    name: ${{ matrix.platform }} / MATLAB ${{ matrix.release }} / C++20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-x64
+            os: windows-2022
+            release: R2024b
+            interop: false
+          - platform: linux-x64
+            os: ubuntu-24.04
+            release: R2024b
+            interop: true
+          - platform: macos-arm64
+            os: macos-15
+            release: R2025b
+            interop: false
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
-      - name: Record runner environment
-        shell: pwsh
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Check package archive conditions
+        run: python tests/test_matlab_package.py
+
+      - name: Select GCC 13 and install R dependencies
+        if: runner.os == 'Linux'
         run: |
-          New-Item -ItemType Directory -Force build/ci/runner | Out-Null
-          @(
-            "Runner OS: $env:RUNNER_OS"
-            "Runner architecture: $env:RUNNER_ARCH"
-            "Image: $env:ImageOS"
-            "Image version: $env:ImageVersion"
-            "Commit: $env:GITHUB_SHA"
-            "Run: $env:GITHUB_RUN_ID"
-            "Attempt: $env:GITHUB_RUN_ATTEMPT"
-          ) | Set-Content -Encoding utf8 build/ci/runner/environment.txt
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y gcc-13 g++-13 r-base-dev r-cran-rcpp r-cran-lubridate
+          echo "CC=gcc-13" >> "$GITHUB_ENV"
+          echo "CXX=g++-13" >> "$GITHUB_ENV"
+
+      - name: Set up Java for Apple Silicon MATLAB
+        if: runner.os == 'macOS'
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: corretto
+          java-version: '11'
+          architecture: aarch64
+
+      - name: Select Xcode 16.4
+        if: runner.os == 'macOS'
+        run: |
+          sudo xcode-select --switch /Applications/Xcode_16.4.app/Contents/Developer
+          echo "MATLAB_JAVA=$JAVA_HOME" >> "$GITHUB_ENV"
+
+      - name: Record runner environment
+        run: |
+          mkdir -p build/ci/runner
+          python - <<'PY'
+          import json, os, platform
+          from pathlib import Path
+          names = ('RUNNER_OS', 'RUNNER_ARCH', 'ImageOS', 'ImageVersion',
+                   'GITHUB_SHA', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'CC', 'CXX')
+          info = {name: os.getenv(name, '') for name in names}
+          info.update(system=platform.platform(), python=platform.python_version())
+          Path('build/ci/runner/environment.json').write_text(json.dumps(info, indent=2) + '\n')
+          PY
+
+      - name: Build R and Python packages and generate exchange files
+        if: matrix.interop
+        run: |
+          set -o pipefail
+          mkdir -p build/ci/interop
+          python -m pip install 'numpy>=1.21' 'pandas>=1.5' tzdata pybind11
+          Rscript --vanilla tests/run_tests.R 2>&1 | tee build/ci/runner/r-tests.txt
+          R_LIBRARY=$(Rscript --vanilla -e 'p <- Sys.glob("build/tests/*/library"); stopifnot(length(p)==1L); cat(normalizePath(p))')
+          echo "DATAIO_R_TEST_LIBRARY=$R_LIBRARY" >> "$GITHUB_ENV"
+          echo "DATAIO_INTEROP_DIR=$GITHUB_WORKSPACE/build/ci/interop" >> "$GITHUB_ENV"
+          cmake -S . -B build/ci/python -DBUILD_RPACKAGE=OFF -DCMAKE_BUILD_TYPE=Release \
+            -DPython_EXECUTABLE="$(command -v python)" -Dpybind11_DIR="$(python -m pybind11 --cmakedir)" \
+            -DDATAIO_R_TEST_LIBRARY="$R_LIBRARY"
+          cmake --build build/ci/python --parallel 2 --target PyTests 2>&1 | tee build/ci/runner/python-tests.txt
+          Rscript --vanilla tests/interop/interop.R generate build/ci/interop "$R_LIBRARY"
+          python tests/interop/interop.py generate build/ci/interop build/ci/python/libs/pyDataIO
+          python -m pip freeze > build/ci/runner/python-packages.txt
 
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@f9e43010f1ae678f7cfa0542fe2a4f60f7d1ad8d # v3
         with:
-          release: R2024b
+          release: ${{ matrix.release }}
 
       - name: Build MEX and run MATLAB tests
         uses: matlab-actions/run-command@bfa857648f4895aa98a446fe41c85e0788421ed5 # v3
         with:
           command: addpath(fullfile(pwd,'ci','matlab')); runMatlabCI
 
+      - name: Verify MATLAB files in R and Python
+        if: matrix.interop
+        run: |
+          Rscript --vanilla tests/interop/interop.R verify build/ci/interop "$DATAIO_R_TEST_LIBRARY"
+          python tests/interop/interop.py verify build/ci/interop build/ci/python/libs/pyDataIO
+
+      - name: Create tested MATLAB package
+        run: python ci/matlab/package_matlab.py
+
+      - name: Upload tested MATLAB package
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: DataBionicIO-package-${{ matrix.release }}-${{ matrix.platform }}-${{ github.run_attempt }}
+          path: build/ci/packages/
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: DataBionicIO-matlab-R2024b-windows-${{ github.run_attempt }}
+          name: DataBionicIO-reports-${{ matrix.release }}-${{ matrix.platform }}-${{ github.run_attempt }}
           path: |
             build/ci/runner/
             build/ci/matlab/
+            build/ci/interop/
+            build/tests/*/logs/
+            build/tests/*/results.tsv
+            build/tests/*/environment.txt
           if-no-files-found: warn
           retention-days: 30

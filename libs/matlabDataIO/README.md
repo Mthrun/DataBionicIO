@@ -135,13 +135,37 @@ The script rejects a report folder that already exists.
 
 ## GitHub Actions
 
-The MATLAB workflow uses Windows Server 2022 and MATLAB R2024b.
+The MATLAB workflow has these configurations:
+
+| Operating system | Architecture | MATLAB | C++ compiler |
+| --- | --- | --- | --- |
+| Windows Server 2022 | x64 | R2024b | Microsoft Visual C++ 2022 |
+| Ubuntu 24.04 | x64 | R2024b | GCC 13 |
+| macOS 15 | Apple Silicon | R2025b | Xcode 16.4 |
+
 The workflow builds the MEX module and starts the modern and legacy test modes.
-The two test modes use the same MATLAB release.
+Each configuration uses the same MATLAB release for both test modes.
 GitHub stores build logs, environment information, and test reports as workflow artifacts.
+
+The Linux configuration also starts tests of file exchange between R, Python, and MATLAB.
+Each language writes LRN, CLS, NAMES, and DATES files.
+The other languages read these files and compare the results with specified values.
+
+The workflow makes a package artifact when all required test results are PASS.
+Each package artifact contains a ZIP file and its SHA-256 checksum file.
+The ZIP file contains the MATLAB functions, MEX file, license texts, source commit identifier, and test status.
+The ZIP filename contains the MATLAB release, architecture, and source commit identifier.
+
+1. Download the package artifact for your platform.
+2. Open the downloaded artifact with a ZIP program.
+3. Open the `DataBionicIO-*.zip` file.
+4. Copy the `DataBionicIO` folder to a local folder.
+5. Open the `DataBionicIO` folder in MATLAB.
+6. Start `setupDataIO`.
 
 The command for the workflow is in `ci/matlab/runMatlabCI.m` in the source tree.
 The command writes reports to `build/ci/matlab/`.
+Package ZIP files are in `build/ci/packages/`.
 
 ## Public functions
 

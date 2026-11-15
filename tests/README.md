@@ -134,3 +134,25 @@ The MATLAB test script is `libs/matlabDataIO/tests/runDataIOTests.m`.
 It has different modes for the modern and legacy interfaces.
 The R script gives SKIP for MATLAB and does not start the MEX module.
 The [MATLAB instructions](../libs/matlabDataIO/README.md) give the build commands and test commands.
+
+## File exchange between languages
+
+The MATLAB workflow starts tests of file exchange between R, Python, and MATLAB on Linux.
+The scripts are in `tests/interop/`.
+Each language writes LRN, CLS, NAMES, and DATES files through its public functions.
+Each language then reads the files from all three languages.
+
+The tests include keys at `-2^53` and `2^53`, array dimensions, numeric values, missing values, text, headers, comments, and UTC timestamps.
+The text tests include Unicode characters.
+The timestamp tests include milliseconds.
+The tests compare values after conversion to each language's data types.
+
+The R and Python scripts accept `generate`, `verify`, or `verify-r-python` as their first argument.
+The other arguments specify the exchange folder and the R library or Python package folder.
+The `verify` mode requires files from all three languages.
+The `verify-r-python` mode reads only R and Python files.
+Only the `verify` mode writes the report required for package creation.
+
+The MATLAB function is `runDataIOInterop(Directory)`.
+The function uses a built MATLAB package and files from the R and Python scripts.
+The workflow supplies the exchange folder through `DATAIO_INTEROP_DIR`.
