@@ -26,7 +26,7 @@ if isempty(strfind(computer('arch'), '64'))
 end
 if strcmp(Mode, 'modern')
     if verLessThan('matlab', '9.12'), error('DataIO:Setup', 'The C++ package requires R2022a or later.'); end
-    if exist(fullfile(Root, 'bin', ['dataio_mex.' mexext]), 'file') ~= 3
+    if ~isfile(fullfile(Root, 'bin', ['dataio_mex.' mexext]))
         error('DataIO:Setup', 'No MEX file for this platform. Run buildDataIO or obtain a tested binary package.');
     end
 end

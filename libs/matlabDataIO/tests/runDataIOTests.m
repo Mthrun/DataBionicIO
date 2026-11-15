@@ -78,9 +78,14 @@ Folder = fullfile(Samples,'legacy','test');
 [A,K,H] = ReadLRN('hexa',Folder);
 assert(size(A,1)==60 && numel(K)==60 && size(H,1)==size(A,2));
 [NK,Names,Rest] = ReadNAMES('hexa',Folder);
-assert(isequal(K,NK) && strcmp(strtrim(Names(1,:)),'AT') && strcmp(Rest{1},'Alltel'));
+% The sample files contain the same keys in different row orders.
+assert(isequal(sort(K),sort(NK)));
+NameRow = find(NK == 1);
+assert(strcmp(strtrim(Names(NameRow,:)),'AT') && strcmp(Rest{NameRow},'Alltel'));
 [CK,C,~,~,Colors] = ReadCLS('hexa',Folder);
-assert(isequal(K,CK) && numel(C)==60 && isempty(Colors));
+assert(isequal(sort(K),sort(CK)) && numel(C)==60 && isempty(Colors));
+[~,ClassRows] = ismember(K,CK);
+assert(isequal(A(:,end),C(ClassRows)));
 ReadLRN('old',Folder);
 ReadLRN('nan',Folder);
 ReadLRN('save',Folder);
