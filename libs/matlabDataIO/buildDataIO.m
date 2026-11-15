@@ -29,7 +29,7 @@ if exist(Package,'dir'), error('DataIO:Build', 'Output exists. Select a new outp
 mkdir(Package);
 mkdir(fullfile(Package,'bin'));
 SourceFiles = dir(fullfile(Core,'src','*.cpp'));
-Args = {'-R2017b','-largeArrayDims','-DDATAIO_STATIC', ['-I' fullfile(Core,'include')], ...
+Args = {'-R2017b','-DDATAIO_STATIC', ['-I' fullfile(Core,'include')], ...
     '-outdir', fullfile(Package,'bin'), '-output', 'dataio_mex', fullfile(Source,'src','dataio_mex.cpp')};
 for I = 1:numel(SourceFiles), Args{end+1} = fullfile(Core,'src',SourceFiles(I).name); end
 Compiler = mex.getCompilerConfigurations('C++', 'Selected');
