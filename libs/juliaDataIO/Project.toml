@@ -1,0 +1,26 @@
+# OUTPUT
+# Julia package identity, dependencies, and test configuration.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+
+name = "DataBionicIO"
+uuid = "bf3d0e97-054a-46d8-a3a7-50d08b401a47"
+version = "0.1.0"
+
+[deps]
+CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+libcxxwrap_julia_jll = "3eaa8342-bff7-56a5-9981-c04077f7cee7"
+
+[compat]
+CxxWrap = "0.17"
+libcxxwrap_julia_jll = "0.14"
+julia = "1.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

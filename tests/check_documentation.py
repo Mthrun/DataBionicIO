@@ -21,6 +21,7 @@ DEFAULT_FILES = (
     "README.md", "libs/pyDataIO/README.md", "libs/matlabDataIO/README.md",
     "libs/qslegacy/README.txt", "tests/README.md", "tests/legacy/README.md",
     "tests/qslegacy/README.md", "libs/pyDataIO/py/extension.py",
+    "libs/juliaDataIO/README.md",
 )
 LINK = re.compile(r"\[([^\]]+)\]\((<[^>]+>|[^\s)]+)(?:\s+\"[^\"]*\")?\)")
 INSTRUCTION = re.compile(

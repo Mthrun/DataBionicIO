@@ -5,6 +5,7 @@
 This folder contains test programs, CMake configuration, and fixed sample files.
 The Python build uses `tests/Python` when `BUILD_PYTHON_TESTS` is on.
 MATLAB tests are in `libs/matlabDataIO/tests/`.
+Julia tests are in `libs/juliaDataIO/test/`.
 Generated binaries, libraries, and test output are in `build/` or temporary folders.
 
 Keep the test programs and fixed sample files with the corresponding source revision.
@@ -135,6 +136,13 @@ It has different modes for the modern and legacy interfaces.
 The R script gives SKIP for MATLAB and does not start the MEX module.
 The [MATLAB instructions](../libs/matlabDataIO/README.md) give the build commands and test commands.
 
+## Julia tests
+
+The Julia build adds package tests to CTest.
+The `JuliaTests` target starts these tests against the build folder.
+The tests include all four formats, key limits, missing values, diagnostics, matrix dimensions, and legacy sample files.
+The [Julia instructions](../libs/juliaDataIO/README.md) give the build commands and test commands.
+
 ## File exchange between languages
 
 The MATLAB workflow starts tests of file exchange between R, Python, and MATLAB on Linux.
@@ -156,3 +164,21 @@ Only the `verify` mode writes the report required for package creation.
 The MATLAB function is `runDataIOInterop(Directory)`.
 The function uses a built MATLAB package and files from the R and Python scripts.
 The workflow supplies the exchange folder through `DATAIO_INTEROP_DIR`.
+
+The Julia script is `tests/interop/interop.jl`.
+Its `generate` mode writes Julia files with the same data as the R and Python scripts.
+Its `verify` mode reads R, Python, and Julia files by default.
+Additional command arguments select writer names.
+The R and Python scripts have a `verify-julia` mode for Julia files.
+This mode does not supply the MATLAB package report.
+
+Start these commands after the R and Python scripts have written their files:
+
+```sh
+julia --project=build/julia/libs/juliaDataIO/DataBionicIO tests/interop/interop.jl generate build/interop
+julia --project=build/julia/libs/juliaDataIO/DataBionicIO tests/interop/interop.jl verify build/interop
+python3 tests/interop/interop.py verify-julia build/interop build/python/libs/pyDataIO
+Rscript --vanilla tests/interop/interop.R verify-julia build/interop /path/to/test/library
+```
+
+Supply the existing exchange folder, Python package folder, and R test library paths.

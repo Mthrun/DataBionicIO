@@ -1,7 +1,7 @@
-# DataBionicIO: C++ File I/O for R, Python and MATLAB
+# DataBionicIO: C++ File I/O for R, Python, MATLAB, and Julia
 
 DataBionicIO contains readers and writers for data files.
-The R, Python, and MATLAB interfaces use the same C++ code for LRN, CLS, NAMES, and DATES.
+The R, Python, MATLAB, and Julia interfaces use the same C++ code for LRN, CLS, NAMES, and DATES.
 The R and MATLAB packages also contain functions for other formats.
 
 The R package name is `cdbt.DataIO`. The Python package name is `pyDataIO`.
@@ -23,6 +23,7 @@ Third-party components keep their own licenses.
 | `libs/RDataIO/` | R functions, Rcpp interfaces, and help files. |
 | `libs/pyDataIO/` | Python functions and the interface to C++. |
 | `libs/matlabDataIO/` | MATLAB functions, the MEX interface, and MATLAB tests. |
+| `libs/juliaDataIO/` | Julia functions, the CxxWrap interface, and Julia tests. |
 | `libs/qslegacy/` | An R package for legacy QS files. |
 | `cmake/` | CMake support files. |
 | `ci/matlab/` | The MATLAB build and test command for GitHub Actions. |
@@ -38,7 +39,7 @@ Keep the test programs and fixed sample files with the corresponding source revi
 
 ## Tests
 
-The [test instructions](tests/README.md) give the R, C++, Python, and MATLAB test procedures.
+The [test instructions](tests/README.md) give the R, C++, Python, MATLAB, and Julia test procedures.
 The R test script builds package copies in an isolated test library.
 
 Start the R test script from the project folder:
@@ -91,6 +92,20 @@ The MATLAB package uses a MEX module for LRN, CLS, NAMES, and DATES.
 The build script uses 64-bit MATLAB R2022a or newer and a C++20 compiler.
 The [MATLAB instructions](libs/matlabDataIO/README.md) give the build commands and function interfaces.
 
+## Julia package
+
+The Julia package is `DataBionicIO`.
+The build uses Julia 1.10 or newer, CxxWrap 0.17, CMake, and a C++20 compiler.
+The [Julia instructions](libs/juliaDataIO/README.md) give the local build commands and function interfaces.
+
+Start the build from the project folder:
+
+```sh
+julia --startup-file=no libs/juliaDataIO/build.jl
+```
+
+The output package is in `build/julia/libs/juliaDataIO/DataBionicIO/`.
+
 ## Keys
 
 The C++ code uses signed 64-bit integers for keys.
@@ -100,7 +115,7 @@ R and MATLAB double values can store each integer in this range without loss.
 R readers return numeric vectors for keys.
 R writers accept numeric or integer vectors with unique whole numbers.
 R writers do not accept `bit64::integer64` vectors.
-Python uses the same permitted range.
+Python and Julia use the same permitted range.
 
 An invalid key causes a reader warning. The reader keeps the row.
 C++ uses `MISSING_KEY` for an invalid key. R returns `NA` for an invalid key.

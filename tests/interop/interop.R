@@ -1,6 +1,6 @@
 # INPUT
 # Command arguments: mode, exchange directory, isolated R library.
-# Mode is generate, verify, or verify-r-python (without MATLAB files).
+# Mode is generate, verify, verify-r-python, or verify-julia (Julia files only).
 # OUTPUT
 # Four R output files, or checks of files from R, Python, and MATLAB.
 # Full verification writes r-verified.txt. A failed check stops execution.
@@ -8,8 +8,8 @@
 # Additional permission: see MATLAB-EXCEPTION.txt.
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 3L || !args[1] %in% c("generate", "verify", "verify-r-python"))
-  stop("Supply generate, verify, or verify-r-python; exchange directory; R library")
+if (length(args) != 3L || !args[1] %in% c("generate", "verify", "verify-r-python", "verify-julia"))
+  stop("Supply generate, verify, verify-r-python, or verify-julia; exchange directory; R library")
 mode <- args[1]
 out <- normalizePath(args[2], mustWork = TRUE)
 .libPaths(c(normalizePath(args[3], mustWork = TRUE), .libPaths()))
@@ -36,7 +36,7 @@ if (mode == "generate") {
              Key = key, OutDirectory = out, Comments = comment,
              tz = "UTC", Format = 3, Verbose = FALSE)
 } else {
-  writers <- if (mode == "verify") c("r", "python", "matlab") else c("r", "python")
+  writers <- if (mode == "verify-julia") "julia" else if (mode == "verify") c("r", "python", "matlab") else c("r", "python")
   for (writer in writers) {
     for (extension in c("lrn", "cls", "names", "dts")) {
       reader <- switch(extension, lrn = ReadLRN, cls = ReadCLS,

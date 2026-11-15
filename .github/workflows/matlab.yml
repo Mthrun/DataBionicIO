@@ -78,13 +78,17 @@ jobs:
       - name: Check package archive conditions
         run: python tests/test_matlab_package.py
 
-      - name: Select GCC 13 and install R dependencies
+      - name: Select GCC 12 and install R dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y gcc-13 g++-13 r-base-dev r-cran-rcpp r-cran-lubridate
-          echo "CC=gcc-13" >> "$GITHUB_ENV"
-          echo "CXX=g++-13" >> "$GITHUB_ENV"
+          sudo apt-get install --no-install-recommends -y gcc-12 g++-12 r-base-dev r-cran-rcpp r-cran-lubridate
+          mkdir -p "$RUNNER_TEMP/dataio-gcc-12"
+          ln -s "$(command -v gcc-12)" "$RUNNER_TEMP/dataio-gcc-12/gcc"
+          ln -s "$(command -v g++-12)" "$RUNNER_TEMP/dataio-gcc-12/g++"
+          echo "$RUNNER_TEMP/dataio-gcc-12" >> "$GITHUB_PATH"
+          echo "CC=gcc-12" >> "$GITHUB_ENV"
+          echo "CXX=g++-12" >> "$GITHUB_ENV"
 
       - name: Set up Java for Apple Silicon MATLAB
         if: runner.os == 'macOS'

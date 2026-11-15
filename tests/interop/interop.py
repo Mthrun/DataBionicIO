@@ -1,6 +1,6 @@
 # INPUT
 # Command arguments: mode, exchange directory, Python package parent.
-# Mode is generate, verify, or verify-r-python (without MATLAB files).
+# Mode is generate, verify, verify-r-python, or verify-julia (Julia files only).
 # OUTPUT
 # Four Python output files, or checks of files from R, Python, and MATLAB.
 # Full verification writes python-verified.txt. Failed checks raise errors.
@@ -12,8 +12,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 import sys
 
-if len(sys.argv) != 4 or sys.argv[1] not in ("generate", "verify", "verify-r-python"):
-    raise SystemExit("Supply generate, verify, or verify-r-python; exchange directory; Python package parent")
+if len(sys.argv) != 4 or sys.argv[1] not in ("generate", "verify", "verify-r-python", "verify-julia"):
+    raise SystemExit("Supply generate, verify, verify-r-python, or verify-julia; exchange directory; Python package parent")
 mode, directory, package = sys.argv[1:]
 out = Path(directory).resolve(strict=True)
 sys.path.insert(0, str(Path(package).resolve(strict=True)))
@@ -39,7 +39,7 @@ if mode == "generate":
     io.WriteDates("python", {"Time": times, "X": [v[0] for v in values],
                             "Y": [v[1] for v in values]}, tz="UTC", Format=3, **options)
 else:
-    writers = ("r", "python", "matlab") if mode == "verify" else ("r", "python")
+    writers = ("julia",) if mode == "verify-julia" else (("r", "python", "matlab") if mode == "verify" else ("r", "python"))
     for writer in writers:
         for extension, reader in (("lrn", io.ReadLRN), ("cls", io.ReadCls),
                                   ("names", io.ReadNames), ("dts", io.ReadDates)):

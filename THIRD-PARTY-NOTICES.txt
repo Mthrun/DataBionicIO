@@ -64,7 +64,22 @@ They are not included in this repository. The additional MATLAB permission
 applies only to IAP-controlled DataBionicIO material. It does not replace
 the MathWorks terms or a third party's license.
 
-6. License documents
+6. Julia dependencies
+
+The Julia interface uses CxxWrap.jl and libcxxwrap-julia under the MIT
+"Expat" License. Copyright (c) 2015: Bart Janssens.
+Sources: https://github.com/JuliaInterop/CxxWrap.jl and
+https://github.com/JuliaInterop/libcxxwrap-julia
+The complete texts are in LICENSES/CxxWrap-MIT.md and
+LICENSES/libcxxwrap-julia-MIT.md. Both texts accompany the Julia package.
+They were verified against CxxWrap 0.17.5 and the libcxxwrap-julia artifact
+supplied by libcxxwrap_julia_jll 0.14.13+0.
+
+The native Julia module contains code compiled from libcxxwrap-julia headers.
+Julia, CxxWrap, and their runtime dependencies are installed separately.
+Their licenses are not replaced by the DataBionicIO grant.
+
+7. License documents
 
 The GNU license text and the third-party license documents are reproduced
 under their respective copying permissions. The project's AGPL grant does

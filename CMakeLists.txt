@@ -9,6 +9,7 @@ option(BUILD_RPACKAGE "Build RPackage bindings" ON)
 option(BUILD_PYPACKAGE "Build Python package bindings" ON)
 option(BUILD_PYTHON_TESTS "Register Python binding tests" ON)
 option(BUILD_MATLABPACKAGE "Build MATLAB package bindings" OFF)
+option(BUILD_JULIAPACKAGE "Build Julia package bindings" OFF)
 
 # A Python interpreter may target an older macOS than the compiler's default.
 # Select one explicit deployment target for the core, binding and wheel tag.
@@ -57,6 +58,9 @@ define_property(TARGET PROPERTY Package_Name
         )
 
 enable_testing()
+if (BUILD_JULIAPACKAGE)
+    add_subdirectory(libs/juliaDataIO)
+endif ()
 if (BUILD_MATLABPACKAGE)
     add_subdirectory(libs/matlabDataIO)
 endif ()
