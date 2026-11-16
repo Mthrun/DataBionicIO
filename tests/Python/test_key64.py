@@ -55,7 +55,7 @@ with tempfile.TemporaryDirectory(prefix="dataio-key64-") as directory:
 
         text = original.decode().replace("\n2147483648\t", "\n2147483648oops\t")
         text = text.replace("\n1234567890123\t", "\n9007199254740993\t")
-        path.write_text(text)
+        path.write_bytes(text.encode('utf-8'))
         expected = keys.copy()
         expected[4] = -(2**63)  # Missing-key marker in the native interface.
         assert read_keys() == expected

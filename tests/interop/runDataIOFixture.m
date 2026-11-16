@@ -105,6 +105,7 @@ try
     Out.keys(isnan(K)) = {'NA'}; Out.comment = C;
 catch Problem
     Out.ok=false; Out.error=Problem.message; Out.error_type=Problem.identifier;
+    Out.error_stack=Problem.stack;
 end
 end
 
@@ -148,7 +149,8 @@ function A = inputData(Q)
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
 if ~isfield(Q,'data_bits'), A=numbers(Q.data); return; end
-Bits=Q.data_bits; A=zeros(size(Bits));
+Bits=textmatrix(Q.data_bits,numel(Q.keys),numel(textcells(Q.header)));
+A=zeros(size(Bits));
 for I=1:numel(Bits)
     if strcmp(Bits{I},'NaN'), A(I)=NaN; else, A(I)=hex2num(Bits{I}); end
 end
