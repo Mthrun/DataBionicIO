@@ -1,0 +1,312 @@
+# OUTPUT
+# Fixed K3 comparison reports, original exchange files, and environment records.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+
+name: K3 main study (240 comparisons)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  TZ: UTC
+  JULIA_DEPOT_PATH: ${{ github.workspace }}/build/julia-depot
+  JULIA_PKG_PRECOMPILE_AUTO: '0'
+  JULIA_NUM_PRECOMPILE_TASKS: '2'
+
+jobs:
+  local:
+    name: K3 / ${{ matrix.system }} / four bindings
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: Windows
+            runner: windows-2022
+            matlab: R2024b
+            arch: x64
+          - system: Linux
+            runner: ubuntu-24.04
+            matlab: R2024b
+            arch: x64
+          - system: macOS
+            runner: macos-15
+            matlab: R2025b
+            arch: aarch64
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.10'
+
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          r-version: '4.5.2'
+          windows-path-include-rtools: 'false'
+
+      - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
+        with:
+          version: '1.10.13'
+          arch: ${{ matrix.arch }}
+
+      - name: Select GCC 12
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y gcc-12 g++-12
+          mkdir -p "$RUNNER_TEMP/dataio-gcc-12"
+          ln -s "$(command -v gcc-12)" "$RUNNER_TEMP/dataio-gcc-12/gcc"
+          ln -s "$(command -v g++-12)" "$RUNNER_TEMP/dataio-gcc-12/g++"
+          echo "$RUNNER_TEMP/dataio-gcc-12" >> "$GITHUB_PATH"
+          echo 'CC=gcc-12' >> "$GITHUB_ENV"
+          echo 'CXX=g++-12' >> "$GITHUB_ENV"
+
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        if: runner.os == 'macOS'
+        with:
+          distribution: corretto
+          java-version: '11'
+          architecture: aarch64
+
+      - name: Select Xcode 16.4
+        if: runner.os == 'macOS'
+        run: |
+          sudo xcode-select --switch /Applications/Xcode_16.4.app/Contents/Developer
+          echo "MATLAB_JAVA=$JAVA_HOME" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install 'numpy==2.3.5' 'pandas==2.2.3' 'tzdata==2025.2' 'pybind11==3.0.1'
+          Rscript --vanilla -e 'install.packages(c("Rcpp","lubridate","jsonlite"))'
+
+      - name: Prepare the fixed selection
+        id: prepare
+        run: python tests/interop/run_k3.py prepare --os '${{ matrix.system }}' --output 'build/k3/${{ matrix.system }}'
+
+      - name: Build R and run separate regressions
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          Rscript --vanilla tests/run_tests.R 2>&1 | tee 'build/k3/${{ matrix.system }}/r-regressions.log'
+
+      - name: Select the isolated R package and record versions
+        run: |
+          R_LIBRARY=$(Rscript --vanilla -e 'p <- Sys.glob("build/tests/*/library"); stopifnot(length(p)==1L); cat(normalizePath(p,winslash="/"))')
+          echo "DATAIO_R_TEST_LIBRARY=$R_LIBRARY" >> "$GITHUB_ENV"
+          Rscript --vanilla -e '.libPaths(c(commandArgs(TRUE)[1],.libPaths())); library(cdbt.DataIO); library(jsonlite); print(sessionInfo()); print(attr(OlsonNames(),"Version")); print(installed.packages()[,c("Package","Version")]); print(Sys.getlocale())' "$R_LIBRARY" > 'build/k3/${{ matrix.system }}/r-environment.txt'
+          Rscript --vanilla -e 'compiler <- system2(file.path(R.home("bin"),"R"),c("CMD","config","CXX20"),stdout=TRUE); print(compiler); system(paste(compiler,"--version"))' > 'build/k3/${{ matrix.system }}/r-compiler.txt'
+
+      - name: Build Python and run separate regressions
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          cmake -S . -B build/ci/python -DBUILD_RPACKAGE=OFF -DBUILD_PYPACKAGE=ON \
+            -DBUILD_JULIAPACKAGE=OFF -DBUILD_MATLABPACKAGE=OFF -DCMAKE_BUILD_TYPE=Release \
+            -DPython_EXECUTABLE="$(command -v python)" -Dpybind11_DIR="$(python -m pybind11 --cmakedir)" \
+            -DDATAIO_R_TEST_LIBRARY="$DATAIO_R_TEST_LIBRARY"
+          cmake --build build/ci/python --parallel 2 --target PyTests 2>&1 | tee 'build/k3/${{ matrix.system }}/python-regressions.log'
+
+      - name: Set up the Julia MinGW toolchain
+        if: runner.os == 'Windows'
+        id: msys2
+        uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja
+
+      - name: Build Julia and record versions
+        continue-on-error: true
+        env:
+          MSYS2_ROOT: ${{ steps.msys2.outputs.msys2-location }}
+        run: |
+          set -o pipefail
+          if [[ "$RUNNER_OS" == Windows ]]; then
+            export PATH="$(cygpath -u "$MSYS2_ROOT")/mingw64/bin:$PATH"
+            export CC=gcc CXX=g++ CMAKE_GENERATOR=Ninja
+            echo "K3_JULIA_BIN=$(cygpath -m "$MSYS2_ROOT")/mingw64/bin" >> "$GITHUB_ENV"
+          fi
+          julia --startup-file=no -e 'using InteractiveUtils; versioninfo()' > 'build/k3/${{ matrix.system }}/julia-environment.txt'
+          "${CXX:-c++}" --version > 'build/k3/${{ matrix.system }}/julia-compiler.txt'
+          julia --startup-file=no libs/juliaDataIO/build.jl build/ci/julia 2>&1 | tee 'build/k3/${{ matrix.system }}/julia-build.log'
+          julia --startup-file=no --project=build/ci/julia/libs/juliaDataIO/DataBionicIO \
+            -e 'using Pkg; Pkg.status(;mode=Pkg.PKGMODE_MANIFEST)' > 'build/k3/${{ matrix.system }}/julia-packages.txt'
+          ctest --test-dir build/ci/julia -C Release -R '^julia-' --no-tests=error --output-on-failure \
+            2>&1 | tee 'build/k3/${{ matrix.system }}/julia-regressions.log'
+
+      - name: Write R, Python, and Julia files
+        continue-on-error: true
+        run: |
+          python tests/interop/run_k3.py writes --output 'build/k3/${{ matrix.system }}' \
+            --r-library "$DATAIO_R_TEST_LIBRARY" --python-package build/ci/python/libs/pyDataIO \
+            --julia-project build/ci/julia/libs/juliaDataIO/DataBionicIO
+
+      - uses: matlab-actions/setup-matlab@f9e43010f1ae678f7cfa0542fe2a4f60f7d1ad8d # v3
+        with:
+          release: ${{ matrix.matlab }}
+
+      - name: Build MATLAB and observe the six writers and sixteen readers
+        continue-on-error: true
+        uses: matlab-actions/run-command@bfa857648f4895aa98a446fe41c85e0788421ed5 # v3
+        env:
+          DATAIO_FIXTURE_DIR: ${{ github.workspace }}/build/k3/${{ matrix.system }}/MATLAB
+        with:
+          command: addpath(fullfile(pwd,'ci','matlab')); runMatlabCI
+
+      - name: Read all local files with R, Python, and Julia
+        continue-on-error: true
+        run: |
+          python tests/interop/run_k3.py reads --output 'build/k3/${{ matrix.system }}' \
+            --r-library "$DATAIO_R_TEST_LIBRARY" --python-package build/ci/python/libs/pyDataIO \
+            --julia-project build/ci/julia/libs/juliaDataIO/DataBionicIO
+
+      - name: Collect exact build and package records
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          K3_OS: ${{ matrix.system }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, shutil, subprocess
+          from pathlib import Path
+          out=Path('build/k3')/os.environ['K3_OS']
+          for name, path in {'matlab':'build/ci/matlab', 'r-tests':'build/tests'}.items():
+              if Path(path).exists():
+                  target=out/'regressions'/name
+                  target.mkdir(parents=True,exist_ok=True)
+                  for p in Path(path).rglob('*'):
+                      if p.is_file() and p.suffix in ('.log','.txt','.tsv','.json') and 'source' not in p.parts and 'library' not in p.parts:
+                          q=target/p.relative_to(path); q.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(p,q)
+          for path in ['build/ci/python/CMakeCache.txt','build/ci/julia/CMakeCache.txt','build/ci/julia/libs/juliaDataIO/DataBionicIO/Manifest.toml']:
+              if Path(path).exists():
+                  q=out/'build-records'/path; q.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(path,q)
+          for root in ['build/ci/python','build/ci/julia']:
+              for p in Path(root).rglob('CMakeCXXCompiler.cmake'):
+                  q=out/'build-records'/p; q.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(p,q)
+          records=[]
+          for root in ['build/ci/python/libs/pyDataIO/pyDataIO',os.environ['DATAIO_R_TEST_LIBRARY'],'build/ci/julia/libs/juliaDataIO/DataBionicIO','build/ci/package/DataBionicIO']:
+              for p in Path(root).rglob('*'):
+                  if p.is_file() and '__pycache__' not in p.parts:
+                      records.append(dict(path=p.as_posix(),sha256=hashlib.sha256(p.read_bytes()).hexdigest()))
+          (out/'all-package-hashes.json').write_text(json.dumps(records,indent=2)+'\n')
+          (out/'package-hashes.json').write_text(json.dumps([r for r in records if r['path'].startswith('build/ci/python/')],indent=2)+'\n')
+          if os.name=='nt':
+              compiler=Path(os.getenv('RTOOLS45_HOME','C:/rtools45'))/'x86_64-w64-mingw32.static.posix/bin/g++.exe'
+              record={'path':str(compiler),'exists':compiler.is_file()}
+              if compiler.is_file():
+                  record['version']=subprocess.check_output([str(compiler),'--version'],text=True)
+                  record['sha256']=hashlib.sha256(compiler.read_bytes()).hexdigest()
+              (out/'rtools-compiler.json').write_text(json.dumps(record,indent=2)+'\n')
+          PY
+
+      - name: Evaluate the 72 local comparisons
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/interop/run_k3.py evaluate --os '${{ matrix.system }}' --output 'build/k3/${{ matrix.system }}'
+
+      - name: Upload original files and raw observations
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: K3-local-${{ matrix.system }}
+          path: build/k3/${{ matrix.system }}/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload the exact Python package for target-system reads
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: K3-python-${{ matrix.system }}
+          path: build/ci/python/libs/pyDataIO/pyDataIO/
+          if-no-files-found: warn
+          retention-days: 30
+
+  cross:
+    name: K3 / incoming files / ${{ matrix.system }}
+    needs: local
+    if: ${{ !cancelled() }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: Windows
+            runner: windows-2022
+          - system: Linux
+            runner: ubuntu-24.04
+          - system: macOS
+            runner: macos-15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.10'
+      - run: python -m pip install 'numpy==2.3.5' 'pandas==2.2.3' 'tzdata==2025.2'
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          pattern: K3-local-*
+          path: build/incoming
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: K3-python-${{ matrix.system }}
+          path: build/ci/python/libs/pyDataIO/pyDataIO
+      - name: Read the eight unchanged files from the other systems
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for p in Path('build/incoming').glob('K3-local-*'):
+              p.rename(p.with_name(p.name.removeprefix('K3-local-')))
+          PY
+          python tests/interop/run_k3.py cross --os '${{ matrix.system }}' \
+            --output 'build/k3-cross/${{ matrix.system }}' --incoming build/incoming \
+            --python-package build/ci/python/libs/pyDataIO
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: K3-cross-${{ matrix.system }}
+          path: build/k3-cross/${{ matrix.system }}/
+          if-no-files-found: warn
+          retention-days: 30
+
+  report:
+    name: K3 / all 240 results
+    needs: [local, cross]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.10'
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          pattern: K3-*
+          path: build/reports
+      - name: Require exactly 240 distinct results
+        run: python tests/interop/run_k3.py merge --incoming build/reports --output build/k3-report
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: K3-report-240
+          path: build/k3-report/
+          if-no-files-found: error
+          retention-days: 30
