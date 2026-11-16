@@ -63,6 +63,13 @@ class FixturePilot(unittest.TestCase):
             actual = dict(ok=False, working_directory_unchanged=True, error="invalid key")
             result = compare_case(request, actual, {"ok": False}, b"original")
             self.assertIn("file_effect", [e["field"] for e in result["errors"]])
+            path.write_bytes(b"original")
+            expected = dict(ok=False, error_type="DataIO:Core")
+            actual["error_type"] = "DataIO:Text"
+            result = compare_case(request, actual, expected, b"original")
+            self.assertEqual([e["field"] for e in result["errors"]], ["error_type"])
+            actual["error_type"] = "DataIO:Core"
+            self.assertEqual(compare_case(request, actual, expected, b"original")["status"], "PASS")
 
     def test_declared_rows(self):
         with tempfile.TemporaryDirectory() as temporary:

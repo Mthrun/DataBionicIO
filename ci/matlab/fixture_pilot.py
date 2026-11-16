@@ -135,7 +135,12 @@ def verify(root, output):
     results = []
     for case, request, actual in zip(bundle["cases"], requests, observations):
         before = None if case["initial_base64"] is None else base64.b64decode(case["initial_base64"], validate=True)
-        results.append(compare_case(request, actual, case["expected"], before))
+        expected = dict(case["expected"])
+        if expected.get("ok") is False:
+            # These fixed negative cases must reach the core or the legacy guard.
+            expected["error_type"] = ("DataIO:LegacyReadOnly" if request["operation"] == "legacy"
+                                      else "DataIO:Core")
+        results.append(compare_case(request, actual, expected, before))
         results[-1]["purpose"] = case["purpose"]
     join = {q["format"]: a for q, a in zip(requests, observations)
             if q["operation"] == "read" and q["id"].startswith("JOIN-ORDER/")}

@@ -66,10 +66,8 @@ try
             case 'cls'
                 WriteCLS(Name,numbers(Q.classes),Key,Directory,Comment,1,Options);
             case 'names'
-                Names = textcells(Q.names); Further = Q.further_texts;
-                if isempty(Further) || all(cellfun(@isempty,Further(:))) && get(Q,'extra_columns',1)==0
-                    Further = cell(numel(Names),0);
-                else, Further = textcells(Further); end
+                Names = textcells(Q.names);
+                Further = textmatrix(Q.further_texts,numel(Names),get(Q,'extra_columns',1));
                 WriteNAMES(Name,Names,Key,Further,Directory,Q.header,Comment,Options);
             case 'dts'
                 Options.Format = get(Q,'time_format',3);
@@ -88,7 +86,7 @@ try
             Out.data = hexrows(A); Out.shape = num2cell(size(A));
             Out.header = charrows(H); Out.types = num2cell(T(:)');
         case 'cls'
-            [K,A,C] = ReadCLS(Name,Directory,Options);
+            [K,A,C] = ReadCLS(Name,Directory,[],Options);
             Out.classes = hexvector(A);
         case 'names'
             [K,N,~,C,H,F] = ReadNAMES(Name,Directory,Options);
@@ -158,13 +156,49 @@ end
 
 function X = textcells(X)
 % INPUT
-% X  Text cells with optional JSON null values.
+% X  Text cells or one decoded JSON row with optional null values.
 % OUTPUT
-% Text cells with null values represented by the file token NA.
+% Text cells with decoded null values represented by the file token NA.
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
-if ischar(X), X={X}; end
-for I=1:numel(X), if isnumeric(X{I}) && isempty(X{I}), X{I}='NA'; end, end
+if ischar(X) || isempty(X), X={X};
+elseif isnumeric(X), X=num2cell(X); end
+for I=1:numel(X)
+    if isnumeric(X{I}) && (isempty(X{I}) || isscalar(X{I}) && isnan(X{I}))
+        X{I}='NA';
+    elseif ~ischar(X{I}) || ~(isrow(X{I}) || isempty(X{I}))
+        error('DataIO:Tests','A JSON text field must contain text or null.');
+    end
+end
+end
+
+function Matrix = textmatrix(Rows,RowCount,ColumnCount)
+% INPUT
+% Rows  Decoded JSON text rows, including nested cell arrays.
+% RowCount, ColumnCount  Required dimensions of the public API input.
+% OUTPUT
+% Rectangular cell matrix with the original row and column order.
+% Null values become NA. Incorrect dimensions raise an error.
+% SPDX-License-Identifier: AGPL-3.0-only
+% Additional permission: see MATLAB-EXCEPTION.txt.
+Matrix=cell(RowCount,ColumnCount);
+if ColumnCount==0, return; end
+if isnumeric(Rows) || iscell(Rows) && ~any(cellfun(@iscell,Rows(:))) && isequal(size(Rows),size(Matrix))
+    Matrix=textcells(Rows);
+    if ~isequal(size(Matrix),[RowCount ColumnCount])
+        error('DataIO:Tests','JSON text dimensions differ from the request.');
+    end
+elseif iscell(Rows) && numel(Rows)==RowCount
+    for I=1:RowCount
+        Row=textcells(Rows{I});
+        if numel(Row)~=ColumnCount
+            error('DataIO:Tests','JSON text row width differs from the request.');
+        end
+        Matrix(I,:)=reshape(Row,1,ColumnCount);
+    end
+else
+    error('DataIO:Tests','JSON text row count differs from the request.');
+end
 end
 
 function Rows = charrows(A)
