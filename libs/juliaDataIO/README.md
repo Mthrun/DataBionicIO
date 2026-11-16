@@ -99,6 +99,18 @@ Pkg.develop(path="/absolute/path/to/build/julia/libs/juliaDataIO/DataBionicIO")
 Keep the output package at that path.
 The [example](examples/example.jl) shows all four formats.
 
+## Key vectors
+
+`TheSameKey(KeyA, KeyB)` compares numeric vectors in row order through the shared C++ code.
+The result is `true` only if the lengths and the values at each position are the same.
+Two empty vectors give `true`.
+Missing values and unsupported inputs give `false`.
+The function does not sort the vectors or change their contents.
+It does not test the key constraints of the file formats.
+
+The name `the_same_key` gives the same function.
+Numeric values must convert to binary64 without loss.
+
 ## Functions
 
 Each reader takes a file path and the optional keyword `verbose=false`.

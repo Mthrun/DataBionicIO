@@ -4,6 +4,7 @@ function runMatlabCI
 % INPUT
 % None. The source location and GitHub environment variables supply the context.
 % DATAIO_INTEROP_DIR selects an existing R/Python exchange-file directory.
+% DATAIO_FIXTURE_DIR selects prepared JSON pilot requests and their output folder.
 %
 
 % OUTPUT
@@ -79,6 +80,21 @@ for Modes = {'modern','legacy'}
 end
 if Failed
     error('DataIO:CI','%d MATLAB test modes failed. See the workflow reports.',Failed);
+end
+Fixtures = getenv('DATAIO_FIXTURE_DIR');
+if ~isempty(Fixtures)
+    diary(fullfile(Reports,'fixtures.txt'));
+    try
+        setupDataIO('modern');
+        addpath(fullfile(Project,'tests','interop'));
+        runDataIOFixture(fullfile(Fixtures,'requests.json'),fullfile(Fixtures,'observed.json'));
+        fprintf(Summary,'fixture-observations\tPASS\n');
+    catch Problem
+        fprintf(Summary,'fixture-observations\tFAIL\n');
+        writeReport(fullfile(Reports,'fixtures-error.txt'),getReport(Problem,'extended','hyperlinks','off'));
+        rethrow(Problem);
+    end
+    diary('off');
 end
 Exchange = getenv('DATAIO_INTEROP_DIR');
 if ~isempty(Exchange)

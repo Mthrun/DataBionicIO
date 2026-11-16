@@ -60,6 +60,23 @@ int main(int argc, char** argv) {
             assert(rejected && bytes() == original);
         }
     }
+    // Text changes must be reported even when progress output is disabled.
+    for (bool verbose : {false, true}) {
+        for (char delimiter : {'\t', '\r', '\n'}) {
+            for (bool in_name : {false, true}) {
+                std::ostringstream warnings;
+                const auto path = (directory / "text.names").string();
+                const std::string dirty = std::string("A") + delimiter + "B";
+                write_names({in_name ? dirty : "AB"}, {"Names", "Extra"},
+                            {17}, {{in_name ? "AB" : dirty}}, path, "", true,
+                            verbose, 2, 0, warnings);
+                assert(warnings.str().find("WARNING: Detected line breaks") != std::string::npos);
+                const auto result = read_names(path, false, warnings);
+                assert(std::get<2>(result)[0] == "AB");
+                assert(std::get<3>(result)[0][0] == "AB");
+            }
+        }
+    }
     // DATES keeps its existing name checks; this change is for LRN and NAMES.
     bool rejected = false;
     try { parse_column_names("Key\tTime\tVersion Currency", {"Key", "Time"}); }

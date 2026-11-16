@@ -1,23 +1,19 @@
 TheSameKey <- function(keyA, keyB) {
 # KeyOK= TheSameKey(KeyA, KeyB)
 # KeyOK= TheSameKey(Key, ClsKey ); KeyOK
-# Checks, if the Keys are the same
+# Compare numeric vectors by length, values, and row order.
+# Two empty vectors compare equal. Missing values give FALSE.
+# No sorting or uniqueness check is done; unsupported inputs give FALSE.
 # INPUT
-# KeyA[1:n]      vector of integer
-# KeyB[1:n]      vector of integer
+# KeyA[1:n]      ordinary real numeric or logical vector
+# KeyB[1:n]      ordinary real numeric or logical vector
 #
 # OUTPUT
-# KeyOK                   bool, tru if the same, else false
+# KeyOK         one logical value: TRUE if the same, otherwise FALSE
 #
 # $Author: MT 04/2016
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   
-tryCatch({
-  if(length(keyA)!=length(keyB)) theSameKey=FALSE
-  else theSameKey <- suppressWarnings(length(keyA) == sum(keyA == keyB))
-},er=function(ex){
-  theSameKey=FALSE
-})
-return(theSameKey)
+return(the_same_key(keyA, keyB))
 }

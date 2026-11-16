@@ -6,6 +6,7 @@
 // MATLAB C Matrix API gateway. File rules stay in the shared C++ readers/writers.
 // All C++ objects leave scope before MATLAB receives an error or warning.
 #include "mex.h"
+#include "DataIO/the_same_key.hpp"
 #include "DataIO/read_lrn.hpp"
 #include "DataIO/write_lrn.hpp"
 #include "DataIO/read_names.hpp"
@@ -348,7 +349,7 @@ void put(mxArray* result, const char* name, mxArray* value) {
  * Execute a DataIO gateway command.
  *
  * INPUT
- * command  version or one of the eight read/write command names.
+ * command  version, the_same_key, or a read/write command name.
  * request  Scalar struct with the fields required by the command.
  * result  Scalar output struct to populate.
  * log  Destination for core diagnostics.
@@ -361,6 +362,11 @@ void put(mxArray* result, const char* name, mxArray* value) {
 void dispatch(const std::string& command, const mxArray* request, mxArray* result, std::ostream& log) {
     if (command == "version") {
         put(result, "API", mxCreateDoubleScalar(1));
+        return;
+    }
+    if (command == "the_same_key") {
+        put(result, "Same", mxCreateLogicalScalar(the_same_key(
+            numbers(field(request, "KeyA")), numbers(field(request, "KeyB")))));
         return;
     }
     const auto path = text(field(request, "Path"));

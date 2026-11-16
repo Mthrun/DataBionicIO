@@ -5,7 +5,8 @@ function WriteLRN(FileName, Data, Header, Key, DataDefined, Directory, CommentOr
 % Missing Key gives a warning and uses 1:n. Directory defaults to pwd.
 % Argument 7 can be a comment or the old numeric Digits argument.
 % Old Digits sets decimal places (fixed notation) or mantissa decimal
-% places (scientific notation). Its default is 6. As before, Scientific defaults
+% places (scientific notation). Without explicit precision, use 17 significant
+% digits. As before, Scientific defaults
 % to true with fewer than seven inputs, and to false when argument 7 is given.
 % OPTIONS: Overwrite=true, Verbose=false, SignificantDigits=-1, DecimalDigits=-1.
 % Explicit precision options replace the old Digits setting.
@@ -20,7 +21,7 @@ function WriteLRN(FileName, Data, Header, Key, DataDefined, Directory, CommentOr
 % Directory  Optional output directory; the default is pwd.
 % CommentOrDigits  Optional comment text or legacy decimal-place setting.
 % Scientific  Optional flag selecting exponent notation.
-% Digits  Optional legacy decimal-place setting; the default is 6.
+% Digits  Optional legacy decimal-place setting.
 % Options  Optional struct with overwrite, verbosity, and precision settings.
 %
 
@@ -39,20 +40,21 @@ if nargin < 9, Digits = []; end
 if nargin < 10, Options = []; end
 Data = dataio_numeric(Data);
 Comment = '';
-OldDigits = 6;
+OldDigits = [];
 if isnumeric(CommentOrDigits) && ~isempty(CommentOrDigits)
     OldDigits = CommentOrDigits;
 else
     Comment = dataio_comment(CommentOrDigits);
 end
 if ~isempty(Digits), OldDigits = Digits; end
-if ~isnumeric(OldDigits) || ~isscalar(OldDigits) || ~isfinite(OldDigits) || OldDigits < 0 || OldDigits ~= fix(OldDigits)
+if ~isempty(OldDigits) && (~isnumeric(OldDigits) || ~isscalar(OldDigits) || ~isfinite(OldDigits) || OldDigits < 0 || OldDigits ~= fix(OldDigits))
     error('DataIO:Precision', 'Digits must be a nonnegative whole number.');
 end
 Options = dataio_options(Options, struct('Overwrite', true, 'Verbose', false, ...
     'SignificantDigits', -1, 'DecimalDigits', -1, 'Scientific', Scientific));
 if Options.SignificantDigits == -1 && Options.DecimalDigits == -1
-    if Options.Scientific, Options.SignificantDigits = OldDigits + 1;
+    if isempty(OldDigits), Options.SignificantDigits = 17;
+    elseif Options.Scientific, Options.SignificantDigits = OldDigits + 1;
     else, Options.DecimalDigits = OldDigits; end
 end
 Request = Options;

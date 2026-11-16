@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Additional permission: see MATLAB-EXCEPTION.txt.
 
+#include "DataIO/the_same_key.hpp"
 #include "DataIO/read_dates.hpp"
 #include "DataIO/write_dates.hpp"
 #include "DataIO/read_lrn.hpp"
@@ -27,6 +28,9 @@
 PYBIND11_MODULE(pyDataIO, m)
 {
     namespace py = pybind11;
+    m.def("_the_same_key", [](const std::vector<double>& a, const std::vector<double>& b) {
+        return dbt::DataIO::the_same_key(a, b);
+    });
 
     //static_cast<SomeType*>(nullptr)
     py::add_ostream_redirect(m, "ostream_redirect");

@@ -1,0 +1,344 @@
+{
+  "schema_version": "1.0",
+  "keys_encoding": "decimal strings; convert exactly to the documented native key type",
+  "matrix_orientation": "records in rows",
+  "cases": {
+    "TEXT-B03": {
+      "keys": [
+        "17",
+        "18"
+      ],
+      "names": [
+        " A",
+        "A "
+      ],
+      "further_texts": [
+        [
+          "A",
+          "x y"
+        ],
+        [
+          "A ",
+          "z z"
+        ]
+      ],
+      "header": [
+        "Names",
+        "Extra1",
+        "Extra2"
+      ]
+    },
+    "TEXT-B04": {
+      "variants": [
+        {
+          "variant": "Names",
+          "keys": [
+            "17",
+            "18"
+          ],
+          "names": [
+            "A\tB",
+            "CD"
+          ],
+          "further_texts": [
+            [
+              "uv",
+              "x"
+            ],
+            [
+              "wx",
+              "y"
+            ]
+          ],
+          "header": [
+            "Names",
+            "Extra1",
+            "Extra2"
+          ]
+        },
+        {
+          "variant": "FurtherTexts",
+          "keys": [
+            "17",
+            "18"
+          ],
+          "names": [
+            "AB",
+            "CD"
+          ],
+          "further_texts": [
+            [
+              "u\tv",
+              "x"
+            ],
+            [
+              "wx",
+              "y"
+            ]
+          ],
+          "header": [
+            "Names",
+            "Extra1",
+            "Extra2"
+          ]
+        }
+      ]
+    },
+    "TEXT-B05": {
+      "variants": [
+        {
+          "variant": "Names",
+          "keys": [
+            "17",
+            "18"
+          ],
+          "names": [
+            "A\rB",
+            "CD"
+          ],
+          "further_texts": [
+            [
+              "uv",
+              "x"
+            ],
+            [
+              "wx",
+              "y"
+            ]
+          ],
+          "header": [
+            "Names",
+            "Extra1",
+            "Extra2"
+          ]
+        },
+        {
+          "variant": "FurtherTexts",
+          "keys": [
+            "17",
+            "18"
+          ],
+          "names": [
+            "AB",
+            "CD"
+          ],
+          "further_texts": [
+            [
+              "u\rv",
+              "x"
+            ],
+            [
+              "wx",
+              "y"
+            ]
+          ],
+          "header": [
+            "Names",
+            "Extra1",
+            "Extra2"
+          ]
+        }
+      ]
+    },
+    "TEXT-B06": {
+      "variants": [
+        {
+          "variant": "Names",
+          "keys": [
+            "17",
+            "18"
+          ],
+          "names": [
+            "A\nB",
+            "CD"
+          ],
+          "further_texts": [
+            [
+              "uv",
+              "x"
+            ],
+            [
+              "wx",
+              "y"
+            ]
+          ],
+          "header": [
+            "Names",
+            "Extra1",
+            "Extra2"
+          ]
+        },
+        {
+          "variant": "FurtherTexts",
+          "keys": [
+            "17",
+            "18"
+          ],
+          "names": [
+            "AB",
+            "CD"
+          ],
+          "further_texts": [
+            [
+              "u\nv",
+              "x"
+            ],
+            [
+              "wx",
+              "y"
+            ]
+          ],
+          "header": [
+            "Names",
+            "Extra1",
+            "Extra2"
+          ]
+        }
+      ]
+    },
+    "META-H09": {
+      "bad_labels": [
+        " ; "
+      ],
+      "LRN": {
+        "keys": [
+          "17",
+          "18"
+        ],
+        "data": [
+          [
+            10
+          ],
+          [
+            20
+          ]
+        ],
+        "header": [
+          "$bad_label"
+        ],
+        "types": [
+          9,
+          1
+        ]
+      },
+      "NAMES": {
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "Alpha",
+          "Beta"
+        ],
+        "further_texts": [
+          [
+            "p"
+          ],
+          [
+            "q"
+          ]
+        ],
+        "header": [
+          "Names",
+          "$bad_label"
+        ]
+      }
+    },
+    "META-H10": {
+      "bad_labels": [
+        "A\nB",
+        "A\rB"
+      ],
+      "LRN": {
+        "keys": [
+          "17",
+          "18"
+        ],
+        "data": [
+          [
+            10
+          ],
+          [
+            20
+          ]
+        ],
+        "header": [
+          "$bad_label"
+        ],
+        "types": [
+          9,
+          1
+        ]
+      },
+      "NAMES": {
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "Alpha",
+          "Beta"
+        ],
+        "further_texts": [
+          [
+            "p"
+          ],
+          [
+            "q"
+          ]
+        ],
+        "header": [
+          "Names",
+          "$bad_label"
+        ]
+      }
+    },
+    "TIME-I06": {
+      "keys": [
+        "17",
+        "18"
+      ],
+      "times": [
+        "2024-01-01 12:00:00.000",
+        null
+      ],
+      "data": [
+        [
+          10
+        ],
+        [
+          20
+        ]
+      ],
+      "numeric_labels": [
+        "Value"
+      ],
+      "timezone": "UTC",
+      "format": 3,
+      "missing_conversion": {
+        "R": "NA_character_ in the character Time column",
+        "Python": "None",
+        "MATLAB": "'NA' in a cell vector of character rows",
+        "Julia": "missing"
+      }
+    },
+    "TIME-I08": {
+      "keys": [
+        "17"
+      ],
+      "times": [
+        "2024-01-15 12:00:00 +11"
+      ],
+      "data": [
+        [
+          10
+        ]
+      ],
+      "numeric_labels": [
+        "Value"
+      ],
+      "timezone": "UTC",
+      "format": 2
+    }
+  }
+}

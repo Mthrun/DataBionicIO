@@ -10,7 +10,7 @@ and text are None. Missing numeric cells are NaN. See ../README.md for the API.
 """
 from collections.abc import Mapping
 from datetime import date, datetime, timezone
-from numbers import Real
+from numbers import Integral, Real
 from zoneinfo import ZoneInfo
 import os
 import re
@@ -20,13 +20,49 @@ import numpy as np
 import pandas as pd
 
 from .libs.pyDataIO import (
-    _read_dates, _write_dates, _read_lrn, _write_lrn,
+    _the_same_key, _read_dates, _write_dates, _read_lrn, _write_lrn,
     _read_names, _write_names, _read_cls, _write_cls,
     LRN_Reader as LRN_Reader_cpp, ostream_redirect,
 )
 
 _MISSING_KEY = -(2**63)
 _MAX_KEY = 2**53
+
+
+def TheSameKey(keyA, keyB):
+    # INPUT
+    # keyA, keyB: numeric vectors in row order; None represents an empty vector.
+    # OUTPUT
+    # One bool from the common comparison; missing or unsupported input gives False.
+    # SPDX-License-Identifier: AGPL-3.0-only
+    # Additional permission: see MATLAB-EXCEPTION.txt.
+    """Compare numeric vectors exactly, including length and order.
+
+    Empty vectors compare equal. Missing values give False. This function does
+    not sort, check uniqueness, or change inputs. Integers must convert to
+    binary64 without loss. Unsupported inputs give False. No string coercion.
+    """
+    converted = []
+    try:
+        for values in (keyA, keyB):
+            numbers = []
+            for value in _vector(values, "Key"):
+                if not isinstance(value, (Real, np.bool_)) or _missing(value):
+                    return False
+                number = float(value)
+                if isinstance(value, Integral):
+                    if not np.isfinite(number) or int(number) != int(value):
+                        return False
+                elif value != number:
+                    return False
+                numbers.append(number)
+            converted.append(numbers)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    return bool(_the_same_key(*converted))
+
+
+the_same_key = TheSameKey
 
 
 def _path(filename, directory):

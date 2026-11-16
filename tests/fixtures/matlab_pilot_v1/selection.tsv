@@ -1,0 +1,49 @@
+id	purpose
+BASE-LRN/BASE-LRN/hepta/lrn	Read a multivariate numeric reference table.
+BASE-CLS/BASE-CLS/hepta/cls	Read classes with their keys.
+BASE-NAMES/BASE-NAMES/hepta/names	Read names and additional text columns.
+BASE-DTS/BASE-DTS/base/dts	Read timestamps and numeric columns.
+KEY-VALID/KEY-VALID/keys_valid/lrn	Keep boundary keys exact in LRN.
+KEY-VALID/KEY-VALID/keys_valid/cls	Keep boundary keys exact in CLS.
+KEY-VALID/KEY-VALID/keys_valid/names	Keep boundary keys exact in NAMES.
+KEY-VALID/KEY-VALID/keys_valid/dts	Keep boundary keys exact in DATES.
+KEY-WRITE-BAD/duplicate/True/names	Reject duplicate keys without replacing an existing file.
+KEY-READ-BAD/KEY-READ-BAD/keys_invalid_text/lrn	Report an invalid key with Verbose=false.
+JOIN-ORDER/JOIN-ORDER/join/lrn	Read the reference key order for the relation check.
+JOIN-ORDER/JOIN-ORDER/join/cls	Read classes in a different key order.
+JOIN-ORDER/JOIN-ORDER/join/names	Read names in a different key order.
+NUM-EXPLICIT/numeric.dts/0/dts	Write specified binary64 values in DATES.
+NUM-DEFAULT/numeric.lrn/0/lrn	Keep binary64 precision with default LRN options.
+NUM-ROUND/0/True/lrn	Round numeric output with scientific notation.
+NUM-PRECEDENCE/significant_over_legacy/lrn	Apply the significant-digit option before the legacy digit argument.
+NUM-EXTREME/extreme.lrn/0/lrn	Write extreme values and record the sign of zero.
+CLS-BOUNDS/replacement/cls	Handle class limits and the specified missing-value replacement.
+TEXT-UTF8/utf8.names/0/names	Write UTF-8 text without changing its characters.
+TEXT-MISSING/native-missing/names	Write native missing text values.
+META-COMMENT/comment.cls/0/cls	Keep multiline comments in CLS output.
+FILE-LAYOUT/FILE-LAYOUT/layout_CRLF_0_1/dts	Read CRLF input with blank lines and no final newline.
+FILE-LAYOUT/FILE-LAYOUT/layout_LF_1_1/names	Read LF input with blank lines and a final newline.
+LEGACY-LRN/LEGACY-LRN/legacy_moved_key/lrn	Read a legacy LRN file with a moved key column.
+LEGACY-NAMES/LEGACY-NAMES/legacy_untagged_no_labels/names	Read an untagged NAMES file without labels.
+LEGACY-CLS/LEGACY-CLS/legacy_class_metadata/cls	Read legacy class metadata.
+LEGACY-GUARD/ReadDates/lrn	Reject DATES access in legacy mode.
+TIME-DATE/time_date.dts/0/dts	Write date-only values.
+TIME-FOLD/zoned-capability/dts	Convert both autumn clock-fold instants to UTC.
+TIME-SPRING/TIME-SPRING/time_spring/dts	Keep time and DST fields across the spring clock change.
+TIME-REDUCE/2/dts	Write second-resolution timestamps.
+RECOVERY-ROWS/RECOVERY-ROWS/recovery_short/cls	Report and recover a short class row.
+RECOVERY-NUMBER/RECOVERY-NUMBER/numeric_prefix/dts	Report malformed numeric text in DATES.
+HEADER-BAD/HEADER-BAD/bad_width/dts	Reject a DATES header with an invalid column count.
+SIDE-EFFECTS/overwrite_false/dts	Keep an existing file when overwrite is disabled.
+KEY-COMPARE/4/helper	Return false for key comparisons containing NaN.
+TEXT-BOUNDARY/TEXT-B01/names_leading_spaces/False/names	Keep leading spaces in native text output.
+TEXT-BOUNDARY/TEXT-B02/names_trailing_spaces/False/names	Keep trailing spaces and record character-matrix padding.
+TEXT-BOUNDARY/TEXT-B04/0/False/False/names	Report removed text separators with Verbose=false.
+META-HEADER/META-H04/header_custom_primary/False/names	Keep a custom primary text label.
+META-HEADER/META-H05/header_type_zero/False/lrn	Apply LRN type-zero column selection.
+META-HEADER/META-H06/header_cleanable/False/names	Report header repair with Verbose=false.
+META-HEADER/META-H08/header_misplaced_dst/False/dts	Handle a misplaced DST header according to the fixed contract.
+TIME-INVALID/TIME-I01/time_invalid_syntax/False/dts	Read invalid timestamp syntax according to the fixed contract.
+TIME-INVALID/TIME-I02/time_contradictory_marker/False/dts	Read contradictory time metadata according to the fixed contract.
+TIME-INVALID/TIME-I04/time_ambiguous_unmarked/False/dts	Keep an ambiguous timestamp without adding a DST interpretation.
+TIME-INVALID/TIME-I05/time_missing/False/dts	Keep a missing timestamp and its row.

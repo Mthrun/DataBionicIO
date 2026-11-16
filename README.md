@@ -9,6 +9,18 @@ The R package name is `cdbt.DataIO`. The Python package name is `pyDataIO`.
 The MATLAB entry points are `buildDataIO` and `setupDataIO`.
 The Julia package name is `DataBionicIO`.
 
+## Key vectors
+
+`TheSameKey(KeyA, KeyB)` compares numeric vectors in row order through the shared C++ code.
+The result is `true` only if the lengths and the values at each position are the same.
+Two empty vectors give `true`.
+Missing values and unsupported inputs give `false`.
+The function does not sort the vectors or change their contents.
+It does not test the key constraints of the file formats.
+
+Python and Julia also provide the name `the_same_key`.
+The MATLAB function uses the modern MEX interface.
+
 ## License
 
 DataBionicIO uses GNU AGPL version 3 only, with a MATLAB linking exception.

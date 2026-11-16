@@ -29,6 +29,7 @@ function(dataio_test name source)
 endfunction()
 
 dataio_test(keys test_key64.cpp)
+dataio_test(same-key test_same_key.cpp)
 dataio_test(headers test_header_warnings.cpp)
 dataio_test(legacy legacy/test_readers.cpp)
 dataio_test(documented-readers test_documented_readers.cpp)

@@ -109,3 +109,26 @@ with tempfile.TemporaryDirectory() as temporary:
     assert package_matlab(build, True).is_file()
 
 print("MATLAB package archive checks passed for three platforms and rejection cases.")
+
+with tempfile.TemporaryDirectory() as temporary:
+    build = Path(temporary)
+    package = prepare(build)
+    summary = build / "matlab" / "summary.tsv"
+    summary.write_text(summary.read_text() + "fixture-observations\tPASS\nfixtures\tPASS\n")
+    (build / "fixture-pilot").mkdir()
+    report = dict(status="PASS", fixed_inputs_unchanged=True, counts={"PASS": 49},
+                  build={"commit": os.getenv("GITHUB_SHA", "a" * 40)})
+    for invalid in (None, dict(report, status="FAIL"), dict(report, fixed_inputs_unchanged=False),
+                    dict(report, build={"commit": "b" * 40}), dict(report, counts={"FAIL": 1})):
+        if invalid is not None:
+            (build / "fixture-pilot" / "report.json").write_text(json.dumps(invalid))
+        try:
+            package_matlab(build, require_fixtures=True)
+        except (ValueError, FileNotFoundError):
+            assert not list(build.glob("packages/*.zip"))
+        else:
+            raise AssertionError("An invalid fixture report produced a package")
+    (build / "fixture-pilot" / "report.json").write_text(json.dumps(report))
+    assert package_matlab(build, require_fixtures=True).is_file()
+
+print("MATLAB fixture-report package checks passed.")

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 
+from .extension import TheSameKey, the_same_key
 from .extension import ReadDates
 from .extension import WriteDates
 from .extension import ReadLRN

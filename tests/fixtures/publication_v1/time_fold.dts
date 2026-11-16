@@ -1,0 +1,7 @@
+#<?dates version="2.0"?>
+# Timezone: Europe/Berlin
+% 2
+% 4
+% Key	Time	TZ_DST	Value
+1	2024-10-27 02:30:00	CEST	1
+2	2024-10-27 02:30:00	CET	2

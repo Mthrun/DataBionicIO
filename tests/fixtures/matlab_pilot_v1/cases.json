@@ -1,0 +1,4749 @@
+{
+  "schema": 1,
+  "selection_sha256": "a920b41e04903a8fd131035ef14ebb589d024d05659c19f949845132e8743f70",
+  "scope": "MATLAB fixture pilot; not the four-language main study",
+  "oracle_sha256": {
+    "20261116_P3_Hauptkorpus_Sollwerte.json": "0b9b5f4bf20aa91da765e5077c057a340fb350aa59c09130e1ce76564bc21b6e",
+    "20261116_P3_Grenzfall_Sollwerte.json": "3cd6e57bc9e16716a919c21f01bdaee31144dd02e991cf6f21334cdf47468d61"
+  },
+  "fixture_directories": [
+    "tests/fixtures/publication_v1",
+    "tests/fixtures/boundaries_v1"
+  ],
+  "input_sha256": {
+    "tests/fixtures/publication_v1/bad_header.cls": "47b3738c8d49d05ae983395d835578bd80c0c9022e2dd0742966982f89cd16e4",
+    "tests/fixtures/publication_v1/bad_header.dts": "4eaa71d85fa4ea7e594a71212681cb5c69842ec09bdff821273b39716d7b2bcd",
+    "tests/fixtures/publication_v1/bad_header.lrn": "68a8593f9cf3ff20e22b6d81741460c8f0f81f9818dee1da340f17b9bce941cd",
+    "tests/fixtures/publication_v1/bad_header.names": "7452c0cfbf95cde2cb876fe08a868d7ba36ad8b2812a2412d2b1390d0c4841ac",
+    "tests/fixtures/publication_v1/bad_width.dts": "cc89b04154c021b098a2767e771fad34b0f4b376e735aa357ad124ed1db8e4ab",
+    "tests/fixtures/publication_v1/bad_width.lrn": "2db3cc25bd7ca209765e27330ed80a0ec57a6035bb933801cb469d0319a3a1ba",
+    "tests/fixtures/publication_v1/bad_width.names": "70ee4ac66b7f6c7460da37ac66461427019b74a0c715a304293b4262ba9494cc",
+    "tests/fixtures/publication_v1/base.dts": "b0a1275edea026f1e1f0f6fe5d7590d09ebeaf68672832caaed9af5aae0e1c76",
+    "tests/fixtures/publication_v1/classes_bounds.cls": "8cced4a3e71f913090de1b2b656c7011dadc348332102cbae66adaa156fab4d9",
+    "tests/fixtures/publication_v1/comment.cls": "d6a503c70673c70d056e7fff303da9e8eda0a4b1292fef5adc2eeb83e830017b",
+    "tests/fixtures/publication_v1/comment.dts": "1d8d8d272dfd433ba9264026eb45536ff128e96c7872c0c3dfa96b6e6905f446",
+    "tests/fixtures/publication_v1/comment.lrn": "eb34c4e46893f670b57e1e36dcd1bd753d49cfdb0e608b6b8dfa508c2f109c6a",
+    "tests/fixtures/publication_v1/comment.names": "7f7f204980f9db5149dfc0d60b68ca67ae4028b5d584fdc723013681ac313192",
+    "tests/fixtures/publication_v1/existing_output_sentinel.txt": "afa018d8331a457cc31f7b3b54598663f882851322536febef565b34febe6d02",
+    "tests/fixtures/publication_v1/extreme.dts": "00ccf2331fb6cb7abae8b7b79df998bf97844621df4cfae47434c32fca9c9c03",
+    "tests/fixtures/publication_v1/extreme.lrn": "3add39be078b5e6e245727fbfea430e4e907752afc97e82a0b36a8436c0cc231",
+    "tests/fixtures/publication_v1/extreme_reference.json": "bd921427fb4c7228d9f98e9189c0c1168ff2cc657a3598dbff10640dc1e196b0",
+    "tests/fixtures/publication_v1/hepta.cls": "d32b48d7dc6bd679797518fba12d521646c3351c9b3b812d8b3bc9dcffb174ce",
+    "tests/fixtures/publication_v1/hepta.lrn": "273929d84d87c87be77f55bb929921e5473db1c7a42d4b2909005bf3da246152",
+    "tests/fixtures/publication_v1/hepta.names": "25e19285d30909f661c9079b04bba8f30da4e664e2cdde5726cff5062cbd3276",
+    "tests/fixtures/publication_v1/hepta_reference.json": "3e94dae2aad190d2adbcd1e33b792d1a319499a6da6df8b60922e2d0282ba976",
+    "tests/fixtures/publication_v1/historical_hexa.cls": "793d33f5547fd069d934396ceb26ee811dbce4a822ac5f1e12c1d5e068933d95",
+    "tests/fixtures/publication_v1/historical_hexa.lrn": "152f905aefc94a541028fa7e71969b44410cc7e05565d581501f82382a096dec",
+    "tests/fixtures/publication_v1/historical_hexa.names": "62f5239e7d8807ffc93d812300e1835ed3b4fde63cf2b1ae12e5cf0cbaac24bd",
+    "tests/fixtures/publication_v1/historical_hexa_reference.json": "50604cc044dd05d22edc1f03c2422516fcced2ae5c3da0d4c8e2387c3d4ecf1c",
+    "tests/fixtures/publication_v1/join.cls": "39a12d5637f8bcd921d3926ffb42dc86f916fd6f37e5ca8b3596c1b8a50d61ae",
+    "tests/fixtures/publication_v1/join.lrn": "4e20a17ab8b060b322e452b672fef51db19d8c5e75d3a65cc23625eec27296b7",
+    "tests/fixtures/publication_v1/join.names": "4503520761c00d59a63ac7fdcff1ed4b8293d97f3ed7c823731a978b628c84dd",
+    "tests/fixtures/publication_v1/join_reference.json": "330ca9018378476be0c5f3b8cbb9b85095874a2d59c320fcf0c7db9bc2321e3a",
+    "tests/fixtures/publication_v1/keys_invalid_empty.cls": "fae731043ae3ce11092eb40cad2bdad92852a76010d5d27741e4f8b721a3c8be",
+    "tests/fixtures/publication_v1/keys_invalid_empty.dts": "0900fe9746f5ed81d08f5c436b7d9217acbc390af30073763ab631c4094e3a51",
+    "tests/fixtures/publication_v1/keys_invalid_empty.lrn": "1e6e15e5652fa5c2f693680eb7098ea237cda03781171d8bb51331ffc6e5d3b3",
+    "tests/fixtures/publication_v1/keys_invalid_empty.names": "1d7284cdc3abdae9d96dde3387396297cb0fc59ba72b25c879fbe7e75b8add7b",
+    "tests/fixtures/publication_v1/keys_invalid_text.cls": "2a5b2c7ce238c6425140dde7970a6b11b98b745c7684c95c532fc6f5826ef5d2",
+    "tests/fixtures/publication_v1/keys_invalid_text.dts": "b339daef46ec50a2c6171d7aa05ccc5d0a25286772a501568d71efc3f123c121",
+    "tests/fixtures/publication_v1/keys_invalid_text.lrn": "dc2577657976365c5d904de17710c3537326091f87b91a2c0a3ed3b3874702a8",
+    "tests/fixtures/publication_v1/keys_invalid_text.names": "234c6edfc946aab9c26458779bf15b94cdc77ad95f684d136a79567917d793ea",
+    "tests/fixtures/publication_v1/keys_invalid_unsafe.cls": "d8559e2b2ae1ee15e59fc5758179e34c1185a71df2302feaf98d392f30a8ab0d",
+    "tests/fixtures/publication_v1/keys_invalid_unsafe.dts": "b13ee389d87ccf3a9d6b160969e85c597a865ab625c803e65d0ddde7aa7a71c6",
+    "tests/fixtures/publication_v1/keys_invalid_unsafe.lrn": "19662624c7fffced9f214906fd1a13c75b83c50fc104001f239dcf1bda9bb1a8",
+    "tests/fixtures/publication_v1/keys_invalid_unsafe.names": "c464f7c4364cfa2c6c10e636284cb935e16ec5b32309e8456bccb1c9ecec296f",
+    "tests/fixtures/publication_v1/keys_valid.cls": "8f1ee57f367886ebf8f47f8fa181321a25c53b660460fcf1c3fcbb617f36d434",
+    "tests/fixtures/publication_v1/keys_valid.dts": "2a98339915b53bf4ddecd1fc2fbf7ff16d26b81633c1246951acdcbc38f2d167",
+    "tests/fixtures/publication_v1/keys_valid.lrn": "7c4a20b7048984315979570dfe7b777d04645e55c4ff1f28dd8f0e9b58c01d11",
+    "tests/fixtures/publication_v1/keys_valid.names": "c50cfb5332644fa1f1bedc5ca260271e712315fef4861f843018e40b6a39283a",
+    "tests/fixtures/publication_v1/layout_CRLF_0_0.cls": "2dd46799abd4c0d89399f28bf8ab300b328589b06e4b555602177480652d1657",
+    "tests/fixtures/publication_v1/layout_CRLF_0_0.dts": "d178f67d62429b099afe92629ede4a59f181f727a87e9143d3fd7ffc653d46f5",
+    "tests/fixtures/publication_v1/layout_CRLF_0_0.lrn": "6fdb63c6b171c356fa1b0f0ab513ac20265f5e04fde57d4e8ef4999e679951f3",
+    "tests/fixtures/publication_v1/layout_CRLF_0_0.names": "09b8d35741ba77d14d3fd200781492c457df865e5ffb7743d298dd674648e14f",
+    "tests/fixtures/publication_v1/layout_CRLF_0_1.cls": "404d921339d972b098bc69d1f6f6b2c8e950880854348a3f97ffac22a78f1375",
+    "tests/fixtures/publication_v1/layout_CRLF_0_1.dts": "fea4acd61aa00747eb3416f06939dc76ff49677ca3f2a9c748d36fd63309fc22",
+    "tests/fixtures/publication_v1/layout_CRLF_0_1.lrn": "30a16f06fcf4c26b60293e996112249ed5ad1ae8b21b983029098641486c19c8",
+    "tests/fixtures/publication_v1/layout_CRLF_0_1.names": "4a523df9068daee1fdef56128f48f9f076a64ebddff891b35dcf9ad7e278f750",
+    "tests/fixtures/publication_v1/layout_CRLF_1_0.cls": "fcf54a21faff9afc1a41cf4010978d7bd8d03d33e68d6549c92fa80ff5a2171f",
+    "tests/fixtures/publication_v1/layout_CRLF_1_0.dts": "afe6cba2711e81f6814b56c918a4caa01987763f89565c0c819cfe17915a6cf2",
+    "tests/fixtures/publication_v1/layout_CRLF_1_0.lrn": "e2ecfb1746fe55de304aaf3bad412d34b1cf567f4ef3265fb3344cc814bc4139",
+    "tests/fixtures/publication_v1/layout_CRLF_1_0.names": "777e10f2d679d20aea8a4c25a77bcae0e006a7d7ca191fe2b82b878576c31216",
+    "tests/fixtures/publication_v1/layout_CRLF_1_1.cls": "64693e48b8396031f5cb252e5e48ce825b68518a6d2fd57d364fe5cc46cfb380",
+    "tests/fixtures/publication_v1/layout_CRLF_1_1.dts": "5a51432237601abfef7a5634e4206da3700e5c074c5abb9821a5de79809ad711",
+    "tests/fixtures/publication_v1/layout_CRLF_1_1.lrn": "f81cfda2160b8652b46792eb702450fad8d2c04a0c840c960005f84fe073fbda",
+    "tests/fixtures/publication_v1/layout_CRLF_1_1.names": "1d036f1bc2284c8cf9031ebebba00d79a480d2916c79b8f11671fe300de95f1c",
+    "tests/fixtures/publication_v1/layout_LF_0_0.cls": "69f452d4c7117181554a21c5f1304a8cd2c649897b6b4ad0c8dc2a84f2a2921e",
+    "tests/fixtures/publication_v1/layout_LF_0_0.dts": "30fcd4491bc53c31a266912ad52b07709d551e47ae6ea685e83100a046491df3",
+    "tests/fixtures/publication_v1/layout_LF_0_0.lrn": "417d0eb9102d938cf2ab90bb695e6e69b2de0d2711ace421ec957cad864516ef",
+    "tests/fixtures/publication_v1/layout_LF_0_0.names": "536b9aa4f4c335fe6944af156d67e0abece0f59a094daa9c82d1e15dca4f4dc8",
+    "tests/fixtures/publication_v1/layout_LF_0_1.cls": "4a53922adc78f72f9afdcea0463d130430c8126d6435da1679ad32b8fbb46b1c",
+    "tests/fixtures/publication_v1/layout_LF_0_1.dts": "5abc7fbfc771c840e22805168bfcf66a1a1332593e9e578f36b8b0df547e004c",
+    "tests/fixtures/publication_v1/layout_LF_0_1.lrn": "afec890b35d31fc62490f87ecfd04556660c834de7c5b4fbea12ae24486284d6",
+    "tests/fixtures/publication_v1/layout_LF_0_1.names": "7f422f4de7c5e8096a8bb37b8fb721ad9e213e89f347928fab84aa72977b8d01",
+    "tests/fixtures/publication_v1/layout_LF_1_0.cls": "9bc010df9ebceef25c7302b40dcbeca183d9eddcfa3541572abab652e9ac2ada",
+    "tests/fixtures/publication_v1/layout_LF_1_0.dts": "ddd6801f281e11631d9279c7860b8399b62dbb5923a494e65e27c6c8b2c71142",
+    "tests/fixtures/publication_v1/layout_LF_1_0.lrn": "9e3058c23ebeaa4a591d8903c15225a259ddc6e45804681611602ac91a783e03",
+    "tests/fixtures/publication_v1/layout_LF_1_0.names": "60fc61097907ee3de6daa85276584e5482824690fc0fcd8b460d78938593188a",
+    "tests/fixtures/publication_v1/layout_LF_1_1.cls": "9c6e603cd918a3696636dc51a009cb668e3677a005cdecb371a6ac6f4e7e50d0",
+    "tests/fixtures/publication_v1/layout_LF_1_1.dts": "60e8194d235c8b1d73259b5fa0bb707bab73a6f11110375eca306f2cd345ebdf",
+    "tests/fixtures/publication_v1/layout_LF_1_1.lrn": "b3a0f2e2117db22fe17acce4892f13714e5b96b5152dae315af38a419398a4b2",
+    "tests/fixtures/publication_v1/layout_LF_1_1.names": "67f9e6b15e9b53b4019f53a44ffae028ba35697e99febb656bc0a2870f5a3156",
+    "tests/fixtures/publication_v1/legacy_class_metadata.cls": "2712dbc98ed5bf1c1c9c8e15ed6ac9ec9b7f3a4edd8fb66bb7da8a82968d5512",
+    "tests/fixtures/publication_v1/legacy_invalid_v2.names": "045a44820a372615294fa13a18f057c12a0d01f5b6c5dee02bd05abcb03fe31b",
+    "tests/fixtures/publication_v1/legacy_moved_key.lrn": "be618b6e78575d8ce1856c6048c2b25390e67135b38bc1b4bfefc94f1194c182",
+    "tests/fixtures/publication_v1/legacy_untagged_labels.names": "6792522f76e732f18feccc7262998dc5cc7e4c30acb303b199f1e9acb3c7f860",
+    "tests/fixtures/publication_v1/legacy_untagged_no_labels.names": "a365a26108243f69b98ed0763119d1b95377717cf5d0ea1dec20900decf81ffe",
+    "tests/fixtures/publication_v1/legacy_v1_labels.names": "7f863d307209491455be7227ef0cb888ad752e07b4813aed410d6ed04309919f",
+    "tests/fixtures/publication_v1/missing_text.names": "afa95e8c340b09c8dbe953dc9cd8313081310f4eecb1c0f1d26c3c766260eec7",
+    "tests/fixtures/publication_v1/numeric.dts": "d3c4dee7b6ab6072722ac9d3d87e43babfb865d7e5d3dd3707d149775d3f5466",
+    "tests/fixtures/publication_v1/numeric.lrn": "4dcb40d2fc74e5810c18a85a3a698a531e536e271e60c1a2890c24a19a914858",
+    "tests/fixtures/publication_v1/numeric_prefix.dts": "ca609b56d93c423ba19ef45bc6e83f19e7bc364c589f1dfead834e5b0531ec4f",
+    "tests/fixtures/publication_v1/numeric_prefix.lrn": "5fad4c07a4e53a75318a1b8072af7cc8d031f9a701e261431b551d6f4e2a4eb4",
+    "tests/fixtures/publication_v1/numeric_reference.json": "c0affe3116d3ab2568fd77f8670479349d20911aedc13beffd4f5721bdfca967",
+    "tests/fixtures/publication_v1/payloads.json": "9a2d547c4737b1c19a066b881045c937f673d0c2bc16dd81809fa075c906cfec",
+    "tests/fixtures/publication_v1/recovery_count.cls": "b1be02b17be7c08af3f7c5605412b182625da217cfc47e2ef675f0b056917fdd",
+    "tests/fixtures/publication_v1/recovery_count.dts": "ac4b58dc2e54e31bce0edaac0d9cd64dacc39c966d03f505c6ebbfa01dcf92bd",
+    "tests/fixtures/publication_v1/recovery_count.lrn": "675a71af598ddd4f33eabf11ba5a0e16bc96cf2b18b3f8af6c52d6984f306c8c",
+    "tests/fixtures/publication_v1/recovery_count.names": "c4fa6b0c0244d121cc849936487d1037d0a55e3c67f5459084a62f0b7eefd69c",
+    "tests/fixtures/publication_v1/recovery_long.cls": "45eb4db63fb72045bd2d45a3607155f2e3de9abc7d615eb59362f358580c46a4",
+    "tests/fixtures/publication_v1/recovery_long.dts": "4627cc17d5c63943bd8d27816ae4a8a8da0fa5af621a482af29eb085236efa51",
+    "tests/fixtures/publication_v1/recovery_long.lrn": "d16c7ac744a7350d7b082de4cf7824a1f9e2fc41649a7a7422cb6eac53523424",
+    "tests/fixtures/publication_v1/recovery_long.names": "e792e750ce1acaccf2f08f5b8cf917c16ea25a2709635628146b1c5b81220f58",
+    "tests/fixtures/publication_v1/recovery_short.cls": "c3cf13ef286f33fbc6cb8c29a27e946462246b5fb9bf20b1f65572773b96e885",
+    "tests/fixtures/publication_v1/recovery_short.dts": "4c1d296d10aed60fb805527f417b0a0dd59ccd75fa35aee26ca2a8a8080dc094",
+    "tests/fixtures/publication_v1/recovery_short.lrn": "837cb32ce1e0eaae9663dff2151ee27ea05dfeae9c8716c391f6f3dbe98580e9",
+    "tests/fixtures/publication_v1/recovery_short.names": "ba33b439e40b54013910224cbe47ad9827894726f9b4bca89b4074e2f2d6a9ec",
+    "tests/fixtures/publication_v1/time_date.dts": "968ba94c517b5980991857b0dd0f125528abe85402163e791d3e21634a6ed317",
+    "tests/fixtures/publication_v1/time_fold.dts": "2b8f79d0a6171dbd8abcd0ca522f7606e5743d5105f314facdd6520ff9477fbc",
+    "tests/fixtures/publication_v1/time_fold_utc.dts": "e5b81cbeb3458ff87ec4ed93eabf79d974a58f60221a918787956d864ce0ce61",
+    "tests/fixtures/publication_v1/time_spring.dts": "56df612cf810f19766238be3dcb6f070d9d57c88ea69ede9b7c6787e1f213d9a",
+    "tests/fixtures/publication_v1/time_spring_utc.dts": "37e8b1f1b7d18b3ffec7043eb0ab5e36087866ba55cbee38c34ed666acad6693",
+    "tests/fixtures/publication_v1/utf8.names": "c5f628166bf646c464417f8f9dd0fe6107c16d2b39f1dbf770d2b316af74822f",
+    "tests/fixtures/publication_v1/writer_inputs.json": "21d7a465f5c70d34d1463b748ce560def1d5e6a256999cb731f304a7df25d687",
+    "tests/fixtures/boundaries_v1/existing_output_sentinel.txt": "a99cdc7601c78bf277cbd6d8f2e4db0932a33a9faa78cbf5b4e1f10f8d5fe13c",
+    "tests/fixtures/boundaries_v1/header_canonical.dts": "ea06e444a8c25372c73904c050d293a379d464cbf45f4b6589bcba38d89c3fc3",
+    "tests/fixtures/boundaries_v1/header_canonical.lrn": "c4e87e644af2e05b2db2e24adba577dea4c42e996aa50a183df83ce50a2214dc",
+    "tests/fixtures/boundaries_v1/header_canonical.names": "e51fcc83ba72ac8a0f88c50dcfb229f724a3e9a08b867482288e185c6204a46a",
+    "tests/fixtures/boundaries_v1/header_cleanable.lrn": "9848904e4463041bf1fda945009f4ff901a30ea77fe4e1192474a75cc57588df",
+    "tests/fixtures/boundaries_v1/header_cleanable.names": "0548e2874134758b1de2502aed9dffbdc9660fde368a5f832d8cd21b590e8205",
+    "tests/fixtures/boundaries_v1/header_custom_primary.names": "79e38b4cb98b423596a1dfcd063b5e955abd7eda6bbc8cbc11369ad0e8d9fb49",
+    "tests/fixtures/boundaries_v1/header_invalid_label.dts": "c39929c9121f22d9b39fbbfc6bf286acefd5ddbb45ebf1c209f7553f584fcfb7",
+    "tests/fixtures/boundaries_v1/header_misplaced_dst.dts": "82f3bfa19e7c30fc5bdf56a39e3cb0ad5b1679c362fe8718da3145e87f191259",
+    "tests/fixtures/boundaries_v1/header_type_zero.lrn": "31d814fb17e69d73a464ae1b39908dfa8250c6fac70d4807d196e7738ab48b0b",
+    "tests/fixtures/boundaries_v1/names_leading_spaces.names": "c74f1497b8c21d44ee1cd0cb80d6902d9b087043ef88373a2a834fd788f63792",
+    "tests/fixtures/boundaries_v1/names_trailing_spaces.names": "3fab370c040d5f7f012973a4e9c9c83758a29290f6dd0ca7b1aadb878597f2fd",
+    "tests/fixtures/boundaries_v1/time_ambiguous_unmarked.dts": "1a195eb50a1d6129eb75ddac9fb0f2b70bb76962f7850093d014b9dce7352f75",
+    "tests/fixtures/boundaries_v1/time_contradictory_marker.dts": "57bd3c96e91d1dd7307867d62510d00622c1be77332ba0cd375d837aa2a39909",
+    "tests/fixtures/boundaries_v1/time_invalid_syntax.dts": "07fdb98a091646b0ee58f566eb635949d184b7edc59bf0168613c3ec95ceadab",
+    "tests/fixtures/boundaries_v1/time_missing.dts": "a601abb397e0d3c88cabab7104b54a867c31a65989a6754c9624b2dec0375780",
+    "tests/fixtures/boundaries_v1/time_nonexistent_local.dts": "0450886fbef5818d39a42088206db5a485a9eb842f66eccbc61b9e6391d4fd87",
+    "tests/fixtures/boundaries_v1/time_numeric_dst_marker.dts": "d707e6feb445cf9bf2d0d6dabab7d2e465b4f021638e5313a3e3395bb033e24b",
+    "tests/fixtures/boundaries_v1/writer_inputs.json": "1227d654e192275e2054c31ae294cea136beaa80a36c35f87442e22399fabb7e"
+  },
+  "join_expected": {
+    "keys": [
+      "17",
+      "23",
+      "41"
+    ],
+    "data": [
+      [
+        "10"
+      ],
+      [
+        "20"
+      ],
+      [
+        "30"
+      ]
+    ],
+    "classes": [
+      2,
+      1,
+      2
+    ],
+    "names": [
+      "Alpha",
+      "Beta",
+      "Gamma"
+    ],
+    "CLS_order": [
+      2,
+      0,
+      1
+    ],
+    "NAMES_order": [
+      1,
+      2,
+      0
+    ]
+  },
+  "cases": [
+    {
+      "request": {
+        "id": "BASE-LRN/BASE-LRN/hepta/lrn",
+        "format": "lrn",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/hepta.lrn",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53",
+          "54",
+          "55",
+          "56",
+          "57",
+          "58",
+          "59",
+          "60",
+          "61",
+          "62",
+          "63",
+          "64",
+          "65",
+          "66",
+          "67",
+          "68",
+          "69",
+          "70",
+          "71",
+          "72",
+          "73",
+          "74",
+          "75",
+          "76",
+          "77",
+          "78",
+          "79",
+          "80",
+          "81",
+          "82",
+          "83",
+          "84",
+          "85",
+          "86",
+          "87",
+          "88",
+          "89",
+          "90",
+          "91",
+          "92",
+          "93",
+          "94",
+          "95",
+          "96",
+          "97",
+          "98",
+          "99",
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111",
+          "112",
+          "113",
+          "114",
+          "115",
+          "116",
+          "117",
+          "118",
+          "119",
+          "120",
+          "121",
+          "122",
+          "123",
+          "124",
+          "125",
+          "126",
+          "127",
+          "128",
+          "129",
+          "130",
+          "131",
+          "132",
+          "133",
+          "134",
+          "135",
+          "136",
+          "137",
+          "138",
+          "139",
+          "140",
+          "141",
+          "142",
+          "143",
+          "144",
+          "145",
+          "146",
+          "147",
+          "148",
+          "149",
+          "150",
+          "151",
+          "152",
+          "153",
+          "154",
+          "155",
+          "156",
+          "157",
+          "158",
+          "159",
+          "160",
+          "161",
+          "162",
+          "163",
+          "164",
+          "165",
+          "166",
+          "167",
+          "168",
+          "169",
+          "170",
+          "171",
+          "172",
+          "173",
+          "174",
+          "175",
+          "176",
+          "177",
+          "178",
+          "179",
+          "180",
+          "181",
+          "182",
+          "183",
+          "184",
+          "185",
+          "186",
+          "187",
+          "188",
+          "189",
+          "190",
+          "191",
+          "192",
+          "193",
+          "194",
+          "195",
+          "196",
+          "197",
+          "198",
+          "199",
+          "200",
+          "201",
+          "202",
+          "203",
+          "204",
+          "205",
+          "206",
+          "207",
+          "208",
+          "209",
+          "210",
+          "211",
+          "212"
+        ],
+        "data": [
+          [
+            "bfb032b990afe60c",
+            "3f9c664d3bf2f556",
+            "3f973a365cb35f3d"
+          ],
+          [
+            "bf47f4128bf3bea9",
+            "3fa8af1cb89d6adf",
+            "3fb1b6f5caf2d7f9"
+          ],
+          [
+            "bfaf1cda2b5a20de",
+            "bf829888f861a60d",
+            "3fab2df505d0fa59"
+          ],
+          [
+            "3f8b23dd54da4ce8",
+            "bf885271bcdbbe01",
+            "3fac536d655e28aa"
+          ],
+          [
+            "bfabe878fabda0e0",
+            "bf6f3c70c996b767",
+            "3f5c79b34a44c7b0"
+          ],
+          [
+            "3f98c2a454de7ea6",
+            "3fb17a786c22680a",
+            "3fa121ee675147f1"
+          ],
+          [
+            "bf9e02ea960b6fa0",
+            "3faea4873365881a",
+            "bfb031ceaf251c19"
+          ],
+          [
+            "bf90d90e23af31b1",
+            "3f8c6da4484944ed",
+            "bf8b1b79d909f1f1"
+          ],
+          [
+            "bfa5b0574b407033",
+            "bfaeb0b7c3504c49",
+            "bf9b1f687b139c95"
+          ],
+          [
+            "bf90b39192641b33",
+            "bfa2becedd484513",
+            "3fa88a04d12018a4"
+          ],
+          [
+            "3fa21ab4b72c5198",
+            "bfa703afb7e90ff9",
+            "3fa53c148344c37e"
+          ],
+          [
+            "bf32cf0f9d2bf551",
+            "bfa9578a2a90cd42",
+            "bfb03cf2cf95d4e9"
+          ],
+          [
+            "bfb0e0daa0cae643",
+            "bf760a63305100a4",
+            "bfb09d388a8b08dd"
+          ],
+          [
+            "3f828848387df5cf",
+            "3f9ca5bd944aa540",
+            "3f8888f861a60d45"
+          ],
+          [
+            "bf75da272862f599",
+            "3fb0060780fdc161",
+            "bfad718eb8950764"
+          ],
+          [
+            "bf7119ce075f6fd2",
+            "3fb08ca3e7d13511",
+            "3fa4eb13dfb0d520"
+          ],
+          [
+            "3fb74d594f26aec0",
+            "bfa019b0ab2e1694",
+            "bf8e41d4b6a619db"
+          ],
+          [
+            "bfb3baba7b9170d6",
+            "bfa215fcc1871e6d",
+            "bfa3ffac1d29dc72"
+          ],
+          [
+            "3fac3c9eecbfb15b",
+            "bf7cdb37c99ae925",
+            "3fb4183f91e646f1"
+          ],
+          [
+            "bfa14b7b28954a80",
+            "3fa91f2dc2b0ea18",
+            "3f9b9ae0c1765775"
+          ],
+          [
+            "3fa70435efa615a9",
+            "bfa143393ab430f5",
+            "3f885be1a8262457"
+          ],
+          [
+            "3f81fddebd9018e7",
+            "3f914cec41dd1a22",
+            "bfb73e0370cdc875"
+          ],
+          [
+            "bfaf913e81450efe",
+            "bf97a398201cd5fa",
+            "3f806034f3fd933e"
+          ],
+          [
+            "bfaa4095f2452c5a",
+            "3fabf8fcd67fd3f6",
+            "3fa083fd50225743"
+          ],
+          [
+            "3fa6a2b1704ff434",
+            "bfafdae81882adc5",
+            "bf932ebe596c82e0"
+          ],
+          [
+            "bf6b62c77574f723",
+            "3fb1d0635a426bb5",
+            "3fb1c79b34a44c7b"
+          ],
+          [
+            "bfb0823854046413",
+            "3f890539fba450ad",
+            "3fa4ed4e4c942d49"
+          ],
+          [
+            "3fa5970b49e01de2",
+            "bf846c332f01754b",
+            "3fa88e79aae6c8f7"
+          ],
+          [
+            "bfaf7c45cbbc2b95",
+            "3faea2b1704ff434",
+            "3f9a76965f5275ef"
+          ],
+          [
+            "3fb2612839042d8c",
+            "bf8f40a2877ee4e2",
+            "bf97e80389f83be6"
+          ],
+          [
+            "3fae1240746455eb",
+            "bf9dd590c0ad03da",
+            "bf88012dfd694ccb"
+          ],
+          [
+            "3fb40379314445aa",
+            "bf8e481f53825e14",
+            "bf34f8b588e368f1"
+          ],
+          [
+            "40035903211cb03a",
+            "3fdf5e3da2f8bdec",
+            "3fa131876188b114"
+          ],
+          [
+            "400671044f1a1987",
+            "3fe8a1c25d074214",
+            "bfe1d681ecd4aa11"
+          ],
+          [
+            "4007dea9a3d2d880",
+            "bfef75b3e1437c57",
+            "bfc525cc426351df"
+          ],
+          [
+            "4008713c68661ae7",
+            "bfde9435ac8a3726",
+            "3fd7b6aa4b9884c7"
+          ],
+          [
+            "40081fcc9ea9a3d3",
+            "bfe55031055b8994",
+            "3fc0264e48626f61"
+          ],
+          [
+            "4003998fa376922e",
+            "3fc67c393682730c",
+            "bfe105425f202108"
+          ],
+          [
+            "40099933e35c5b4b",
+            "3fc9bc0a06e9ff0d",
+            "3fe2c6bce8533b10"
+          ],
+          [
+            "400a2198f1d3ed52",
+            "3f89a30984e3ffef",
+            "bfe8616b54e2b064"
+          ],
+          [
+            "400dfb4f61672325",
+            "bfdaaf78feef5ec8",
+            "3fc30ea18372e6a7"
+          ],
+          [
+            "400b4b777d0f1f58",
+            "3fe0888509bf9c63",
+            "bfe67c3b4f616723"
+          ],
+          [
+            "400ddeeed8904f6e",
+            "3fc7a6266fd651b1",
+            "3fdedfe75bc44bf5"
+          ],
+          [
+            "400cbcb3e5753a3f",
+            "bfd7c532a497fa5d",
+            "bfe58b242070b8d0"
+          ],
+          [
+            "400cbf822bbecaac",
+            "3fc01cf7878b7a1c",
+            "3fd1c0096feb4a66"
+          ],
+          [
+            "400319207d4e0978",
+            "3fe91abf33871609",
+            "bf869878316a0557"
+          ],
+          [
+            "400b63ec892ab68d",
+            "bfa41e9af5ba2be0",
+            "3fb1103c8e25c811"
+          ],
+          [
+            "40036685553ef6b6",
+            "bfca7924af0bf1a6",
+            "bfd0e4cd74927914"
+          ],
+          [
+            "40034239e6ab9b24",
+            "bf8efe931876188b",
+            "3fb8db163baba7b9"
+          ],
+          [
+            "4007645564b662fe",
+            "bfd0caf709b738e7",
+            "bfe589118c197e56"
+          ],
+          [
+            "400981709310129d",
+            "bfde7cf5f4e4430b",
+            "3faa54a3c64345d0"
+          ],
+          [
+            "40030424a276b7ed",
+            "3fdfdfc5cdd50a89",
+            "bfd8765fd8adab9f"
+          ],
+          [
+            "4004e16aceaaf35e",
+            "3fe9322d0e560419",
+            "3fa792af9a8cdea0"
+          ],
+          [
+            "400759c17225b74a",
+            "bfea8c154c985f07",
+            "bfc9603925bb7b6c"
+          ],
+          [
+            "4007767ba237cdcd",
+            "3fe7080303c07ee1",
+            "bfd640c8472c0e7c"
+          ],
+          [
+            "400bc6887a8d64d8",
+            "3fd4a6937d1fe64f",
+            "3fd0317acc4ef88c"
+          ],
+          [
+            "400a211ec918e326",
+            "3fca97fa5d28d003",
+            "3fb415097c80841f"
+          ],
+          [
+            "400755f0b28522ea",
+            "bfe45c69f8c21e1d",
+            "bfdd6afcce1c5825"
+          ],
+          [
+            "40082aa4b9884c6a",
+            "bfdf78a6dacabc51",
+            "3fd87839cd8127b3"
+          ],
+          [
+            "4006c0852b4d8ba4",
+            "bfb4292817763e4b",
+            "bfe523897204295a"
+          ],
+          [
+            "40069d712a0ec743",
+            "bfcee820e6299525",
+            "bfc2683c297bfa4c"
+          ],
+          [
+            "40062c0df58c08b7",
+            "3fd7374ff865d7cb",
+            "bfe570307f23cc8e"
+          ],
+          [
+            "c00593b3a68b19a4",
+            "3fd5f10a99b6f5cb",
+            "3fd2ffac1d29dc72"
+          ],
+          [
+            "c0049b4cc2507208",
+            "bfe813b9f127f5e8",
+            "bfcce7ee9142b303"
+          ],
+          [
+            "c00a76e935b91f71",
+            "3fed6bbfd71b0468",
+            "bfb77985271bcdbc"
+          ],
+          [
+            "c00fc35dedf1e083",
+            "bf926634117f8445",
+            "3fb8e1b4bb5e0f80"
+          ],
+          [
+            "c00aa7fd3f5b5fa2",
+            "bfcc548a9bcfd4bf",
+            "bfda4bbe4473cd57"
+          ],
+          [
+            "c0056ef240fa9c13",
+            "3fe0ad5e071c53f4",
+            "3fa0ee49f51697f2"
+          ],
+          [
+            "c0017e6d58c8eef2",
+            "bfe12eb80ecfa69c",
+            "bfb6de54b48d3ae7"
+          ],
+          [
+            "c0081aa4766c6de7",
+            "bfb5183b60285ec4",
+            "bfe802d59d55e6bc"
+          ],
+          [
+            "c00bb672324c8366",
+            "3fdd5cee17a02fb6",
+            "bfe7dc9e6687f456"
+          ],
+          [
+            "c00510364388ebcc",
+            "3fe5e2845996744b",
+            "bfc39df548ecd8dc"
+          ],
+          [
+            "c00a86bbdbe3c105",
+            "3f925529fe004b7f",
+            "3fe67f327aa68f4b"
+          ],
+          [
+            "c006ab2e1693c03c",
+            "bfe5e7fd3f5b5fa2",
+            "3fd31acde19fc2a9"
+          ],
+          [
+            "c005c6f587d6f976",
+            "bfe01333b96af039",
+            "3fcf5c422036006d"
+          ],
+          [
+            "c004df0995aaf790",
+            "3fdc5d0b73d188f4",
+            "3fdca48301a79fed"
+          ],
+          [
+            "c006d3b0813cab82",
+            "bfe93ef284167a96",
+            "bfd1b8348f53c57a"
+          ],
+          [
+            "c0067a2c669057d1",
+            "bfb7ab96f21f6cad",
+            "3fe706594af4f0d8"
+          ],
+          [
+            "c00c4de54b48d3ae",
+            "3fe8de4e69f05ea2",
+            "3fb75a964e8b7e4e"
+          ],
+          [
+            "c003a998d045fe11",
+            "bfe33fcc9ea9a3d3",
+            "3fe18fb224aada34"
+          ],
+          [
+            "c00619af1886df83",
+            "bfe14f2495e17e35",
+            "3fd0138bcdfefbf4"
+          ],
+          [
+            "c0076fcefaa4766c",
+            "bfc4c77dd872f33d",
+            "3fdb63ae2541d8e8"
+          ],
+          [
+            "c008705c896dd26b",
+            "bfcc4180d3cff64d",
+            "3feb7bb9496249a1"
+          ],
+          [
+            "c00d0e70c1333b97",
+            "bfa73a9b06812381",
+            "3fdfd0aed99cbee8"
+          ],
+          [
+            "c00cc430b178b370",
+            "bfd005143bf72713",
+            "bfd0af251c193b3a"
+          ],
+          [
+            "c00247c9de050375",
+            "3fbc8e581cf7878b",
+            "3fe4e41f644955b4"
+          ],
+          [
+            "c0055082491afc05",
+            "bfa249c2c1b10fd8",
+            "3fd6e5abc0e38a7e"
+          ],
+          [
+            "c0094f01fb82c2bd",
+            "3fd25b035bd512ec",
+            "bfeafb80a9de8b3b"
+          ],
+          [
+            "c004cb12d3415b14",
+            "3fdc105186db50f4",
+            "3fb8113c68661ae7"
+          ],
+          [
+            "c00b0e52deca2553",
+            "3fd3ba01eeed8905",
+            "bfe61212513b5bf7"
+          ],
+          [
+            "c00fb031055b8994",
+            "bfbc6d612c6ac216",
+            "3f975e6362a5e786"
+          ],
+          [
+            "c0069dc9c4da9004",
+            "bfb2fac6045baf53",
+            "3fe152d234eb9a17"
+          ],
+          [
+            "3fdfe1719f7f8ca8",
+            "400729b845564b66",
+            "3fe92dd15f02c4d6"
+          ],
+          [
+            "3fcbf5b5fa22706d",
+            "40088a515ce9e5e2",
+            "3f9ef62f9ca5bd94"
+          ],
+          [
+            "3fc15675579af188",
+            "400108b439581062",
+            "3fd47ee9142b302f"
+          ],
+          [
+            "3fdae3369b9d7fd8",
+            "400871cfbb949625",
+            "3fcd84db9c7368ad"
+          ],
+          [
+            "3fe51d9d3458cd21",
+            "400b920ea5b530cf",
+            "bfb9f8f47304039b"
+          ],
+          [
+            "3fe3d2d666a98245",
+            "400a4861e92923e6",
+            "3fd1cf3dc054ef46"
+          ],
+          [
+            "bfd2d44dca8e2e2c",
+            "400a6006d0d4994a",
+            "bfc65154866a11ed"
+          ],
+          [
+            "bfd72e90364388ec",
+            "400541c3efae7925",
+            "3f947064ece9a2c6"
+          ],
+          [
+            "bfe1fb3d8e000863",
+            "400aac5fbf83382e",
+            "3fb18b9346994185"
+          ],
+          [
+            "3fc7ea78af3e468d",
+            "400da74c09c3ce21",
+            "bfd0938583621fb0"
+          ],
+          [
+            "3fdcce358298cc14",
+            "4006c132b55ef1fe",
+            "3fb2eb702602c908"
+          ],
+          [
+            "bfa85857afea3df7",
+            "400d13953dea465a",
+            "3fe39e108c3f3e03"
+          ],
+          [
+            "3fdbad3e920c069e",
+            "400e322a6f3f52fc",
+            "3fb8a43bb40b34e7"
+          ],
+          [
+            "3fdc72c0e7bc3c5c",
+            "400bee9bbf0dc769",
+            "bfe7ddf2239e6aba"
+          ],
+          [
+            "bfbdccfaeff5c6c1",
+            "4004f37a80cf9e38",
+            "3fe271b0468448cf"
+          ],
+          [
+            "bfe34028e4fb97bb",
+            "400c63526527a205",
+            "3fba0d5629d8409e"
+          ],
+          [
+            "3fd12e44b6e935b9",
+            "400d4becedd48451",
+            "bfba8ea39c51dabe"
+          ],
+          [
+            "bf805100a393ee5f",
+            "400758548a9bcfd5",
+            "3fd8fcac8e68e3ef"
+          ],
+          [
+            "bfe9fae3608d0892",
+            "4007d0ba6266fd65",
+            "bfd9e6c4c5974e66"
+          ],
+          [
+            "bf6e2de8709741d1",
+            "4003aeb4e981387a",
+            "3fd4b3636f3b213e"
+          ],
+          [
+            "3fd16be37de939eb",
+            "40024cbc8c0ce91d",
+            "bfcf1ed17c5ef630"
+          ],
+          [
+            "bf6f72f76e6106ab",
+            "4008dc9e6687f456",
+            "bfec0e15011904b4"
+          ],
+          [
+            "3fc67219220ff541",
+            "400db8d477bbf940",
+            "3fd611e42e126202"
+          ],
+          [
+            "bfd66950fc71d606",
+            "40041f6ec5b078d9",
+            "3fe63dddb1209edc"
+          ],
+          [
+            "3f9110a137f38c54",
+            "4007e533b1077469",
+            "bfd0fb7a5f41aef7"
+          ],
+          [
+            "3fd93a365cb35f3d",
+            "40062ee7c49fd7a1",
+            "3fe2a839042d8c2a"
+          ],
+          [
+            "3fe6e9595feda661",
+            "400bbd52c16df3f9",
+            "bfc5e7d1351159c5"
+          ],
+          [
+            "3fd28e60807357e6",
+            "4004db0dd82fd75e",
+            "3fe88e5e679463d0"
+          ],
+          [
+            "3feb57afea3df6dc",
+            "4007296ededaec4a",
+            "bfd57f023e9ea140"
+          ],
+          [
+            "3fd3bd3804534bd7",
+            "400a587f023e9ea1",
+            "bfd88fbca1059ea5"
+          ],
+          [
+            "bfc3bb384fd2a62b",
+            "c0030ffa7eb6bf44",
+            "bfe1b1290257c915"
+          ],
+          [
+            "3fa5b24e9c454584",
+            "c0081b7281fd9ba2",
+            "3fd0d7f0ed3d859d"
+          ],
+          [
+            "3fe8732df505d0fa",
+            "c007cc710cb295ea",
+            "3fd383a109d0635a"
+          ],
+          [
+            "3fd17fe4bcad9ad8",
+            "c00c6471b4784231",
+            "3fe347219220ff54"
+          ],
+          [
+            "3fbbec2480e8c8ac",
+            "c006fb5e95b78cca",
+            "bfef1ce28ed5f139"
+          ],
+          [
+            "bfe37d2630ec3116",
+            "c002884cf0739b02",
+            "3facb1465e892253"
+          ],
+          [
+            "3fe209f1f14983d8",
+            "c00559f98b71b8aa",
+            "3fd16c15d2d01c0d"
+          ],
+          [
+            "3fab317efe0ce0b9",
+            "c00d8f0307f23cc9",
+            "bfdc8f6cefed6345"
+          ],
+          [
+            "3fd7f3a57eaa2a0b",
+            "c00f0d4c33b53932",
+            "bfc6dea033e78e19"
+          ],
+          [
+            "bfd058a32f44912a",
+            "c004971c970f7b9e",
+            "bfd7a14488c60cbf"
+          ],
+          [
+            "bfaddd6e04c05921",
+            "c00c51ab0856e697",
+            "3fc414940bbb1f25"
+          ],
+          [
+            "3fdbf498c3b0c459",
+            "c006cadeebb341e1",
+            "bfe6961804d98394"
+          ],
+          [
+            "bfc7cc74b838c112",
+            "c006ac6bce8533b1",
+            "bfebe1bd1ed9dfdb"
+          ],
+          [
+            "bfc4221426fe718b",
+            "c008482cf52b90a8",
+            "bfdca176ddaceee1"
+          ],
+          [
+            "bfd035daad601ffb",
+            "c002d80fdc1615ec",
+            "3fe13760bf5d7881"
+          ],
+          [
+            "3feb671ef30a4e38",
+            "c0076e6c8f755369",
+            "bfbaf177a7008a69"
+          ],
+          [
+            "bfdcb899392189be",
+            "c00723fa2ad3e921",
+            "3fa2c83ec892ab69"
+          ],
+          [
+            "bfe86b8737974602",
+            "c008f8e432441feb",
+            "3f8a3ec02f2f9874"
+          ],
+          [
+            "3fe03bb83cf2cf96",
+            "c00d966cf41f212d",
+            "bfc03c07ee0b0af6"
+          ],
+          [
+            "bfd0caf2d7f950b9",
+            "c006594af4f0d845",
+            "3fec9a91105e1c15"
+          ],
+          [
+            "3fe46c0b5675579b",
+            "c0071650a45d41fa",
+            "bfe11fd1569f4906"
+          ],
+          [
+            "bfe6e6a550870111",
+            "c0096500d5e8d541",
+            "bfda969a0ad8a116"
+          ],
+          [
+            "bfc2f9a06a6e32e4",
+            "c002ca393ee5eedd",
+            "bfc976d549731099"
+          ],
+          [
+            "bfdbeefa1e3eaf68",
+            "c00984545846e8f3",
+            "bfebf87ad080b674"
+          ],
+          [
+            "bf901ffb480a5acd",
+            "c00ccfcefaa4766c",
+            "3fe5b8800eae18ad"
+          ],
+          [
+            "bfd857470eb24a6b",
+            "c000f7214f0520d1",
+            "bfc9baf533f42353"
+          ],
+          [
+            "bfb4244e93e1c9b4",
+            "c007c0e94ee392e2",
+            "bfb5cd3e0bd44999"
+          ],
+          [
+            "3fe73aa1511dffc5",
+            "c005244178705426",
+            "bfd920535c9e6688"
+          ],
+          [
+            "bfbe56cd6c2efd44",
+            "c003221fafc8b008",
+            "bfbdea57214f0521"
+          ],
+          [
+            "3fd833b5393250b5",
+            "c00df09635610add",
+            "3fdb443d46b26bf8"
+          ],
+          [
+            "bfe4b1a8ef77f280",
+            "bfd07fd82773e250",
+            "4007083ec892ab69"
+          ],
+          [
+            "3feb9a847b24638d",
+            "bfd07446f9b994e2",
+            "400ab78bbd380453"
+          ],
+          [
+            "3fe2afb7e90ff972",
+            "3fd02aed1394317b",
+            "400950c996b7670a"
+          ],
+          [
+            "bfbb37542a23bff9",
+            "3fe1451b93037d63",
+            "400ae641b328b6d8"
+          ],
+          [
+            "bfdca85015c20924",
+            "bfc52788db0574b4",
+            "400329e7fb267c6c"
+          ],
+          [
+            "3fd1d606317268d3",
+            "bfe5b65a9a804966",
+            "4008270b8cfbfc65"
+          ],
+          [
+            "bfdfff540895d0b7",
+            "bfba36c15d2d01c1",
+            "400759c62a1b5c7d"
+          ],
+          [
+            "3fe41e94ab1d4f9c",
+            "bfc16ba8c586876e",
+            "4007b17f84449dbf"
+          ],
+          [
+            "bfe19ff7164c729f",
+            "3fea42374794ea07",
+            "40071aebc408d8ed"
+          ],
+          [
+            "3fd1ec743201040c",
+            "bfd53fdd65a14489",
+            "40023dda8bd230ba"
+          ],
+          [
+            "bfe5cec41dd1a21f",
+            "bfd8de3fbbd7b203",
+            "4006d1876188b114"
+          ],
+          [
+            "bfc3405f6ba0620b",
+            "3fe8ca25529fe005",
+            "4009e4c165907d91"
+          ],
+          [
+            "bfc67fcb923a29c7",
+            "3fea228dc981beb2",
+            "40067cbccf28c79f"
+          ],
+          [
+            "3fda24b33daf8df8",
+            "bfe8188094e5d5b2",
+            "4005aaaf35e310dc"
+          ],
+          [
+            "bfe601882adc4c9d",
+            "3fe10f27bb2fec57",
+            "4006e9fcf3dc054f"
+          ],
+          [
+            "3fc80cd855970b4a",
+            "3fb96a37ac3eb7cc",
+            "400b2d42c3c9eecc"
+          ],
+          [
+            "3fd9c67dfe32a066",
+            "3fd3ca3a4b5568e8",
+            "40017a4f00ef1349"
+          ],
+          [
+            "bfd55b35b0bbf50e",
+            "3fe73c6a7ef9db23",
+            "40060aee2003ab86"
+          ],
+          [
+            "bfb2ea0fd3b29a1c",
+            "3feb69dd7ecbb7fa",
+            "400b984c271fff7a"
+          ],
+          [
+            "3fb303c07ee0b0af",
+            "bfdcca8198f1d3ed",
+            "40025102363b2570"
+          ],
+          [
+            "bfcdf47735c182ed",
+            "3fe047fbacb42891",
+            "40050584f4c6e6da"
+          ],
+          [
+            "3fd5aa79bbadc098",
+            "bfe71d81f10667f9",
+            "4003376709fa54c5"
+          ],
+          [
+            "3fe8dd744f5d3565",
+            "3fcbdf1172ef0ae5",
+            "40055e846a5d6bec"
+          ],
+          [
+            "3fb7f11f926c7eae",
+            "3fe30ff540895d0b",
+            "400c42a023209678"
+          ],
+          [
+            "3fcba415f45e0b4e",
+            "bfd4b9e492bc2fc7",
+            "4001903211cb039f"
+          ],
+          [
+            "bf9fe64f54d1e96c",
+            "3fd8b3aabcd78c43",
+            "4008da836eb4e981"
+          ],
+          [
+            "3fd0b020c49ba5e3",
+            "3fd90d7be9856a38",
+            "400169e0a41a261c"
+          ],
+          [
+            "bfe15c8323358f2e",
+            "3fd8bbcf4e874c90",
+            "400756f32bdc26dd"
+          ],
+          [
+            "bfd39595feda6613",
+            "bfed4f8726d04e62",
+            "40071309c7ffde72"
+          ],
+          [
+            "bfbd4a3c64345cff",
+            "3f9ae18ac9f2fdb9",
+            "400f31f2dc2b0ea2"
+          ],
+          [
+            "bfe7fef5a964e8b8",
+            "3fe3bdfd2630ec31",
+            "c006e69d7342edbb"
+          ],
+          [
+            "bfbbb02d59d55e6c",
+            "bfb5464dc22ab25b",
+            "c00f463beec3979a"
+          ],
+          [
+            "bfda4c271fff79c8",
+            "3fdde6ddf00abf77",
+            "c00d26e43aa79bbb"
+          ],
+          [
+            "3fe533311a543f1c",
+            "bfd83458cd20afa3",
+            "c00734ee392e1ef7"
+          ],
+          [
+            "bfad7c4e2f37fbf0",
+            "3fe18f88333fc86d",
+            "c00893825e13b18e"
+          ],
+          [
+            "3fe4a550870110a1",
+            "bfd1b39192641b33",
+            "c00705b7cfe58601"
+          ],
+          [
+            "3fd075d13d74d595",
+            "3fbd68d759ee88df",
+            "c0076ffd1dcd7061"
+          ],
+          [
+            "bfc5a5b0ff10ecb7",
+            "3fd99ef954eb13e0",
+            "c006d38e6d15ad10"
+          ],
+          [
+            "3fcd39d1b2e59afa",
+            "bfe070867ad8e432",
+            "c00cce25c810a56a"
+          ],
+          [
+            "bfe06440f2389720",
+            "3fd7d0a244630660",
+            "c00adb691212513b"
+          ],
+          [
+            "bfe052aa5c5f7c67",
+            "bfe3c51116a8b8f1",
+            "c00c59e6256366d8"
+          ],
+          [
+            "bf55c209246bf013",
+            "3fd19e16d6dc1a48",
+            "c002eff43419e300"
+          ],
+          [
+            "bfb63d5fdcdf6988",
+            "3fc1acbc8c0ce91d",
+            "c00938cda6e75ff6"
+          ],
+          [
+            "bfe1dbe7f2c3009b",
+            "bfc1bb73083558a7",
+            "c005dac929aa1d75"
+          ],
+          [
+            "3fe47f972474538f",
+            "bfe0eb074a771c97",
+            "c0070f8594291750"
+          ],
+          [
+            "3fa156e264e48627",
+            "3fd34a87e38eb032",
+            "c00797e34b945309"
+          ],
+          [
+            "bfe0f87f023e9ea1",
+            "3fe24ba301216830",
+            "c008fa6d698fe692"
+          ],
+          [
+            "3fdf475e6362a5e8",
+            "3fe5d512ec6bce85",
+            "c008360d0247021d"
+          ],
+          [
+            "bfd47dcbddb9841b",
+            "bfe0f911cf355cd9",
+            "c00371bc55864452"
+          ],
+          [
+            "3fc257d9dba908a2",
+            "3fe284ec636b0963",
+            "c00d429307af20ea"
+          ],
+          [
+            "bfd768f08461f9f0",
+            "bfdf7b95a294141f",
+            "c003de8c47a17f41"
+          ],
+          [
+            "3fe522339c0ebee0",
+            "bfd09c4113c68662",
+            "c00d602b841248d8"
+          ],
+          [
+            "3fe4b9ecf6380022",
+            "3fdc6e19b90ea9e7",
+            "c00676640a6b93cd"
+          ],
+          [
+            "bfbc625e99e94ab2",
+            "3fc4e8f29d40ee07",
+            "c0084fac6045baf5"
+          ],
+          [
+            "bfe636c7a7c9de05",
+            "3fd08fcd67fd3f5b",
+            "c0034b324851a869"
+          ],
+          [
+            "3fc67e9531550ca2",
+            "bfab6177ea1c68ec",
+            "c005deb95e5aff2a"
+          ],
+          [
+            "3fd958d1526d8b1e",
+            "bfeb77d30ad46f58",
+            "c00903d25247cb71"
+          ],
+          [
+            "bfda01d5c31593e6",
+            "bfd5691ea78af3e4",
+            "c00715b4677b395c"
+          ],
+          [
+            "bfd327525460aa65",
+            "3fb23f78bbd38045",
+            "c00d24039abf3387"
+          ],
+          [
+            "bfe032b990afe60c",
+            "3fdbbf162ae4b018",
+            "c004de681a9b8cb9"
+          ]
+        ],
+        "shape": [
+          212,
+          3
+        ],
+        "header": [
+          "X1",
+          "X2",
+          "X3"
+        ],
+        "types": [
+          1,
+          1,
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read a multivariate numeric reference table."
+    },
+    {
+      "request": {
+        "id": "BASE-CLS/BASE-CLS/hepta/cls",
+        "format": "cls",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/hepta.cls",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53",
+          "54",
+          "55",
+          "56",
+          "57",
+          "58",
+          "59",
+          "60",
+          "61",
+          "62",
+          "63",
+          "64",
+          "65",
+          "66",
+          "67",
+          "68",
+          "69",
+          "70",
+          "71",
+          "72",
+          "73",
+          "74",
+          "75",
+          "76",
+          "77",
+          "78",
+          "79",
+          "80",
+          "81",
+          "82",
+          "83",
+          "84",
+          "85",
+          "86",
+          "87",
+          "88",
+          "89",
+          "90",
+          "91",
+          "92",
+          "93",
+          "94",
+          "95",
+          "96",
+          "97",
+          "98",
+          "99",
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111",
+          "112",
+          "113",
+          "114",
+          "115",
+          "116",
+          "117",
+          "118",
+          "119",
+          "120",
+          "121",
+          "122",
+          "123",
+          "124",
+          "125",
+          "126",
+          "127",
+          "128",
+          "129",
+          "130",
+          "131",
+          "132",
+          "133",
+          "134",
+          "135",
+          "136",
+          "137",
+          "138",
+          "139",
+          "140",
+          "141",
+          "142",
+          "143",
+          "144",
+          "145",
+          "146",
+          "147",
+          "148",
+          "149",
+          "150",
+          "151",
+          "152",
+          "153",
+          "154",
+          "155",
+          "156",
+          "157",
+          "158",
+          "159",
+          "160",
+          "161",
+          "162",
+          "163",
+          "164",
+          "165",
+          "166",
+          "167",
+          "168",
+          "169",
+          "170",
+          "171",
+          "172",
+          "173",
+          "174",
+          "175",
+          "176",
+          "177",
+          "178",
+          "179",
+          "180",
+          "181",
+          "182",
+          "183",
+          "184",
+          "185",
+          "186",
+          "187",
+          "188",
+          "189",
+          "190",
+          "191",
+          "192",
+          "193",
+          "194",
+          "195",
+          "196",
+          "197",
+          "198",
+          "199",
+          "200",
+          "201",
+          "202",
+          "203",
+          "204",
+          "205",
+          "206",
+          "207",
+          "208",
+          "209",
+          "210",
+          "211",
+          "212"
+        ],
+        "classes": [
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "3ff0000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4000000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4008000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4010000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4014000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "4018000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000",
+          "401c000000000000"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read classes with their keys."
+    },
+    {
+      "request": {
+        "id": "BASE-NAMES/BASE-NAMES/hepta/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/hepta.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53",
+          "54",
+          "55",
+          "56",
+          "57",
+          "58",
+          "59",
+          "60",
+          "61",
+          "62",
+          "63",
+          "64",
+          "65",
+          "66",
+          "67",
+          "68",
+          "69",
+          "70",
+          "71",
+          "72",
+          "73",
+          "74",
+          "75",
+          "76",
+          "77",
+          "78",
+          "79",
+          "80",
+          "81",
+          "82",
+          "83",
+          "84",
+          "85",
+          "86",
+          "87",
+          "88",
+          "89",
+          "90",
+          "91",
+          "92",
+          "93",
+          "94",
+          "95",
+          "96",
+          "97",
+          "98",
+          "99",
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111",
+          "112",
+          "113",
+          "114",
+          "115",
+          "116",
+          "117",
+          "118",
+          "119",
+          "120",
+          "121",
+          "122",
+          "123",
+          "124",
+          "125",
+          "126",
+          "127",
+          "128",
+          "129",
+          "130",
+          "131",
+          "132",
+          "133",
+          "134",
+          "135",
+          "136",
+          "137",
+          "138",
+          "139",
+          "140",
+          "141",
+          "142",
+          "143",
+          "144",
+          "145",
+          "146",
+          "147",
+          "148",
+          "149",
+          "150",
+          "151",
+          "152",
+          "153",
+          "154",
+          "155",
+          "156",
+          "157",
+          "158",
+          "159",
+          "160",
+          "161",
+          "162",
+          "163",
+          "164",
+          "165",
+          "166",
+          "167",
+          "168",
+          "169",
+          "170",
+          "171",
+          "172",
+          "173",
+          "174",
+          "175",
+          "176",
+          "177",
+          "178",
+          "179",
+          "180",
+          "181",
+          "182",
+          "183",
+          "184",
+          "185",
+          "186",
+          "187",
+          "188",
+          "189",
+          "190",
+          "191",
+          "192",
+          "193",
+          "194",
+          "195",
+          "196",
+          "197",
+          "198",
+          "199",
+          "200",
+          "201",
+          "202",
+          "203",
+          "204",
+          "205",
+          "206",
+          "207",
+          "208",
+          "209",
+          "210",
+          "211",
+          "212"
+        ],
+        "names": [
+          "Hepta_001",
+          "Hepta_002",
+          "Hepta_003",
+          "Hepta_004",
+          "Hepta_005",
+          "Hepta_006",
+          "Hepta_007",
+          "Hepta_008",
+          "Hepta_009",
+          "Hepta_010",
+          "Hepta_011",
+          "Hepta_012",
+          "Hepta_013",
+          "Hepta_014",
+          "Hepta_015",
+          "Hepta_016",
+          "Hepta_017",
+          "Hepta_018",
+          "Hepta_019",
+          "Hepta_020",
+          "Hepta_021",
+          "Hepta_022",
+          "Hepta_023",
+          "Hepta_024",
+          "Hepta_025",
+          "Hepta_026",
+          "Hepta_027",
+          "Hepta_028",
+          "Hepta_029",
+          "Hepta_030",
+          "Hepta_031",
+          "Hepta_032",
+          "Hepta_033",
+          "Hepta_034",
+          "Hepta_035",
+          "Hepta_036",
+          "Hepta_037",
+          "Hepta_038",
+          "Hepta_039",
+          "Hepta_040",
+          "Hepta_041",
+          "Hepta_042",
+          "Hepta_043",
+          "Hepta_044",
+          "Hepta_045",
+          "Hepta_046",
+          "Hepta_047",
+          "Hepta_048",
+          "Hepta_049",
+          "Hepta_050",
+          "Hepta_051",
+          "Hepta_052",
+          "Hepta_053",
+          "Hepta_054",
+          "Hepta_055",
+          "Hepta_056",
+          "Hepta_057",
+          "Hepta_058",
+          "Hepta_059",
+          "Hepta_060",
+          "Hepta_061",
+          "Hepta_062",
+          "Hepta_063",
+          "Hepta_064",
+          "Hepta_065",
+          "Hepta_066",
+          "Hepta_067",
+          "Hepta_068",
+          "Hepta_069",
+          "Hepta_070",
+          "Hepta_071",
+          "Hepta_072",
+          "Hepta_073",
+          "Hepta_074",
+          "Hepta_075",
+          "Hepta_076",
+          "Hepta_077",
+          "Hepta_078",
+          "Hepta_079",
+          "Hepta_080",
+          "Hepta_081",
+          "Hepta_082",
+          "Hepta_083",
+          "Hepta_084",
+          "Hepta_085",
+          "Hepta_086",
+          "Hepta_087",
+          "Hepta_088",
+          "Hepta_089",
+          "Hepta_090",
+          "Hepta_091",
+          "Hepta_092",
+          "Hepta_093",
+          "Hepta_094",
+          "Hepta_095",
+          "Hepta_096",
+          "Hepta_097",
+          "Hepta_098",
+          "Hepta_099",
+          "Hepta_100",
+          "Hepta_101",
+          "Hepta_102",
+          "Hepta_103",
+          "Hepta_104",
+          "Hepta_105",
+          "Hepta_106",
+          "Hepta_107",
+          "Hepta_108",
+          "Hepta_109",
+          "Hepta_110",
+          "Hepta_111",
+          "Hepta_112",
+          "Hepta_113",
+          "Hepta_114",
+          "Hepta_115",
+          "Hepta_116",
+          "Hepta_117",
+          "Hepta_118",
+          "Hepta_119",
+          "Hepta_120",
+          "Hepta_121",
+          "Hepta_122",
+          "Hepta_123",
+          "Hepta_124",
+          "Hepta_125",
+          "Hepta_126",
+          "Hepta_127",
+          "Hepta_128",
+          "Hepta_129",
+          "Hepta_130",
+          "Hepta_131",
+          "Hepta_132",
+          "Hepta_133",
+          "Hepta_134",
+          "Hepta_135",
+          "Hepta_136",
+          "Hepta_137",
+          "Hepta_138",
+          "Hepta_139",
+          "Hepta_140",
+          "Hepta_141",
+          "Hepta_142",
+          "Hepta_143",
+          "Hepta_144",
+          "Hepta_145",
+          "Hepta_146",
+          "Hepta_147",
+          "Hepta_148",
+          "Hepta_149",
+          "Hepta_150",
+          "Hepta_151",
+          "Hepta_152",
+          "Hepta_153",
+          "Hepta_154",
+          "Hepta_155",
+          "Hepta_156",
+          "Hepta_157",
+          "Hepta_158",
+          "Hepta_159",
+          "Hepta_160",
+          "Hepta_161",
+          "Hepta_162",
+          "Hepta_163",
+          "Hepta_164",
+          "Hepta_165",
+          "Hepta_166",
+          "Hepta_167",
+          "Hepta_168",
+          "Hepta_169",
+          "Hepta_170",
+          "Hepta_171",
+          "Hepta_172",
+          "Hepta_173",
+          "Hepta_174",
+          "Hepta_175",
+          "Hepta_176",
+          "Hepta_177",
+          "Hepta_178",
+          "Hepta_179",
+          "Hepta_180",
+          "Hepta_181",
+          "Hepta_182",
+          "Hepta_183",
+          "Hepta_184",
+          "Hepta_185",
+          "Hepta_186",
+          "Hepta_187",
+          "Hepta_188",
+          "Hepta_189",
+          "Hepta_190",
+          "Hepta_191",
+          "Hepta_192",
+          "Hepta_193",
+          "Hepta_194",
+          "Hepta_195",
+          "Hepta_196",
+          "Hepta_197",
+          "Hepta_198",
+          "Hepta_199",
+          "Hepta_200",
+          "Hepta_201",
+          "Hepta_202",
+          "Hepta_203",
+          "Hepta_204",
+          "Hepta_205",
+          "Hepta_206",
+          "Hepta_207",
+          "Hepta_208",
+          "Hepta_209",
+          "Hepta_210",
+          "Hepta_211",
+          "Hepta_212"
+        ],
+        "further_texts": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "header": [
+          "Key  ",
+          "Names"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read names and additional text columns."
+    },
+    {
+      "request": {
+        "id": "BASE-DTS/BASE-DTS/base/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/base.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "1",
+          "2",
+          "3"
+        ],
+        "data": [
+          [
+            "3fb999999999999a",
+            "4024000000000000"
+          ],
+          [
+            "3ff0000000000001",
+            "NaN"
+          ],
+          [
+            "bff3c0ca428c59fb",
+            "403e000000000000"
+          ]
+        ],
+        "shape": [
+          3,
+          2
+        ],
+        "header": [
+          "X",
+          "Y"
+        ],
+        "timezone": "UTC",
+        "times": [
+          "2024-02-29 12:34:56.125",
+          "2024-03-31 01:00:00.000",
+          "2024-10-27 01:30:00.999"
+        ],
+        "dst": []
+      },
+      "initial_base64": null,
+      "purpose": "Read timestamps and numeric columns."
+    },
+    {
+      "request": {
+        "id": "KEY-VALID/KEY-VALID/keys_valid/lrn",
+        "format": "lrn",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/keys_valid.lrn",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "-9007199254740992",
+          "-2147483649",
+          "0",
+          "17",
+          "2147483648",
+          "9007199254740991",
+          "9007199254740992"
+        ],
+        "data": [
+          [
+            "3ff4000000000000"
+          ],
+          [
+            "4002000000000000"
+          ],
+          [
+            "400a000000000000"
+          ],
+          [
+            "4011000000000000"
+          ],
+          [
+            "4015000000000000"
+          ],
+          [
+            "4019000000000000"
+          ],
+          [
+            "401d000000000000"
+          ]
+        ],
+        "shape": [
+          7,
+          1
+        ],
+        "header": [
+          "Value"
+        ],
+        "types": [
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep boundary keys exact in LRN."
+    },
+    {
+      "request": {
+        "id": "KEY-VALID/KEY-VALID/keys_valid/cls",
+        "format": "cls",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/keys_valid.cls",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "-9007199254740992",
+          "-2147483649",
+          "0",
+          "17",
+          "2147483648",
+          "9007199254740991",
+          "9007199254740992"
+        ],
+        "classes": [
+          "3ff0000000000000",
+          "4000000000000000",
+          "4008000000000000",
+          "4010000000000000",
+          "4014000000000000",
+          "4018000000000000",
+          "401c000000000000"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep boundary keys exact in CLS."
+    },
+    {
+      "request": {
+        "id": "KEY-VALID/KEY-VALID/keys_valid/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/keys_valid.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "-9007199254740992",
+          "-2147483649",
+          "0",
+          "17",
+          "2147483648",
+          "9007199254740991",
+          "9007199254740992"
+        ],
+        "names": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6",
+          "N7"
+        ],
+        "further_texts": [
+          [
+            "G1"
+          ],
+          [
+            "G2"
+          ],
+          [
+            "G3"
+          ],
+          [
+            "G4"
+          ],
+          [
+            "G5"
+          ],
+          [
+            "G6"
+          ],
+          [
+            "G7"
+          ]
+        ],
+        "header": [
+          "Key  ",
+          "Names",
+          "Group"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep boundary keys exact in NAMES."
+    },
+    {
+      "request": {
+        "id": "KEY-VALID/KEY-VALID/keys_valid/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/keys_valid.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "-9007199254740992",
+          "-2147483649",
+          "0",
+          "17",
+          "2147483648",
+          "9007199254740991",
+          "9007199254740992"
+        ],
+        "data": [
+          [
+            "3ff4000000000000"
+          ],
+          [
+            "4002000000000000"
+          ],
+          [
+            "400a000000000000"
+          ],
+          [
+            "4011000000000000"
+          ],
+          [
+            "4015000000000000"
+          ],
+          [
+            "4019000000000000"
+          ],
+          [
+            "401d000000000000"
+          ]
+        ],
+        "shape": [
+          7,
+          1
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "UTC",
+        "times": [
+          "2024-01-01 12:00:00.000",
+          "2024-01-02 12:00:00.000",
+          "2024-01-03 12:00:00.000",
+          "2024-01-04 12:00:00.000",
+          "2024-01-05 12:00:00.000",
+          "2024-01-06 12:00:00.000",
+          "2024-01-07 12:00:00.000"
+        ],
+        "dst": []
+      },
+      "initial_base64": null,
+      "purpose": "Keep boundary keys exact in DATES."
+    },
+    {
+      "request": {
+        "id": "KEY-WRITE-BAD/duplicate/True/names",
+        "format": "names",
+        "operation": "write",
+        "keys": [
+          "17",
+          "17"
+        ],
+        "names": [
+          "N1",
+          "N2"
+        ],
+        "further_texts": [
+          [
+            "G1"
+          ],
+          [
+            "G2"
+          ]
+        ],
+        "header": [
+          "Names",
+          "Group"
+        ],
+        "comment": "",
+        "extra_columns": 1,
+        "path": "outputs/KEY-WRITE-BAD_duplicate_True_names.names"
+      },
+      "expected": {
+        "ok": false,
+        "diagnostic": "required_error"
+      },
+      "initial_base64": "RGF0YUJpb25pY0lPIHB1YmxpY2F0aW9uIHNlbnRpbmVsCk11c3Qgc3Vydml2ZSBhIHJlamVjdGVkIHdyaXRlIHVuY2hhbmdlZC4K",
+      "purpose": "Reject duplicate keys without replacing an existing file."
+    },
+    {
+      "request": {
+        "id": "KEY-READ-BAD/KEY-READ-BAD/keys_invalid_text/lrn",
+        "format": "lrn",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/keys_invalid_text.lrn",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "NA"
+        ],
+        "data": [
+          [
+            "3ff4000000000000"
+          ],
+          [
+            "4002000000000000"
+          ]
+        ],
+        "shape": [
+          2,
+          1
+        ],
+        "header": [
+          "Value"
+        ],
+        "types": [
+          1
+        ],
+        "diagnostic": "required_warning"
+      },
+      "initial_base64": null,
+      "purpose": "Report an invalid key with Verbose=false."
+    },
+    {
+      "request": {
+        "id": "JOIN-ORDER/JOIN-ORDER/join/lrn",
+        "format": "lrn",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/join.lrn",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "23",
+          "41"
+        ],
+        "data": [
+          [
+            "4024000000000000"
+          ],
+          [
+            "4034000000000000"
+          ],
+          [
+            "403e000000000000"
+          ]
+        ],
+        "shape": [
+          3,
+          1
+        ],
+        "header": [
+          "Value"
+        ],
+        "types": [
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read the reference key order for the relation check."
+    },
+    {
+      "request": {
+        "id": "JOIN-ORDER/JOIN-ORDER/join/cls",
+        "format": "cls",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/join.cls",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "41",
+          "17",
+          "23"
+        ],
+        "classes": [
+          "4000000000000000",
+          "4000000000000000",
+          "3ff0000000000000"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read classes in a different key order."
+    },
+    {
+      "request": {
+        "id": "JOIN-ORDER/JOIN-ORDER/join/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/join.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "23",
+          "41",
+          "17"
+        ],
+        "names": [
+          "Beta ",
+          "Gamma",
+          "Alpha"
+        ],
+        "further_texts": [
+          [],
+          [],
+          []
+        ],
+        "header": [
+          "Key  ",
+          "Names"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read names in a different key order."
+    },
+    {
+      "request": {
+        "id": "NUM-EXPLICIT/numeric.dts/0/dts",
+        "format": "dts",
+        "operation": "write",
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "times": [
+          "2024-01-01 12:00:00.000",
+          "2024-01-02 12:00:00.000",
+          "2024-01-03 12:00:00.000",
+          "2024-01-04 12:00:00.000",
+          "2024-01-05 12:00:00.000"
+        ],
+        "data": [
+          [
+            "0.1"
+          ],
+          [
+            "1.0000000000000002"
+          ],
+          [
+            "-1.2345678901234567"
+          ],
+          [
+            "1e-100"
+          ],
+          [
+            "1e100"
+          ]
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "UTC",
+        "dst": [],
+        "comment": "",
+        "data_bits": [
+          [
+            "3fb999999999999a"
+          ],
+          [
+            "3ff0000000000001"
+          ],
+          [
+            "bff3c0ca428c59fb"
+          ],
+          [
+            "2b2bff2ee48e0530"
+          ],
+          [
+            "54b249ad2594c37d"
+          ]
+        ],
+        "path": "outputs/NUM-EXPLICIT_numeric_dts_0_dts.dts"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "data": [
+            [
+              "3fb999999999999a"
+            ],
+            [
+              "3ff0000000000001"
+            ],
+            [
+              "bff3c0ca428c59fb"
+            ],
+            [
+              "2b2bff2ee48e0530"
+            ],
+            [
+              "54b249ad2594c37d"
+            ]
+          ],
+          "shape": [
+            5,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "timezone": "UTC",
+          "times": [
+            "2024-01-01 12:00:00.000",
+            "2024-01-02 12:00:00.000",
+            "2024-01-03 12:00:00.000",
+            "2024-01-04 12:00:00.000",
+            "2024-01-05 12:00:00.000"
+          ],
+          "dst": [],
+          "epoch_ms": [
+            "1704110400000",
+            "1704196800000",
+            "1704283200000",
+            "1704369600000",
+            "1704456000000"
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Write specified binary64 values in DATES."
+    },
+    {
+      "request": {
+        "id": "NUM-DEFAULT/numeric.lrn/0/lrn",
+        "format": "lrn",
+        "operation": "write",
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "data": [
+          [
+            "0.1"
+          ],
+          [
+            "1.0000000000000002"
+          ],
+          [
+            "-1.2345678901234567"
+          ],
+          [
+            "1e-100"
+          ],
+          [
+            "1e100"
+          ]
+        ],
+        "header": [
+          "Value"
+        ],
+        "types": [
+          9,
+          1
+        ],
+        "matlab_variant": "six",
+        "comment": "",
+        "data_bits": [
+          [
+            "3fb999999999999a"
+          ],
+          [
+            "3ff0000000000001"
+          ],
+          [
+            "bff3c0ca428c59fb"
+          ],
+          [
+            "2b2bff2ee48e0530"
+          ],
+          [
+            "54b249ad2594c37d"
+          ]
+        ],
+        "path": "outputs/NUM-DEFAULT_numeric_lrn_0_lrn.lrn"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "data": [
+            [
+              "3fb999999999999a"
+            ],
+            [
+              "3ff0000000000001"
+            ],
+            [
+              "bff3c0ca428c59fb"
+            ],
+            [
+              "2b2bff2ee48e0530"
+            ],
+            [
+              "54b249ad2594c37d"
+            ]
+          ],
+          "shape": [
+            5,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "types": [
+            9,
+            1
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Keep binary64 precision with default LRN options."
+    },
+    {
+      "request": {
+        "id": "NUM-ROUND/0/True/lrn",
+        "format": "lrn",
+        "operation": "write",
+        "data": [
+          [
+            "1.23456"
+          ]
+        ],
+        "keys": [
+          "1"
+        ],
+        "header": [
+          "Value"
+        ],
+        "options": {
+          "SignificantDigits": 4,
+          "Scientific": true
+        },
+        "comment": "",
+        "data_bits": [
+          [
+            "3ff3c0c1fc8f3238"
+          ]
+        ],
+        "path": "outputs/NUM-ROUND_0_True_lrn.lrn"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1"
+          ],
+          "data": [
+            [
+              "3ff3c28f5c28f5c3"
+            ]
+          ],
+          "shape": [
+            1,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "types": [
+            9,
+            1
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Round numeric output with scientific notation."
+    },
+    {
+      "request": {
+        "id": "NUM-PRECEDENCE/significant_over_legacy/lrn",
+        "format": "lrn",
+        "operation": "write",
+        "data": [
+          [
+            "1.23456"
+          ]
+        ],
+        "keys": [
+          "17"
+        ],
+        "header": [
+          "Value"
+        ],
+        "options": {
+          "SignificantDigits": 4,
+          "Scientific": false
+        },
+        "old_digits": 0,
+        "comment": "",
+        "data_bits": [
+          [
+            "3ff3c0c1fc8f3238"
+          ]
+        ],
+        "path": "outputs/NUM-PRECEDENCE_significant_over_legacy_lrn.lrn"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "17"
+          ],
+          "data": [
+            [
+              "3ff3c28f5c28f5c3"
+            ]
+          ],
+          "shape": [
+            1,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "types": [
+            9,
+            1
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Apply the significant-digit option before the legacy digit argument."
+    },
+    {
+      "request": {
+        "id": "NUM-EXTREME/extreme.lrn/0/lrn",
+        "format": "lrn",
+        "operation": "write",
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "data": [
+          [
+            "1.7976931348623157e+308"
+          ],
+          [
+            "-1.7976931348623157e+308"
+          ],
+          [
+            "2.2250738585072014e-308"
+          ],
+          [
+            "4.9406564584124654e-324"
+          ],
+          [
+            "Inf"
+          ],
+          [
+            "-Inf"
+          ],
+          [
+            "0"
+          ],
+          [
+            "-0"
+          ],
+          [
+            "NaN"
+          ]
+        ],
+        "header": [
+          "Value"
+        ],
+        "types": [
+          9,
+          1
+        ],
+        "comment": "",
+        "data_bits": [
+          [
+            "7fefffffffffffff"
+          ],
+          [
+            "ffefffffffffffff"
+          ],
+          [
+            "0010000000000000"
+          ],
+          [
+            "0000000000000001"
+          ],
+          [
+            "7ff0000000000000"
+          ],
+          [
+            "fff0000000000000"
+          ],
+          [
+            "0000000000000000"
+          ],
+          [
+            "8000000000000000"
+          ],
+          [
+            "NaN"
+          ]
+        ],
+        "path": "outputs/NUM-EXTREME_extreme_lrn_0_lrn.lrn"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+          ],
+          "data": [
+            [
+              "7fefffffffffffff"
+            ],
+            [
+              "ffefffffffffffff"
+            ],
+            [
+              "0010000000000000"
+            ],
+            [
+              "0000000000000001"
+            ],
+            [
+              "7ff0000000000000"
+            ],
+            [
+              "fff0000000000000"
+            ],
+            [
+              "0000000000000000"
+            ],
+            [
+              "8000000000000000"
+            ],
+            [
+              "NaN"
+            ]
+          ],
+          "shape": [
+            9,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "types": [
+            9,
+            1
+          ],
+          "numeric_zero_sign": "characterize"
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Write extreme values and record the sign of zero."
+    },
+    {
+      "request": {
+        "id": "CLS-BOUNDS/replacement/cls",
+        "format": "cls",
+        "operation": "write",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "classes": [
+          "NaN",
+          "2"
+        ],
+        "options": {
+          "NaNReplacement": -99
+        },
+        "comment": "",
+        "path": "outputs/CLS-BOUNDS_replacement_cls.cls"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "17",
+            "18"
+          ],
+          "classes": [
+            "c058c00000000000",
+            "4000000000000000"
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Handle class limits and the specified missing-value replacement."
+    },
+    {
+      "request": {
+        "id": "TEXT-UTF8/utf8.names/0/names",
+        "format": "names",
+        "operation": "write",
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "names": [
+          "Müller",
+          "β",
+          "Sample A",
+          "1.0.4"
+        ],
+        "further_texts": [
+          [
+            "ä"
+          ],
+          [
+            "漢字"
+          ],
+          [
+            "café"
+          ],
+          [
+            "Ω"
+          ]
+        ],
+        "header": [
+          "Names",
+          "Note"
+        ],
+        "comment": "",
+        "extra_columns": 1,
+        "path": "outputs/TEXT-UTF8_utf8_names_0_names.names"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "names": [
+            "Müller",
+            "β",
+            "Sample A",
+            "1.0.4"
+          ],
+          "further_texts": [
+            [
+              "ä"
+            ],
+            [
+              "漢字"
+            ],
+            [
+              "café"
+            ],
+            [
+              "Ω"
+            ]
+          ],
+          "header": [
+            "Note"
+          ],
+          "file_header": [
+            "Key",
+            "Names",
+            "Note"
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Write UTF-8 text without changing its characters."
+    },
+    {
+      "request": {
+        "id": "TEXT-MISSING/native-missing/names",
+        "format": "names",
+        "operation": "write",
+        "names": [
+          null,
+          "",
+          "NA",
+          "text"
+        ],
+        "further_texts": [
+          [
+            null
+          ],
+          [
+            ""
+          ],
+          [
+            "NA"
+          ],
+          [
+            "x"
+          ]
+        ],
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "header": [
+          "Names",
+          "Note"
+        ],
+        "comment": "",
+        "extra_columns": 1,
+        "path": "outputs/TEXT-MISSING_native-missing_names.names"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "names": [
+            "NA",
+            "NA",
+            "NA",
+            "text"
+          ],
+          "further_texts": [
+            [
+              "NA"
+            ],
+            [
+              "NA"
+            ],
+            [
+              "NA"
+            ],
+            [
+              "x"
+            ]
+          ],
+          "header": [
+            "Note"
+          ],
+          "file_header": [
+            "Key",
+            "Names",
+            "Note"
+          ],
+          "comment": ""
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Write native missing text values."
+    },
+    {
+      "request": {
+        "id": "META-COMMENT/comment.cls/0/cls",
+        "format": "cls",
+        "operation": "write",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "classes": [
+          "1",
+          "2"
+        ],
+        "comment": "First line\n\nThird line",
+        "path": "outputs/META-COMMENT_comment_cls_0_cls.cls"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "17",
+            "18"
+          ],
+          "classes": [
+            "3ff0000000000000",
+            "4000000000000000"
+          ],
+          "comment": "First line\n\nThird line"
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Keep multiline comments in CLS output."
+    },
+    {
+      "request": {
+        "id": "FILE-LAYOUT/FILE-LAYOUT/layout_CRLF_0_1/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/layout_CRLF_0_1.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "18"
+        ],
+        "data": [
+          [
+            "3ff4000000000000"
+          ],
+          [
+            "4002000000000000"
+          ]
+        ],
+        "shape": [
+          2,
+          1
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "UTC",
+        "times": [
+          "2024-01-01 12:00:00.000",
+          "2024-01-02 12:00:00.000"
+        ],
+        "dst": []
+      },
+      "initial_base64": null,
+      "purpose": "Read CRLF input with blank lines and no final newline."
+    },
+    {
+      "request": {
+        "id": "FILE-LAYOUT/FILE-LAYOUT/layout_LF_1_1/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/layout_LF_1_1.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "N1",
+          "N2"
+        ],
+        "further_texts": [
+          [
+            "G1"
+          ],
+          [
+            "G2"
+          ]
+        ],
+        "header": [
+          "Key  ",
+          "Names",
+          "Group"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read LF input with blank lines and a final newline."
+    },
+    {
+      "request": {
+        "id": "LEGACY-LRN/LEGACY-LRN/legacy_moved_key/lrn",
+        "format": "lrn",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/legacy_moved_key.lrn",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "18"
+        ],
+        "data": [
+          [
+            "4024000000000000",
+            "403e000000000000"
+          ],
+          [
+            "4034000000000000",
+            "4044000000000000"
+          ]
+        ],
+        "shape": [
+          2,
+          2
+        ],
+        "header": [
+          "Left ",
+          "Right"
+        ],
+        "types": [
+          1,
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read a legacy LRN file with a moved key column."
+    },
+    {
+      "request": {
+        "id": "LEGACY-NAMES/LEGACY-NAMES/legacy_untagged_no_labels/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/legacy_untagged_no_labels.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "Alpha",
+          "Beta "
+        ],
+        "further_texts": [
+          [
+            "G1"
+          ],
+          [
+            "G2"
+          ]
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read an untagged NAMES file without labels."
+    },
+    {
+      "request": {
+        "id": "LEGACY-CLS/LEGACY-CLS/legacy_class_metadata/cls",
+        "format": "cls",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/legacy_class_metadata.cls",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "18"
+        ],
+        "classes": [
+          "3ff0000000000000",
+          "4000000000000000"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read legacy class metadata."
+    },
+    {
+      "request": {
+        "id": "LEGACY-GUARD/ReadDates/lrn",
+        "format": "lrn",
+        "operation": "legacy",
+        "entry_point": "ReadDates",
+        "path": "outputs/LEGACY-GUARD_ReadDates_lrn.lrn"
+      },
+      "expected": {
+        "ok": false,
+        "error_type": "DataIO:LegacyReadOnly"
+      },
+      "initial_base64": null,
+      "purpose": "Reject DATES access in legacy mode."
+    },
+    {
+      "request": {
+        "id": "TIME-DATE/time_date.dts/0/dts",
+        "format": "dts",
+        "operation": "write",
+        "keys": [
+          "1",
+          "2",
+          "3"
+        ],
+        "times": [
+          "2024-02-28",
+          "2024-02-29",
+          "2024-03-01"
+        ],
+        "data": [
+          [
+            "1"
+          ],
+          [
+            "2"
+          ],
+          [
+            "3"
+          ]
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "UTC",
+        "dst": [],
+        "time_format": 1,
+        "comment": "",
+        "data_bits": [
+          [
+            "3ff0000000000000"
+          ],
+          [
+            "4000000000000000"
+          ],
+          [
+            "4008000000000000"
+          ]
+        ],
+        "path": "outputs/TIME-DATE_time_date_dts_0_dts.dts"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1",
+            "2",
+            "3"
+          ],
+          "data": [
+            [
+              "3ff0000000000000"
+            ],
+            [
+              "4000000000000000"
+            ],
+            [
+              "4008000000000000"
+            ]
+          ],
+          "shape": [
+            3,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "timezone": "UTC",
+          "times": [
+            "2024-02-28",
+            "2024-02-29",
+            "2024-03-01"
+          ],
+          "dst": [],
+          "dates": [
+            "2024-02-28",
+            "2024-02-29",
+            "2024-03-01"
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Write date-only values."
+    },
+    {
+      "request": {
+        "id": "TIME-FOLD/zoned-capability/dts",
+        "format": "dts",
+        "operation": "write",
+        "keys": [
+          "1",
+          "2"
+        ],
+        "data": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "Europe/Berlin",
+        "times": [
+          "2024-10-27 02:30:00",
+          "2024-10-27 02:30:00"
+        ],
+        "dst": [
+          "CEST",
+          "CET"
+        ],
+        "epoch_ms": [
+          1729989000000,
+          1729992600000
+        ],
+        "native_epoch_ms": [
+          1729989000000,
+          1729992600000
+        ],
+        "comment": "",
+        "data_bits": [
+          [
+            "3ff0000000000000"
+          ],
+          [
+            "4000000000000000"
+          ]
+        ],
+        "path": "outputs/TIME-FOLD_zoned-capability_dts.dts"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "1",
+            "2"
+          ],
+          "data": [
+            [
+              "3ff0000000000000"
+            ],
+            [
+              "4000000000000000"
+            ]
+          ],
+          "shape": [
+            2,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "timezone": "UTC",
+          "times": [
+            "2024-10-27 00:30:00.000",
+            "2024-10-27 01:30:00.000"
+          ],
+          "dst": [],
+          "epoch_ms": [
+            "1729989000000",
+            "1729992600000"
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Convert both autumn clock-fold instants to UTC."
+    },
+    {
+      "request": {
+        "id": "TIME-SPRING/TIME-SPRING/time_spring/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/time_spring.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "1",
+          "2"
+        ],
+        "data": [
+          [
+            "3ff0000000000000"
+          ],
+          [
+            "4000000000000000"
+          ]
+        ],
+        "shape": [
+          2,
+          1
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "Europe/Berlin",
+        "times": [
+          "2024-03-31 01:59:59.999",
+          "2024-03-31 03:00:00.000"
+        ],
+        "dst": [
+          "CET",
+          "CEST"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep time and DST fields across the spring clock change."
+    },
+    {
+      "request": {
+        "id": "TIME-REDUCE/2/dts",
+        "format": "dts",
+        "operation": "write",
+        "times": [
+          "2024-02-29 12:34:56.125"
+        ],
+        "keys": [
+          "17"
+        ],
+        "data": [
+          [
+            "1.25"
+          ]
+        ],
+        "header": [
+          "Value"
+        ],
+        "time_format": 2,
+        "comment": "",
+        "data_bits": [
+          [
+            "3ff4000000000000"
+          ]
+        ],
+        "path": "outputs/TIME-REDUCE_2_dts.dts"
+      },
+      "expected": {
+        "ok": true,
+        "file": {
+          "ok": true,
+          "keys": [
+            "17"
+          ],
+          "data": [
+            [
+              "3ff4000000000000"
+            ]
+          ],
+          "shape": [
+            1,
+            1
+          ],
+          "header": [
+            "Value"
+          ],
+          "timezone": "UTC",
+          "times": [
+            "2024-02-29 12:34:56"
+          ],
+          "dst": [],
+          "epoch_ms": [
+            "1709210096000"
+          ]
+        }
+      },
+      "initial_base64": null,
+      "purpose": "Write second-resolution timestamps."
+    },
+    {
+      "request": {
+        "id": "RECOVERY-ROWS/RECOVERY-ROWS/recovery_short/cls",
+        "format": "cls",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/recovery_short.cls",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "18"
+        ],
+        "classes": [
+          "NaN",
+          "4000000000000000"
+        ],
+        "diagnostic": "required_warning"
+      },
+      "initial_base64": null,
+      "purpose": "Report and recover a short class row."
+    },
+    {
+      "request": {
+        "id": "RECOVERY-NUMBER/RECOVERY-NUMBER/numeric_prefix/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/numeric_prefix.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "keys": [
+          "17",
+          "18"
+        ],
+        "data": [
+          [
+            "4028000000000000"
+          ],
+          [
+            "4008000000000000"
+          ]
+        ],
+        "shape": [
+          2,
+          1
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "UTC",
+        "times": [
+          "2024-01-01 12:00:00.000",
+          "2024-01-02 12:00:00.000"
+        ],
+        "dst": [],
+        "diagnostic": "required_warning"
+      },
+      "initial_base64": null,
+      "purpose": "Report malformed numeric text in DATES."
+    },
+    {
+      "request": {
+        "id": "HEADER-BAD/HEADER-BAD/bad_width/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/publication_v1/bad_width.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": false,
+        "diagnostic": "required_error"
+      },
+      "initial_base64": null,
+      "purpose": "Reject a DATES header with an invalid column count."
+    },
+    {
+      "request": {
+        "id": "SIDE-EFFECTS/overwrite_false/dts",
+        "format": "dts",
+        "operation": "write",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "times": [
+          "2024-01-01 12:00:00.000",
+          "2024-01-02 12:00:00.000"
+        ],
+        "data": [
+          [
+            "1.25"
+          ],
+          [
+            "2.25"
+          ]
+        ],
+        "header": [
+          "Value"
+        ],
+        "timezone": "UTC",
+        "dst": [],
+        "overwrite": false,
+        "comment": "",
+        "data_bits": [
+          [
+            "3ff4000000000000"
+          ],
+          [
+            "4002000000000000"
+          ]
+        ],
+        "path": "outputs/SIDE-EFFECTS_overwrite_false_dts.dts"
+      },
+      "expected": {
+        "ok": false,
+        "diagnostic": "required_error"
+      },
+      "initial_base64": "RGF0YUJpb25pY0lPIHB1YmxpY2F0aW9uIHNlbnRpbmVsCk11c3Qgc3Vydml2ZSBhIHJlamVjdGVkIHdyaXRlIHVuY2hhbmdlZC4K",
+      "purpose": "Keep an existing file when overwrite is disabled."
+    },
+    {
+      "request": {
+        "id": "KEY-COMPARE/4/helper",
+        "format": "helper",
+        "operation": "helper",
+        "a": [
+          "NaN"
+        ],
+        "other": [
+          "NaN"
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "value": false,
+        "immutable": true
+      },
+      "initial_base64": null,
+      "purpose": "Return false for key comparisons containing NaN."
+    },
+    {
+      "request": {
+        "id": "TEXT-BOUNDARY/TEXT-B01/names_leading_spaces/False/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/names_leading_spaces.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "none_required",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          " A",
+          "BC"
+        ],
+        "further_texts": [
+          [
+            " A",
+            "x y"
+          ],
+          [
+            "BC",
+            "z z"
+          ]
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep leading spaces in native text output."
+    },
+    {
+      "request": {
+        "id": "TEXT-BOUNDARY/TEXT-B02/names_trailing_spaces/False/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/names_trailing_spaces.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "none_required",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "A ",
+          "A "
+        ],
+        "further_texts": [
+          [
+            "A",
+            "x y"
+          ],
+          [
+            "A ",
+            "z z"
+          ]
+        ],
+        "names_shape": [
+          2,
+          2
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep trailing spaces and record character-matrix padding."
+    },
+    {
+      "request": {
+        "id": "TEXT-BOUNDARY/TEXT-B04/0/False/False/names",
+        "format": "names",
+        "operation": "write",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "A\tB",
+          "CD"
+        ],
+        "further_texts": [
+          [
+            "uv",
+            "x"
+          ],
+          [
+            "wx",
+            "y"
+          ]
+        ],
+        "header": [
+          "Names",
+          "Extra1",
+          "Extra2"
+        ],
+        "verbose": false,
+        "comment": "",
+        "extra_columns": 2,
+        "path": "outputs/TEXT-BOUNDARY_TEXT-B04_0_False_False_names.names"
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "required_text_separator_removal",
+        "file": {
+          "ok": true,
+          "keys": [
+            "17",
+            "18"
+          ],
+          "names": [
+            "AB",
+            "CD"
+          ],
+          "further_texts": [
+            [
+              "uv",
+              "x"
+            ],
+            [
+              "wx",
+              "y"
+            ]
+          ],
+          "header": [
+            "Extra1",
+            "Extra2"
+          ],
+          "file_header": [
+            "Key",
+            "Names",
+            "Extra1",
+            "Extra2"
+          ]
+        },
+        "file_cells": [
+          [
+            "17",
+            "AB",
+            "uv",
+            "x"
+          ],
+          [
+            "18",
+            "CD",
+            "wx",
+            "y"
+          ]
+        ],
+        "file_labels": [
+          "Key",
+          "Names",
+          "Extra1",
+          "Extra2"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Report removed text separators with Verbose=false."
+    },
+    {
+      "request": {
+        "id": "META-HEADER/META-H04/header_custom_primary/False/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/header_custom_primary.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "none_required",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "Alpha",
+          "Beta "
+        ],
+        "further_texts": [
+          [
+            "G1"
+          ],
+          [
+            "G2"
+          ]
+        ],
+        "header": [
+          "Key   ",
+          "Sample",
+          "Group "
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep a custom primary text label."
+    },
+    {
+      "request": {
+        "id": "META-HEADER/META-H05/header_type_zero/False/lrn",
+        "format": "lrn",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/header_type_zero.lrn",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "none_required",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "header": [
+          "Keep"
+        ],
+        "types": [
+          1
+        ],
+        "data": [
+          [
+            "4024000000000000"
+          ],
+          [
+            "4034000000000000"
+          ]
+        ],
+        "shape": [
+          2,
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Apply LRN type-zero column selection."
+    },
+    {
+      "request": {
+        "id": "META-HEADER/META-H06/header_cleanable/False/names",
+        "format": "names",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/header_cleanable.names",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "required_header_separator_removal",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "names": [
+          "Alpha",
+          "Beta "
+        ],
+        "further_texts": [
+          [
+            "p",
+            "q",
+            "r"
+          ],
+          [
+            "s",
+            "t",
+            "u"
+          ]
+        ],
+        "header": [
+          "Key      ",
+          "Names    ",
+          "FirstName",
+          "AB       ",
+          "SemiColon"
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Report header repair with Verbose=false."
+    },
+    {
+      "request": {
+        "id": "META-HEADER/META-H08/header_misplaced_dst/False/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/header_misplaced_dst.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": false,
+        "diagnostic": "required_misplaced_TZ_DST"
+      },
+      "initial_base64": null,
+      "purpose": "Handle a misplaced DST header according to the fixed contract."
+    },
+    {
+      "request": {
+        "id": "TIME-INVALID/TIME-I01/time_invalid_syntax/False/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/time_invalid_syntax.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": false,
+        "diagnostic": "required_invalid_time_syntax"
+      },
+      "initial_base64": null,
+      "purpose": "Read invalid timestamp syntax according to the fixed contract."
+    },
+    {
+      "request": {
+        "id": "TIME-INVALID/TIME-I02/time_contradictory_marker/False/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/time_contradictory_marker.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "none_required",
+        "keys": [
+          "17"
+        ],
+        "header": [
+          "Value"
+        ],
+        "times": [
+          "2024-01-15 12:00:00"
+        ],
+        "dst": [
+          "CEST"
+        ],
+        "timezone": "Europe/Berlin",
+        "data": [
+          [
+            "4024000000000000"
+          ]
+        ],
+        "shape": [
+          1,
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Read contradictory time metadata according to the fixed contract."
+    },
+    {
+      "request": {
+        "id": "TIME-INVALID/TIME-I04/time_ambiguous_unmarked/False/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/time_ambiguous_unmarked.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "none_required",
+        "keys": [
+          "17"
+        ],
+        "header": [
+          "Value"
+        ],
+        "times": [
+          "2024-10-27 02:30:00"
+        ],
+        "dst": [],
+        "timezone": "Europe/Berlin",
+        "data": [
+          [
+            "4024000000000000"
+          ]
+        ],
+        "shape": [
+          1,
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep an ambiguous timestamp without adding a DST interpretation."
+    },
+    {
+      "request": {
+        "id": "TIME-INVALID/TIME-I05/time_missing/False/dts",
+        "format": "dts",
+        "operation": "read",
+        "path": "tests/fixtures/boundaries_v1/time_missing.dts",
+        "verbose": false
+      },
+      "expected": {
+        "ok": true,
+        "diagnostic": "none_required",
+        "keys": [
+          "17",
+          "18"
+        ],
+        "header": [
+          "Value"
+        ],
+        "times": [
+          "2024-01-01 12:00:00.000",
+          "NA"
+        ],
+        "timezone": "UTC",
+        "data": [
+          [
+            "4024000000000000"
+          ],
+          [
+            "4034000000000000"
+          ]
+        ],
+        "shape": [
+          2,
+          1
+        ]
+      },
+      "initial_base64": null,
+      "purpose": "Keep a missing timestamp and its row."
+    }
+  ]
+}

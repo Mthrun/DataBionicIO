@@ -12,7 +12,10 @@ add_test(NAME python-keys
 add_test(NAME python-wrappers
     COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_wrappers.py"
             "${CMAKE_BINARY_DIR}/libs/pyDataIO")
-set(python_tests python-keys python-wrappers)
+add_test(NAME python-same-key
+    COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_same_key.py"
+            "${CMAKE_BINARY_DIR}/libs/pyDataIO")
+set(python_tests python-keys python-wrappers python-same-key)
 set(DATAIO_R_TEST_LIBRARY "" CACHE PATH "Fresh isolated R library for the optional Python/R comparison")
 if(DATAIO_R_TEST_LIBRARY)
     add_test(NAME python-interop

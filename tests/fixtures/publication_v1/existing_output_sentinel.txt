@@ -1,0 +1,2 @@
+DataBionicIO publication sentinel
+Must survive a rejected write unchanged.

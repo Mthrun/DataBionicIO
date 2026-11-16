@@ -206,7 +206,7 @@ namespace dbt {
 							buffer << std::endl;
 					}
 					if (cleaned_text) {
-						if (verbose) output_stream << "WARNING: Detected line breaks, tabs or carriage return symbols in text and deleted them" << std::endl;
+						output_stream << "WARNING: Detected line breaks, tabs or carriage return symbols in text and deleted them" << std::endl;
 					}
 				}
 				else {

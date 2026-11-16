@@ -1,0 +1,2 @@
+DataBionicIO existing-output sentinel.
+Keep these bytes after rejection.

@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <tuple>
 #include <utility>
+#include "DataIO/the_same_key.hpp"
 #include "DataIO/read_lrn.hpp"
 #include "DataIO/write_lrn.hpp"
 #include "DataIO/read_cls.hpp"
@@ -65,10 +66,13 @@ std::string write_with_messages(Operation operation) {
 // INPUT
 // mod: CxxWrap module under construction.
 // OUTPUT
-// Registers eight methods. Lambda wrappers translate C++ exceptions to Julia errors.
+// Registers file operations and key comparison. Exceptions become Julia errors.
 // SPDX-License-Identifier: AGPL-3.0-only
 // Additional permission: see MATLAB-EXCEPTION.txt.
 JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
+    mod.method("_the_same_key", [](const std::vector<double>& a, const std::vector<double>& b) {
+        return dbt::DataIO::the_same_key(a, b);
+    });
     mod.method("_read_lrn", [](const std::string& path, bool verbose) {
         return read_with_messages([&](std::ostream& out) {
             return dbt::DataIO::read_lrn(path, verbose, out);

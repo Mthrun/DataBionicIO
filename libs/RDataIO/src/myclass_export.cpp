@@ -23,6 +23,7 @@ RCPP_MODULE(DataIOModule) {}
 #include "DataIO/write_cls.hpp"
 #include "DataIO/read_cls.hpp"
 #include "DataIO/helpers.hpp"
+#include "DataIO/the_same_key.hpp"
 
 
 
@@ -85,6 +86,28 @@ static Rcpp::NumericVector keys_to_r(const std::vector<dbt::DataIO::Key>& keys) 
     for (size_t i = 0; i < keys.size(); ++i)
         result[i] = keys[i] == dbt::DataIO::MISSING_KEY ? NA_REAL : static_cast<double>(keys[i]);
     return result;
+}
+
+// Compare R numeric vectors through the common core.
+// INPUT
+// key_a, key_b: ordinary real numeric or logical vectors; NULL is empty.
+// OUTPUT
+// One bool. Unsupported types or dimensions give false; no input is changed.
+// SPDX-License-Identifier: AGPL-3.0-only
+// Additional permission: see MATLAB-EXCEPTION.txt.
+// [[Rcpp::export]]
+bool the_same_key(SEXP key_a, SEXP key_b) {
+    for (SEXP value : {key_a, key_b}) {
+        if (!Rf_isNull(value) &&
+            ((TYPEOF(value) != INTSXP && TYPEOF(value) != REALSXP && TYPEOF(value) != LGLSXP)
+             || Rf_isObject(value) || !Rf_isNull(Rf_getAttrib(value, R_DimSymbol))))
+            return false;
+    }
+    const auto convert = [](SEXP value) {
+        if (Rf_isNull(value)) return std::vector<double>{};
+        return Rcpp::as<std::vector<double>>(Rcpp::as<Rcpp::NumericVector>(value));
+    };
+    return dbt::DataIO::the_same_key(convert(key_a), convert(key_b));
 }
 
 /*************************

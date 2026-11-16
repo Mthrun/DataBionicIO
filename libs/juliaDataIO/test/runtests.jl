@@ -12,6 +12,31 @@ using Logging
 using DataBionicIO
 
 @testset "DataBionicIO" begin
+    @testset "TheSameKey" begin
+        cases = [
+            ([], [], true), (nothing, [], true), ([], [1], false),
+            ([1, 2, 3], [1.0, 2.0, 3.0], true),
+            ([1, 2, 3], [1, 3, 2], false), ([1, 2], [1, 2, 3], false),
+            ([1, 1], [1, 1], true), ([1.5, -0.0], [1.5, 0.0], true),
+            ([1], [nextfloat(1.0)], false),
+            ([-2^53, 2^53], [-2^53, 2^53], true),
+            ([1, missing], [1, missing], false), ([NaN], [NaN], false),
+            ([Inf, -Inf], [Inf, -Inf], true), ([Inf], [-Inf], false),
+            ([true, false], [1, 0], true),
+            (["1"], [1], false), ("12", "12", false), (1, 1, false),
+            ([1 2; 3 4], [1 2; 3 4], false),
+            ([2^53 + 1], [2^53], false),
+            ([big(10)^400], [big(10)^400], false),
+        ]
+        for (a, b, expected) in cases
+            @test TheSameKey(a, b) === expected
+            @test the_same_key(a, b) === expected
+        end
+        key = [3, 1, 2]
+        before = copy(key)
+        @test TheSameKey(key, key) === true
+        @test key == before
+    end
     mktempdir() do directory
         key = Int64[-2^53, 2^31, 2^53]
         values = [1.25 10.0; NaN -2.5; 3.75 30.0]

@@ -44,8 +44,8 @@ Tests = {@() legacySamples(Samples), @() nativeFormats(ReportDirectory), @() pat
 Labels = {'old file samples','native BM and UMX','path selection'};
 if strcmp(Mode,'modern')
     Tests = [Tests, {@() roundTrips(ReportDirectory), @() numbersAndKeys(ReportDirectory), ...
-        @() damagedRows(ReportDirectory), @() dateTimes(ReportDirectory), @() switches(Root)}];
-    Labels = [Labels, {'current format round trips','precision and keys','short and long rows','UTC dates','mode switch'}];
+        @() damagedRows(ReportDirectory), @() dateTimes(ReportDirectory), @() sameKeys(), @() switches(Root)}];
+    Labels = [Labels, {'current format round trips','precision and keys','short and long rows','UTC dates','key comparison','mode switch'}];
 else
     Tests{end+1} = @() legacyGuards(ReportDirectory);
     Labels{end+1} = 'read-only guards';
@@ -186,6 +186,20 @@ function numbersAndKeys(Folder)
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
 
+Exact = [0.1; 1+eps(1); -1.2345678901234567; 1e-100; 1e100];
+Keys = (1:numel(Exact))';
+WriteLRN('default6',Exact,{'A'},Keys,[],Folder);
+WriteLRN('default7',Exact,{'A'},Keys,[],Folder,'precision test');
+WriteLRN('default10',Exact,{'A'},Keys,[],Folder,[],[],[],[]);
+for Name = {'default6','default7','default10'}
+    assert(isequal(ReadLRN(Name{1},Folder),Exact));
+end
+WriteLRN('old_digits',1.23456,{'A'},1,[],Folder,1,false);
+assert(isequal(ReadLRN('old_digits',Folder),1.2));
+WriteLRN('precedence',1.23456,{'A'},1,[],Folder,[],false,0,struct('SignificantDigits',4,'DecimalDigits',0));
+assert(isequal(ReadLRN('precedence',Folder),1.235));
+WriteLRN('precedence',1.23456,{'A'},1,[],Folder,[],false,0,struct('DecimalDigits',2));
+assert(isequal(ReadLRN('precedence',Folder),1.23));
 for Scientific = [false true]
     WriteLRN('digits',[1;1.23456],{'A'},[1;2],[],Folder,[],Scientific,[],struct('SignificantDigits',4));
     assert(isequal(ReadLRN('digits',Folder),[1;1.235]));
@@ -333,3 +347,36 @@ CloseFile = onCleanup(@() fclose(Fid)); %#ok<NASGU>
 fprintf(Fid,'%s',Text);
 end
 
+
+function sameKeys()
+% INPUT
+% Fixed numeric sequences, including row and column orientations.
+% OUTPUT
+% No return value. Failed checks raise an error; no files are written.
+% SPDX-License-Identifier: AGPL-3.0-only
+% Additional permission: see MATLAB-EXCEPTION.txt.
+Cases = {
+    [], [], true;
+    [], 1, false;
+    [1 2 3], [1;2;3], true;
+    [1 2 3], [1 3 2], false;
+    [1 2], [1 2 3], false;
+    [1 1], [1 1], true;
+    [1.5 -0], [1.5 0], true;
+    1, 1+eps(1), false;
+    [-2^53 2^53], int64([-2^53 2^53]), true;
+    [1 NaN], [1 NaN], false;
+    [Inf -Inf], [Inf -Inf], true;
+    [true false], [1 0], true;
+    '1', 1, false;
+    [1 2;3 4], [1 2;3 4], false;
+    int64(2^53)+int64(1), 2^53, false;
+    intmax('int64'), intmax('int64'), false;
+    intmax('uint64'), intmax('uint64'), false
+};
+for I = 1:size(Cases,1)
+    assert(isequal(TheSameKey(Cases{I,1},Cases{I,2}),Cases{I,3}));
+end
+Key = [3 1 2]; Before = Key;
+assert(TheSameKey(Key,Key) && isequal(Key,Before));
+end

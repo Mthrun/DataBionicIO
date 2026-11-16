@@ -11,6 +11,7 @@ using CxxWrap
 using Dates
 using Logging
 
+export TheSameKey, the_same_key
 export read_lrn, write_lrn, read_cls, write_cls
 export read_names, write_names, read_dates, write_dates, MAX_EXACT_KEY
 
@@ -32,6 +33,58 @@ end
 
 const MAX_EXACT_KEY = Int64(2)^53
 const MissingText = Union{Missing,String}
+
+# INPUT
+# values: a numeric vector or nothing for an empty vector.
+# OUTPUT
+# Exact Float64 values, or nothing for missing or unsupported input.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+function _comparison_values(values)
+    values === nothing && return Float64[]
+    values isa AbstractVector || return nothing
+    result = Float64[]
+    for value in values
+        value isa Real || return nothing
+        number = try
+            Float64(value)
+        catch error
+            error isa InterruptException && rethrow()
+            return nothing
+        end
+        if value isa Integer
+            isfinite(number) && BigInt(number) == BigInt(value) || return nothing
+        else
+            value == number || return nothing
+        end
+        push!(result, number)
+    end
+    return result
+end
+
+# INPUT
+# keyA, keyB: numeric vectors in their original order.
+# OUTPUT
+# One Bool from the common core. Missing or unsupported inputs give false.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+"""
+    the_same_key(keyA, keyB)
+    TheSameKey(keyA, keyB)
+
+Compare length and values in order, without a tolerance. Empty vectors compare
+equal; missing values give false. No sorting, uniqueness check, or input changes.
+Values must convert to Float64 without loss. Unsupported inputs give false.
+"""
+function the_same_key(keyA, keyB)
+    a = _comparison_values(keyA)
+    b = _comparison_values(keyB)
+    (a === nothing || b === nothing) && return false
+    return Native._the_same_key(StdVector(a), StdVector(b))
+end
+
+const TheSameKey = the_same_key
+
 
 # INPUT
 # value: a string at the Julia/C++ boundary.

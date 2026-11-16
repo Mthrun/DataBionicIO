@@ -16,10 +16,11 @@ import shutil
 import zipfile
 
 
-def package_matlab(build, require_interop=False):
+def package_matlab(build, require_interop=False, require_fixtures=False):
     # INPUT
     # build  CI output directory with package and matlab subdirectories.
     # require_interop  Require successful R, Python, and MATLAB exchange checks.
+    # require_fixtures  Require the fixed MATLAB adapter pilot to pass.
     # OUTPUT
     # Path to a new ZIP. Missing files or unsuccessful reports raise an error.
     # SPDX-License-Identifier: AGPL-3.0-only
@@ -32,6 +33,8 @@ def package_matlab(build, require_interop=False):
     required = {"build", "modern", "legacy"}
     if require_interop:
         required.add("interop")
+    if require_fixtures:
+        required.update(("fixture-observations", "fixtures"))
     if len(stages) != len(results) or not required <= stages.keys() or any(
             result != "PASS" for result in stages.values()):
         raise ValueError("The required MATLAB tests did not all pass")
@@ -58,6 +61,13 @@ def package_matlab(build, require_interop=False):
             report = build / "interop" / (language + "-verified.txt")
             if not report.is_file() or not report.read_text().startswith("PASS:"):
                 raise ValueError("Missing successful exchange report: " + language)
+    if require_fixtures:
+        fixture_report = json.loads((build / "fixture-pilot" / "report.json").read_text(encoding="utf-8"))
+        if (fixture_report.get("status") != "PASS"
+                or not fixture_report.get("fixed_inputs_unchanged")
+                or fixture_report.get("build", {}).get("commit") != info["commit"]
+                or fixture_report.get("counts", {}).get("FAIL", 0)):
+            raise ValueError("Missing successful fixed-fixture report for this source commit")
     shutil.copyfile(reports / "build.json", package / "build-info.json")
     shutil.copyfile(reports / "summary.tsv", package / "validation.tsv")
     if require_interop:
@@ -86,4 +96,5 @@ def package_matlab(build, require_interop=False):
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[2]
-    print(package_matlab(root / "build" / "ci", bool(os.getenv("DATAIO_INTEROP_DIR"))))
+    print(package_matlab(root / "build" / "ci", bool(os.getenv("DATAIO_INTEROP_DIR")),
+                         bool(os.getenv("DATAIO_FIXTURE_DIR"))))

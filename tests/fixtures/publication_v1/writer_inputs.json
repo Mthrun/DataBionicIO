@@ -1,0 +1,289 @@
+{
+  "KEY-WRITE-BAD": {
+    "base_keys": [
+      "17",
+      "18"
+    ],
+    "variants": {
+      "duplicate": [
+        "17",
+        "17"
+      ],
+      "missing": [
+        "17",
+        null
+      ],
+      "fraction": [
+        "17",
+        "18.5"
+      ],
+      "positive_infinity": [
+        "17",
+        "Inf"
+      ],
+      "above_exact": [
+        "17",
+        "9007199254740994"
+      ],
+      "below_exact": [
+        "17",
+        "-9007199254740994"
+      ]
+    },
+    "payload_reference": "keys_valid: first two rows only; replace keys with each invalid pair"
+  },
+  "NUM-ROUND": {
+    "variants": [
+      {
+        "data": [
+          "1.23456"
+        ],
+        "options": {
+          "SignificantDigits": 4
+        },
+        "expected": [
+          "1.235"
+        ]
+      },
+      {
+        "data": [
+          "1.6",
+          "12.4"
+        ],
+        "options": {
+          "DecimalDigits": 0
+        },
+        "expected": [
+          "2",
+          "12"
+        ]
+      }
+    ],
+    "Scientific": [
+      false,
+      true
+    ],
+    "keys": "1:n",
+    "header": [
+      "Value"
+    ]
+  },
+  "NUM-PRECEDENCE": {
+    "data": [
+      "1.23456"
+    ],
+    "keys": [
+      "17"
+    ],
+    "header": [
+      "Value"
+    ],
+    "Scientific": false,
+    "variants": [
+      {
+        "id": "significant_over_decimal",
+        "bindings": [
+          "R",
+          "Python",
+          "MATLAB",
+          "Julia"
+        ],
+        "options": {
+          "SignificantDigits": 4,
+          "DecimalDigits": 0
+        },
+        "expected": "1.235"
+      },
+      {
+        "id": "significant_over_legacy",
+        "bindings": [
+          "MATLAB"
+        ],
+        "options": {
+          "SignificantDigits": 4,
+          "Digits": 0
+        },
+        "expected": "1.235"
+      },
+      {
+        "id": "decimal_over_legacy",
+        "bindings": [
+          "MATLAB"
+        ],
+        "options": {
+          "DecimalDigits": 2,
+          "Digits": 0
+        },
+        "expected": "1.23"
+      },
+      {
+        "id": "explicit_legacy_position",
+        "bindings": [
+          "MATLAB"
+        ],
+        "options": {
+          "Digits": 1
+        },
+        "expected": "1.2"
+      }
+    ]
+  },
+  "CLS-BOUNDS": {
+    "keys": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "classes": [
+      "-2147483648",
+      "0",
+      "2147483647",
+      "NaN",
+      "1.5",
+      "Inf",
+      "2147483648",
+      "-2147483649"
+    ],
+    "expected_default": [
+      "-2147483648",
+      "0",
+      "2147483647",
+      "NaN",
+      "NaN",
+      "NaN",
+      "NaN",
+      "NaN"
+    ],
+    "replacement_case": {
+      "classes": [
+        "NaN",
+        "2"
+      ],
+      "keys": [
+        "17",
+        "18"
+      ],
+      "replacement": -99,
+      "expected": [
+        -99,
+        2
+      ]
+    }
+  },
+  "TEXT-MISSING": {
+    "names": [
+      null,
+      "",
+      "NA",
+      "text"
+    ],
+    "further_texts": [
+      [
+        null
+      ],
+      [
+        ""
+      ],
+      [
+        "NA"
+      ],
+      [
+        "x"
+      ]
+    ],
+    "keys": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "header": [
+      "Names",
+      "Note"
+    ]
+  },
+  "META-COMMENT": {
+    "comment": "First line\n\nThird line",
+    "payload_files": [
+      "comment.lrn",
+      "comment.cls",
+      "comment.names",
+      "comment.dts"
+    ]
+  },
+  "LEGACY-GUARD": {
+    "mode": "MATLAB legacy",
+    "calls": [
+      "WriteLRN('unused',1)",
+      "WriteNAMES('unused','x')",
+      "WriteCLS('unused',1)",
+      "WriteDates('unused',{'2024-01-01'})",
+      "ReadDates('unused')"
+    ],
+    "expected_error_id": "DataIO:LegacyReadOnly"
+  },
+  "TIME-REDUCE": {
+    "times": [
+      "2024-02-29 12:34:56.125"
+    ],
+    "keys": [
+      "17"
+    ],
+    "data": [
+      [
+        "1.25"
+      ]
+    ],
+    "header": [
+      "Value"
+    ],
+    "zone": "UTC",
+    "variants": [
+      {
+        "Format": 1,
+        "expected": [
+          "2024-02-29"
+        ]
+      },
+      {
+        "Format": 2,
+        "expected": [
+          "2024-02-29 12:34:56"
+        ]
+      },
+      {
+        "Format": 3,
+        "expected": [
+          "2024-02-29 12:34:56.125"
+        ]
+      }
+    ]
+  },
+  "SIDE-EFFECTS": {
+    "payloads": "payloads.json",
+    "variants": [
+      {
+        "id": "overwrite_false",
+        "Overwrite": false,
+        "keys": [
+          "17",
+          "18"
+        ]
+      },
+      {
+        "id": "invalid_key",
+        "Overwrite": true,
+        "keys": [
+          "17",
+          "17"
+        ]
+      }
+    ],
+    "existing_target": "existing_output_sentinel.txt"
+  }
+}

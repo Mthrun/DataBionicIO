@@ -167,6 +167,19 @@ The command for the workflow is in `ci/matlab/runMatlabCI.m` in the source tree.
 The command writes reports to `build/ci/matlab/`.
 Package ZIP files are in `build/ci/packages/`.
 
+## Key vectors
+
+`TheSameKey(KeyA, KeyB)` compares numeric vectors in row order through the shared C++ code.
+The result is `true` only if the lengths and the values at each position are the same.
+Two empty vectors give `true`.
+Missing values and unsupported inputs give `false`.
+The function does not sort the vectors or change their contents.
+It does not test the key constraints of the file formats.
+
+The modern interface provides this function.
+It accepts row or column vectors.
+Integer values must convert to double without loss.
+
 ## Public functions
 
 The LRN, CLS, and NAMES functions keep the positional argument order of the previous MATLAB interfaces.
@@ -269,7 +282,9 @@ The MATLAB package has no QS or QS2 reader or writer.
 
 Some native functions use external dbt helpers.
 `ReadCSV` uses `tokenizeLineNaN`, `tokenize2Strings`, `IsDateString`, `date2YYYYMMDD`, and `BlanksArray`.
-`ReadDATA` uses `TheSameKey`, `countNaNs`, `head`, and `trim`.
+`ReadDATA` uses `countNaNs`, `head`, and `trim`.
+It also uses `TheSameKey`, which the modern interface provides.
+Legacy mode needs an external `TheSameKey` helper.
 Other functions use `strmat2cell`.
 The legacy mode for the three core readers does not set the requirements for these native functions.
 

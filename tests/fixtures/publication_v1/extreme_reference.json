@@ -1,0 +1,37 @@
+{
+  "binary64_hex": [
+    "7fefffffffffffff",
+    "ffefffffffffffff",
+    "0010000000000000",
+    "0000000000000001",
+    "7ff0000000000000",
+    "fff0000000000000",
+    "0000000000000000",
+    "8000000000000000",
+    "7ff8000000000000"
+  ],
+  "decimal_tokens": [
+    "1.7976931348623157e+308",
+    "-1.7976931348623157e+308",
+    "2.2250738585072014e-308",
+    "4.9406564584124654e-324",
+    "Inf",
+    "-Inf",
+    "0",
+    "-0",
+    "NaN"
+  ],
+  "missing_mask": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true
+  ],
+  "zero_signbit": "record separately; numerical equality is main criterion",
+  "NaN_payload": "not required"
+}
