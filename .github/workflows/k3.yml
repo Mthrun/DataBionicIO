@@ -89,7 +89,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install 'numpy==2.3.5' 'pandas==2.2.3' 'tzdata==2025.2' 'pybind11==3.0.1'
-          Rscript --vanilla -e 'install.packages(c("Rcpp","lubridate","jsonlite"))'
+          Rscript --vanilla -e 'install.packages(c("Rcpp","lubridate","jsonlite"), repos="https://cloud.r-project.org")'
 
       - name: Prepare the fixed selection
         id: prepare
