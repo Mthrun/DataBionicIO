@@ -64,7 +64,10 @@ def source_info():
     commit = head.stdout.strip() if head.returncode == status.returncode == 0 and not status.stdout else None
     requested = os.environ.get("GITHUB_SHA")
     if requested and (not re.fullmatch(r"[0-9a-f]{40}", requested) or requested != commit):
-        raise ValueError("The CI source must be a clean checkout of GITHUB_SHA")
+        details = "\n".join(part.strip() for part in
+                            (head.stderr, status.stderr, status.stdout) if part.strip())
+        raise ValueError("The CI source must be a clean checkout of GITHUB_SHA"
+                         + ("\n" + details if details else ""))
     return {"version": version, "commit": commit, "source_inputs_sha256": digest.hexdigest(),
             "system": platform.system(), "architecture": platform.machine(),
             "run": os.environ.get("GITHUB_RUN_ID")}
@@ -77,7 +80,8 @@ def clean_test_environment(executable):
                  "DYLD_FALLBACK_LIBRARY_PATH", "LIBRARY_PATH"):
         env.pop(name, None)
     if os.name == "nt":
-        windows = Path(env["SystemRoot"])
+        # os.environ exposes uppercase keys on Windows; a plain dict is case-sensitive.
+        windows = Path(env["SYSTEMROOT"])
         paths = [Path(executable).parent, windows / "System32", windows]
     else:
         paths = [Path(executable).parent, Path("/usr/bin"), Path("/bin")]

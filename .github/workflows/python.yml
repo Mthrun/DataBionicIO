@@ -152,6 +152,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Trust this checkout inside the container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: Select Python
         run: echo "/opt/python/${{ matrix.tag }}/bin" >> "$GITHUB_PATH"
 

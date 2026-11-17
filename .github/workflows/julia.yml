@@ -171,9 +171,22 @@ jobs:
 
       - name: Install R and Python dependencies
         if: runner.os == 'Linux' && matrix.julia == '1'
+        env:
+          R_LIBS_USER: ${{ github.workspace }}/build/ci/r-dependencies
         run: |
+          set -o pipefail
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y r-base-dev r-cran-rcpp r-cran-lubridate
+          sudo apt-get install --no-install-recommends -y r-base-dev
+          mkdir -p "$R_LIBS_USER"
+          echo "R_LIBS_USER=$R_LIBS_USER" >> "$GITHUB_ENV"
+          Rscript --vanilla - <<'RSCRIPT' 2>&1 | tee build/ci/reports/r-dependencies.txt
+          lib <- Sys.getenv("R_LIBS_USER")
+          install.packages(c("Rcpp", "lubridate"), lib = lib,
+                           repos = "https://cloud.r-project.org", type = "source")
+          library(Rcpp, lib.loc = lib)
+          library(lubridate, lib.loc = lib)
+          sessionInfo()
+          RSCRIPT
           python -m pip install 'numpy>=1.21' 'pandas>=1.5' tzdata pybind11
           python -m pip freeze > build/ci/reports/python-packages.txt
 
