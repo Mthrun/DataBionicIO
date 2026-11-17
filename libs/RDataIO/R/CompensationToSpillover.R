@@ -13,7 +13,7 @@ CompensationToSpillover <- function(CompensationMatrix){
   # 
   # This function inverts/solves the compensation matrix in order to retrieve
   # the spillover matrix.
-  # Author: QS 2021
+  # Author: Quirin Stier (IAP-GmbH Intelligent Analytics Projects) 2021
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   nrow = dim(CompensationMatrix)[1]

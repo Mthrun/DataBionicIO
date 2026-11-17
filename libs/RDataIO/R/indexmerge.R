@@ -6,6 +6,7 @@ function(lrndata,bm=NULL,cls=NULL){
   # OUTPUT
   # A list with lrndata, bm, and cls, matched by row names.
   # The lrndata element is a matrix.
+  # AUTHOR: Julian Märte (IAP-GmbH Intelligent Analytics Projects)
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
 

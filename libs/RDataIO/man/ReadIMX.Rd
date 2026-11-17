@@ -22,7 +22,7 @@ ReadIMX(FileName, InDirectory = getwd())
   is correct)
 }
 
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{addext} }
 

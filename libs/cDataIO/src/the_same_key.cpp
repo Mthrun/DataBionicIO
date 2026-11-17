@@ -2,6 +2,7 @@
 // key_a, key_b: numeric sequences to compare without a tolerance.
 // OUTPUT
 // One Boolean result. Inputs remain unchanged; no diagnostics or file output.
+// AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 // SPDX-License-Identifier: AGPL-3.0-only
 // Additional permission: see MATLAB-EXCEPTION.txt.
 

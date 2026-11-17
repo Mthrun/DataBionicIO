@@ -25,7 +25,7 @@ Date: \tab 2015-03-03\cr
 License: \tab AGPL-3 + file LICENSE\cr
 }
 }
-\author{Michael Thrun, Tim Schneider, Alfred Ultsch}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Tim Schneider, Alfred Ultsch}
 \references{
 	\url{www.uni-marburg.de/fb12/datenbionik}
 	\email{mthrun@mathematik.uni-marburg.de}

@@ -10,7 +10,7 @@ ReadLRNKey = function(FileName, InDirectory){
   # Lines that start with # or % are excluded.
   # 
   # 
-  # Author: QMS
+  # Author: Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   

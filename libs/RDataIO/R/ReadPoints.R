@@ -20,7 +20,7 @@ ReadPoints <- function(FileName, InDirectory = getwd(),ESOMjavaTool=FALSE) {
 
 #   topology                    'toroid' or 'planar' 
 #
-# author: MT 07/2015
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 07/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 # 1.Editor: Kim Schuster 07/2015

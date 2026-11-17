@@ -33,7 +33,7 @@ and the x-axis BMColCoords-1, if only integer values are used
 \item{Size}{number of data points placed into lattice from header in *.bm file }
 \item{IsToroid}{used topology, either 0=planar or 1=toroid}
 }
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{WriteBM}, \code{addext}, \code{indexmerge} }
 \keyword{BestMatches}

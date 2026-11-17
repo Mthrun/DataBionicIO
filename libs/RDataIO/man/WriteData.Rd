@@ -81,7 +81,7 @@ WriteData(FileName, Data, OutDirectory = getwd(),
 #WriteData(FileName = "test.data",Data = mat, InDirectory = '~/Desktop/')
 
 }
-\author{Tim Schneider, Michael Thrun}
+\author{Tim Schneider, Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{ReadData} }
 \keyword{ReadData, WriteData}

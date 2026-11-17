@@ -14,7 +14,7 @@ WriteCSV = function(FileName, Data, Header, OutDirectory=getwd(),Numeric=TRUE)
 # A UTF-8 CSV file with a header and comma-separated data.
 # Returns the previous working directory invisibly after restoration.
 #
-# author MT 2019
+# author Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 2019
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 {

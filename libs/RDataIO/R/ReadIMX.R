@@ -10,7 +10,7 @@ ReadIMX <- function(FileName = NULL,InDirectory=getwd()){
 #
 # OUTPUT        
 #   Imx               a binary array 0 where the map is displayed 1 otherwise
-# author Michael Thrun  
+# author Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

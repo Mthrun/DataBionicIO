@@ -25,7 +25,7 @@ ReadDates <- function(FileName, InDirectory = getwd(), Verbose = TRUE) {
   # support depends on the abbreviations for the actual dates, not only the zone name.
   # Use UTC for these timestamps when writing; date-only values do not need TZ_DST.
   #
-  # author: Luca Brinkmann 05/2024
+  # author: Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects) 05/2024
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   

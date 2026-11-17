@@ -15,6 +15,7 @@ Append2LRN = function(FileName, Data, Key, OutDirectory=getwd()){
 # New values use 17 significant digits; missing values are written as NaN.
 #
 #1.Editor: QMS 2021
+# AUTHOR: Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   if(is.list(Data)) stop('Data is a list, but it ought to be a matrix')

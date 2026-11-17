@@ -15,7 +15,7 @@ ReadQS2(FileName, InDirectory=getwd(), NThreads=1, Strict=FALSE)
 Requires the optional \pkg{qs2} package. This function does not read legacy .qs files; use \code{ReadQS} for those.
 }
 \value{The stored R object.}
-\author{DataIO package contributors}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 \examples{
 if (requireNamespace("qs2", quietly=TRUE)) {
   name <- basename(tempfile("DataIO-example-"))

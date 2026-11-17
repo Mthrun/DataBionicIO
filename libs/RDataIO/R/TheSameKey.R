@@ -11,7 +11,7 @@ TheSameKey <- function(keyA, keyB) {
 # OUTPUT
 # KeyOK         one logical value: TRUE if the same, otherwise FALSE
 #
-# $Author: MT 04/2016
+# $Author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 04/2016
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

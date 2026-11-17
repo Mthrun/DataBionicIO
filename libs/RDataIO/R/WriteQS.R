@@ -21,7 +21,7 @@ WriteQS = function(FileName, Data, Names=NULL, OutDirectory=getwd(), NThreads=1,
   # DETAILS
   # Prefer WriteQS2() for new code. Preset levels: fast=1, balanced=3, high=4,
   # archive=19. Uncompressed has no equivalent and warns before using level -5.
-  # Author: QMS 2022; qs2 migration 2026-10-18
+  # Author: Quirin Stier (IAP-GmbH Intelligent Analytics Projects) 2022; qs2 migration 2026-10-18
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
 

@@ -16,7 +16,7 @@ RelPath = function(MoveUpLevels = 1, Subdir){
   # Get the path of the file, from which the call is made
   # Remove the name of the script of the path to yield the directory path
   # Remove more parts, to move up to higher directory levels
-  # Author: QS 2023
+  # Author: Quirin Stier (IAP-GmbH Intelligent Analytics Projects) 2023
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   

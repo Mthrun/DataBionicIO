@@ -28,7 +28,7 @@ and the x-axis BMColCoords-1, if only integer values are used
 Not More than 3 seperate Lines of Comments allowed}
 }
 
-\author{ Michael Thrun }
+\author{ Michael Thrun (IAP-GmbH Intelligent Analytics Projects) }
 
 \seealso{ \code{ReadBM}, \code{addext} }
 

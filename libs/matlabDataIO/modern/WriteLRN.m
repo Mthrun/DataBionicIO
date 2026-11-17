@@ -27,8 +27,10 @@ function WriteLRN(FileName, Data, Header, Key, DataDefined, Directory, CommentOr
 
 % OUTPUT
 % An LRN format 2.0 file. The function has no return value.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB WriteLRN interface by Alfred Ultsch.
 
 if nargin < 3, Header = []; end
 if nargin < 4, Key = []; end

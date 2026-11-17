@@ -12,8 +12,10 @@ function [Key, Names, RowRest, Comment, Header, FurtherTexts] = ReadNAMES(FileNa
 % RowRest is one cell per row, with tabs between additional text fields.
 % FurtherTexts is an optional cell matrix, with one cell per field.
 % Empty text fields and missing text fields contain 'NA'.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB ReadNAMES interface by Alfred Ultsch.
 if nargin < 2, Directory = []; end
 if nargin < 3, Options = []; end
 Options = dataio_options(Options, struct('Verbose', false));

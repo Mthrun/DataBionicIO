@@ -15,7 +15,7 @@ function(FileName,Names,OutDirectory=getwd(),StrTrim=FALSE){
 # A .txt file with Names and no row names, column names, or quotes.
 # Returns the previous working directory invisibly after restoration.
 #
-# author: MT 06/2015
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 06/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 # text should be a matrix containing character strings

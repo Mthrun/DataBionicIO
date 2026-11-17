@@ -7,8 +7,10 @@ function [Data, Key, Header, DataDefined, Comment] = ReadLRN(FileName, Directory
 % Header is a character matrix. DataDefined is a row vector for Data.
 % Type 0 columns are omitted, as in the original MATLAB function.
 % Comment contains user comments. It does not contain the generation tag.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB ReadLRN interface by Alfred Ultsch.
 if nargin < 2, Directory = []; end
 if nargin < 3, Options = []; end
 Options = dataio_options(Options, struct('Verbose', false));

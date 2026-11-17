@@ -9,8 +9,10 @@ function WriteCLS(FileName, Cls, Key, Directory, Comment, ClassSizes, Options)
 % OPTIONS: Overwrite=true, Verbose=false, NaNReplacement=NaN.
 % OUTPUT
 % A CLS format 2.0 file. The function has no return value.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB WriteCLS interface by Alfred Ultsch.
 
 if nargin < 3, Key = []; end
 if nargin < 4, Directory = []; end

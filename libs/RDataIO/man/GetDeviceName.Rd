@@ -17,7 +17,7 @@ List of
 \item{DeviceName}{String name of flowcytometer device.}
 }
 \author{
-Quirin Stier
+Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
 }
 %\examples{
 %}

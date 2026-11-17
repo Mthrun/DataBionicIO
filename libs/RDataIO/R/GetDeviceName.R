@@ -12,7 +12,7 @@ GetDeviceName <- function(flowFrame){
   # Extracts the name of the flowcytometer device from flowcytometer data.
   # This data must be given as object of flowFrame-class {flowCore}.
   # This data can stem from a FCS or a LMD file.
-  # Author: QS 2021
+  # Author: Quirin Stier (IAP-GmbH Intelligent Analytics Projects) 2021
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   DeviceName = flowFrame@description[["$CYT"]][[1]]

@@ -43,6 +43,6 @@ The result contains this element only when the file has additional text columns.
 The result omits this element when the comment is empty.
 The format tag is not part of the comment.}
 }
-\author{Michael Thrun, Luca Brinkmann}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{WriteNAMES}}, \link{DataIO-text-formats}}
 \keyword{file}

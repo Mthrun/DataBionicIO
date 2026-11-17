@@ -13,6 +13,7 @@ ConvertQSToQS2 = function(FileName, InDirectory=getwd(), OutDirectory=InDirector
   # Overwrite      Replace an existing .qs2 file; default is FALSE.
   # OUTPUT
   # FilePath       Path of the converted .qs2 file, invisibly.
+  # AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   # DETAILS

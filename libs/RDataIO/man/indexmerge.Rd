@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{indexmerge}
 \alias{indexmerge}
 \title{ sort dbt files by given index }
@@ -24,7 +25,7 @@ indexmerge(lrndata, bm = NULL, cls = NULL)
   \item{cls}{same cls data as above, only in the same index-order as lrndata}
 }
 
-\author{ databionics working group, university of marburg, germany }
+\author{Julian Märte (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{ReadLRN},\code{ReadBM},\code{ReadCLS} }
 \keyword{ file }

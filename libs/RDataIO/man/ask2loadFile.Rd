@@ -11,5 +11,5 @@
 }
 \description{Benutzerdialog zum Einstellen eines Directory und zum Vorbereiten des Lesens des entsprechenden DataIO Dateityps}
 
-\author{Michael Thrun
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 }

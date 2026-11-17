@@ -12,6 +12,7 @@ WriteLRN2Data=function(LRNFileName,LRNDirectory=getwd(),NamesFileName,NamesDirec
 #                     default ist LRNDirectory
 # Output
 # *.data file in same Directory as LRNDirectory with same filename as LRNFileName
+# AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 #

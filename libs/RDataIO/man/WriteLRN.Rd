@@ -86,6 +86,6 @@ The number identifies the data column position.
 \url{www.uni-marburg.de/fb12/datenbionik}
 \email{databionics@mathematik.uni-marburg.de}
 }
-\author{Michael Thrun, Luca Brinkmann}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{ReadLRN}}, \code{\link{addext}}, \link{DataIO-text-formats}}
 \keyword{file}

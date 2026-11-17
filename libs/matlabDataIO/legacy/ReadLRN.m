@@ -10,8 +10,10 @@ function [Data,Key,Header,DataDefined,Comment] = ReadLRN(FileName,Directory)
 % Data is a numeric matrix; Key is a double column vector.
 % Header is a character matrix. DataDefined contains the retained column types.
 % Type 0 and type 9 columns are excluded from Data. Comment is a character matrix.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB ReadLRN interface by Alfred Ultsch.
 
 if nargin < 2, Directory = []; end
 Result = dataio_legacy_read(FileName,Directory,'lrn');

@@ -12,4 +12,4 @@
 \value{Bricht mit Fehlermeldung die Ein/AusleseProzedure ab, wenn mit Dateiname/Directory etwas nicht stimmt}
 \description{
  checkFilename(FileName,Directory,Extension,ReadOrWrite,NameOfFunctionCalled) Searching for Filename & Directory existence }
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}

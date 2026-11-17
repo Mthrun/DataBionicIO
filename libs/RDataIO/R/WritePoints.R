@@ -44,7 +44,7 @@ function(FileName,BestMatches,OutDirectory=getwd(),Lines=NULL,Columns=NULL,DataD
 # An .xybm file with grid metadata, keys, and point coordinates.
 # Returns the previous working directory invisibly after restoration.
 #
-# author: MT 07/2015
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 07/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   checkFilename(FileName,Directory=OutDirectory,Extension='xybm',ReadOrWrite=FALSE,NameOfFunctionCalled='WritePoints()')

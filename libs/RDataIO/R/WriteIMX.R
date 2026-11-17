@@ -16,7 +16,7 @@ WriteIMX = function(FileName,MapMask, OutDirectory=getwd(),Comment){
 # An IMX file with the mask dimensions and mask values.
 # Returns the previous working directory invisibly after restoration.
 #
-# author: MT/2014
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)/2014
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

@@ -8,4 +8,4 @@
 \item{Subdir}{Choose a specific child directory on path.}
 }
 \value{Path}
-\author{Quirin Stier}
+\author{Quirin Stier (IAP-GmbH Intelligent Analytics Projects)}

@@ -16,7 +16,7 @@ ReadQS = function(FileName, InDirectory=getwd(), NThreads=1, Strict=FALSE){
   # including R 4.6. No older R, temporary files or RDS transfer is needed.
   # The migration warning occurs once per calendar day within this R session.
   # Its date is kept only in memory, shared by both DataIO packages.
-  # Author: QMS 2022; qs2 compatibility update 2026-10-18
+  # Author: Quirin Stier (IAP-GmbH Intelligent Analytics Projects) 2022; qs2 compatibility update 2026-10-18
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
 

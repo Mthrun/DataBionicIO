@@ -12,7 +12,7 @@ fileparts=function(pathname)
 # pathstr             character string representing directory path
 # name                character string representing base of file name
 # ext                 character string representing file extension
-#author: MT 12/2015
+#author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 12/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 # ANALOG to MATLABs function

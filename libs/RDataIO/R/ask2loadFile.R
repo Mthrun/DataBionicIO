@@ -14,7 +14,7 @@ ask2loadFile <-function(extension, InDirectory="", multipleFileExtensions=F){
 # OUTPUT
 # FileName          Dateiname der vom Benutzer ausgeaaehlt wurde
 # InDirectory         Directory welches vom Benutzer bestimmt wurde
-# author MT 12/2015
+# author Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 12/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 # Nota: Im Gegensatz zu Matlab wird kein DialogFilename benoetigt

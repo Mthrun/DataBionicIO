@@ -20,7 +20,7 @@ WriteQS2(FileName, Data, Names=NULL, OutDirectory=getwd(), NThreads=1,
 Requires the optional \pkg{qs2} package. A .qs extension is replaced by .qs2; an absent .qs2 extension is appended. Existing list names are retained unless Names is supplied.
 }
 \value{The saved file path, invisibly.}
-\author{DataIO package contributors}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 \examples{
 if (requireNamespace("qs2", quietly=TRUE)) {
   name <- basename(tempfile("DataIO-example-"))

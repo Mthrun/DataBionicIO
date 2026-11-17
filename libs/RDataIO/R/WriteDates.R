@@ -34,7 +34,7 @@ WriteDates=function(FileName, TSdata, Key=c(), OutDirectory=getwd(), Comments=NU
   # A format 2.0 DATES file with times, keys, and measurement columns.
   # Returns NULL invisibly through the native writer.
   #
-  # author: Luca Brinkmann 05/2024
+  # author: Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects) 05/2024
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   

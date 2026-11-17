@@ -8,7 +8,7 @@ OldData2NewData =function(Filename,Directory){
 #												(default ==  	getwd() )    
 # Output
 # umgeschriebene Datei
-# author: MT 11/2015
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 11/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 #Altes ReadData

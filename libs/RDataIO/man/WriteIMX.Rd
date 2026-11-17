@@ -12,4 +12,4 @@ Not More than 3 seperate Lines of Comments allowed}
 \value{FileName         the name of the file to write}
 \description{
    saves a mask for a tiled U-matrix to display a ESOM-map-Isle }
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}

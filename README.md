@@ -26,7 +26,7 @@ The MATLAB function uses the modern MEX interface.
 DataBionicIO uses GNU AGPL version 3 only, with a MATLAB linking exception.
 The [license notice](LICENSING.md) gives the scope and the license texts.
 Commercial use is permitted under these terms.
-IAP-GmbH also offers [alternative commercial licenses](COMMERCIAL-LICENSE.txt).
+IAP-GmbH Intelligent Analytics Projects also offers [alternative commercial licenses](COMMERCIAL-LICENSE.txt).
 Third-party components keep their own licenses.
 
 ## Folders

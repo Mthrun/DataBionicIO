@@ -24,7 +24,7 @@ WriteBM = function(FileName,BestMatches,OutDirectory=getwd(),Lines,Columns,IsTor
 # A .bm file with grid metadata, keys, and best-match coordinates.
 # Returns the previous working directory invisibly after restoration.
 #
-# author: MT 08/2015
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 08/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

@@ -22,6 +22,6 @@ other inputs use \code{as.numeric}. Keys must be unique finite integers within
 \item{Scientific}{Logical flag to use scientific notation. Passed unchanged to \code{WriteLRN}.}
 }
 \value{Creates an LRN file. Returns the result of \code{WriteLRN}.}
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{WriteLRN}}, \code{\link{WriteDates}}}
 \keyword{file}

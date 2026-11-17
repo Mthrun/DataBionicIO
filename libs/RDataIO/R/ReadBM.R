@@ -21,7 +21,7 @@ ReadBM <- function(FileName = NULL, InDirectory = getwd(),ESOMjavaTool=F) {
 #   Columns        number of ESOM columns from header in *.bm file
 #   Size           number of data points placed into lattice from header in *.bm file
 #   IsToroid        used topology, either 0=planar" or 1=toroid
-# author: MT 07/2015 - neu geschrieben
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 07/2015 - neu geschrieben
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

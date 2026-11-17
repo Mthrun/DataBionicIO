@@ -27,7 +27,7 @@ TheSameKey(c(1, NA), c(1, NA))
 \item{KeyOk}{A boolean value. True if both keys are the same, false otherwise.}
 }
 % \references{ ~put references to the literature/web site here ~ }
-\author{ Raphael Paebst}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 % \note{ ~~further notes~~ }
 % \seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 % \examples{}}

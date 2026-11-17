@@ -14,4 +14,4 @@ OldData2NewData(Filename,Directory)
   \item{Directory}{String: Pfad des Ordners in dem die Datei liegt}
 }
 \value{ Rueckgabewert entspricht dem von WriteData fuer die neue .data Datei}
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}

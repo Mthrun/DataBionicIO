@@ -57,6 +57,6 @@ Comment="Test"
 WriteNAMES("Testfile3",Names,Key,FurtherText,Header=Header,Comment=Comment)
 }
 
-\author{Michael Thrun, Luca Brinkmann}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\link{ReadNAMES}}
 \keyword{file, Names, NAMES}

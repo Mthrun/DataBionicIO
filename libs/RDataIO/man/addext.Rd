@@ -22,7 +22,7 @@ addext(filename, extension)
   Function returns a string containing the filename and the correct extension. 
 }
 
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \examples{
 addext('hallo.data','data') #  'hallo.data'

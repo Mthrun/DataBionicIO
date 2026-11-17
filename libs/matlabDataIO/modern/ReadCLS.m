@@ -12,8 +12,10 @@ function [Key, Cls, Comment, UniqueClasses, ClassColors] = ReadCLS(FileName, Dir
 
 % OUTPUT: Key and Cls are double column vectors. ClassColors is always empty.
 % UniqueClasses comes from the file reader, before optional NaN replacement.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB ReadCLS interface by Alfred Ultsch.
 if nargin < 2, Directory = []; end
 if nargin < 3, Int4NaN = []; end
 if nargin < 4, Options = []; end

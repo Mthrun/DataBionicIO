@@ -51,7 +51,7 @@ for a selection of variables (see ReadFCS(Navios)).}
 \item{OutDirectory}{Optional: String for name of the file's directory.}
 }
 \author{
-Quirin Stier
+Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
 }
 %\examples{
 %}

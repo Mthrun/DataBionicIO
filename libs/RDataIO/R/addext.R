@@ -11,7 +11,7 @@
 #' @param extension Correct extension for filename.
 #' @return Function returns a string containing the filename and the correct
 #' extension.
-#' @author Michael Thrun
+#' @author Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 #' @keywords file

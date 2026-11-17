@@ -22,7 +22,7 @@ function(FileName,InDirectory=getwd()){
 # IsToroid                        TRUE='toroid' or FALSE='planar'   from header in *.wts file
 # Header                        Names of variables represented by weights
 #
-# Author: MT 07/2015
+# Author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 07/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 # alles Neu: FL 2019

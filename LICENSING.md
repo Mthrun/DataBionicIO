@@ -10,9 +10,10 @@ to these files. It is an additional permission under section 7 of the AGPL.
 
 This grant covers the project source code, build scripts, interfaces, tests,
 sample files, examples, and project documentation, except for the separately
-licensed material identified below. It includes the shared C++ library and
-the R, Python, and MATLAB interfaces. Existing author and copyright notices
-remain in effect. IAP-GmbH administers the licensing rights for this material.
+licensed material identified below. It includes the shared C++ library and the
+R, Python, and MATLAB interfaces. Existing author and copyright notices remain
+in effect. IAP-GmbH Intelligent Analytics Projects administers the licensing
+rights for this material.
 
 ## Separately licensed material
 
@@ -36,9 +37,10 @@ The complete permission and its scope are in
 ## Commercial licenses
 
 Commercial use is permitted under the AGPL when its conditions are met.
-Commercial use alone does not require payment to IAP-GmbH.
-IAP-GmbH also offers alternative commercial terms for the material it controls.
-Those terms require a separate written agreement.
+Commercial use alone does not require payment to
+IAP-GmbH Intelligent Analytics Projects. IAP-GmbH Intelligent Analytics Projects
+also offers alternative commercial terms for the material it controls. Those
+terms require a separate written agreement.
 [COMMERCIAL-LICENSE.txt](COMMERCIAL-LICENSE.txt) gives the scope and contact.
 
 ## Distribution

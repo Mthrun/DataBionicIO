@@ -15,7 +15,7 @@ function(FileName,InDirectory=getwd(),NrLinesToSkip=0,HasNamesInCols=FALSE,Empty
 # VariableNames        column names of Data
 # FirstColumnNames     in case the first column consists of names these are the names, not implemented yet!
 
-# author: MT 06/15  
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 06/15
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 CurrentDir = getwd()

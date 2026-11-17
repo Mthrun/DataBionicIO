@@ -77,7 +77,7 @@ Support depends on the abbreviation for the actual date.
 
 For affected POSIXt input, set \code{tz = "UTC"}.
 }
-\author{Michael Thrun, Luca Brinkmann}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{ReadDates}}, \link{DataIO-text-formats}}
 \examples{
 local({

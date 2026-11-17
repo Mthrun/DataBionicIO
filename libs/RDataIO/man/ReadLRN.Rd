@@ -48,6 +48,6 @@ The format tag is not part of the comment.}
 \url{www.uni-marburg.de/fb12/datenbionik}
 \email{databionics@mathematik.uni-marburg.de}
 }
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{WriteLRN}}, \link{DataIO-text-formats}}
 \keyword{file}

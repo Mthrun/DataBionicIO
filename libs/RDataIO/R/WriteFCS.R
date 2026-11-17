@@ -35,7 +35,7 @@ WriteFCS <- function(FileName, Data, DeviceName="Navios", SpilloverMatrix=NULL,
   # 
   # OUTPUT
   #
-  # Author: QS 2021
+  # Author: Quirin Stier (IAP-GmbH Intelligent Analytics Projects) 2021
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   # 1.Editor: MCT 2024

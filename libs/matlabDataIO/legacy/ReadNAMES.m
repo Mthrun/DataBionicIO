@@ -9,8 +9,10 @@ function [Key,Names,RowRest,Comment,Header,FurtherTexts] = ReadNAMES(FileName,Di
 % Key is a double column vector. Names, Comment, and Header are character matrices.
 % FurtherTexts contains additional text cells with records in rows.
 % RowRest joins the additional fields of each row with tabs.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB ReadNAMES interface by Alfred Ultsch.
 
 if nargin < 2, Directory = []; end
 Result = dataio_legacy_read(FileName,Directory,'names');

@@ -38,6 +38,7 @@ ReadFCSNavios = function(FileName, FilePath = "", VarsToCompensate = NULL,
 # remove links to patients
   
 #FileName  = addext(FileName,'LMD');     #  checks for the right extension and adds it if necessary
+# AUTHOR: Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

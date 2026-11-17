@@ -50,7 +50,7 @@ The result omits this element when the comment is empty.
 The format tag and time zone declaration are not part of the comment.}
 \item{Timezone}{Name of the file time zone. The default is \code{"UTC"}.}
 }
-\author{Michael Thrun, Luca Brinkmann}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{WriteDates}}, \link{DataIO-text-formats}}
 \examples{
 local({

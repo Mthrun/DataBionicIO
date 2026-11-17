@@ -35,7 +35,7 @@ ReadCLS(FileName, InDirectory=getwd(), Verbose = TRUE)
 	\url{www.uni-marburg.de/fb12/datenbionik}
 	\email{databionics@mathematik.uni-marburg.de}
 }
-\author{Alfred Ultsch, Luca Brinkmann}
+\author{Alfred Ultsch, Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{\link{WriteCLS}} }
 

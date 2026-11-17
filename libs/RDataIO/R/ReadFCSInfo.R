@@ -13,6 +13,7 @@ ReadFCSInfo = function(FileName, FilePath = "",truncate_max_range=FALSE){
   # if(is.null(FileName)){
   #   FileName  = addext(FileName,'LMD');
   # }
+  # AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   if (!grepl("\\.[^./\\\\]+$", FileName)) {

@@ -3,10 +3,11 @@ Additional permission under section 7 of GNU AGPL version 3
 
 1. Scope
 
-"Covered Code" means the DataBionicIO material that IAP-GmbH Intelligent
-Analytics Projects licenses under GNU AGPL version 3 with this additional
-permission. The project licensing notice identifies that material. Separately
-licensed third-party components, including qslegacy, are not Covered Code.
+"Covered Code" means the DataBionicIO material that
+IAP-GmbH Intelligent Analytics Projects licenses under GNU AGPL version 3 with
+this additional permission. The project licensing notice identifies that
+material. Separately licensed third-party components, including qslegacy, are
+not Covered Code.
 
 "MathWorks Software" means unmodified MATLAB, MATLAB Runtime, and the libraries,
 interface headers, and application programming interfaces supplied by The
@@ -16,11 +17,12 @@ that code runs in, calls, or is distributed with MATLAB.
 
 2. Additional permission
 
-As an additional permission under section 7 of GNU AGPL version 3, IAP-GmbH
-permits you to compile, link, or otherwise combine Covered Code with MathWorks
-Software, including through the MEX interface, and to convey the resulting
-combination without requiring the MathWorks Software to be licensed under
-the AGPL or its source code to be supplied as Corresponding Source.
+As an additional permission under section 7 of GNU AGPL version 3,
+IAP-GmbH Intelligent Analytics Projects permits you to compile, link, or
+otherwise combine Covered Code with MathWorks Software, including through the
+MEX interface, and to convey the resulting combination without requiring the
+MathWorks Software to be licensed under the AGPL or its source code to be
+supplied as Corresponding Source.
 
 You must comply with the AGPL for the Covered Code and for any other parts of
 the combination to which the AGPL applies. The exception to the Corresponding
@@ -36,7 +38,7 @@ its license terms. Obtain any necessary MathWorks permissions separately.
 This permission does not grant an exception to a third party's license and
 does not authorize proprietary licensing of Covered Code or of another
 covered work. Alternative terms for IAP-controlled material require a
-separate agreement with IAP-GmbH.
+separate agreement with IAP-GmbH Intelligent Analytics Projects.
 
 4. Modified versions
 

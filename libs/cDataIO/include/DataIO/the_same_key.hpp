@@ -2,6 +2,7 @@
 // key_a, key_b: numeric key sequences in their original row order.
 // OUTPUT
 // True for equal lengths and equal values at every position; otherwise false.
+// AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 // SPDX-License-Identifier: AGPL-3.0-only
 // Additional permission: see MATLAB-EXCEPTION.txt.
 

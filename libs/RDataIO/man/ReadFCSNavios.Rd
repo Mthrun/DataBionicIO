@@ -42,7 +42,7 @@ variable) (e.g. "FS-H", "FS-A", "SS-H", "SS-A","FL1-A", "FL1-H", "FL2-A",
 \item{DeviceName}{Flowcytometer device name.}
 }
 \author{
-Quirin Stier
+Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
 }
 %\examples{
 %}

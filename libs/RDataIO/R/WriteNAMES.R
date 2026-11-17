@@ -25,9 +25,10 @@ WriteNAMES = function(FileName, Names, Key, FurtherTexts, Header, OutDirectory=g
   # A format 2.0 NAMES file with keys, names, and additional text.
   # Returns NULL invisibly through the native writer.
   #
-  # author: Luca Brinkmann 05/2024
+  # author: Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects) 05/2024
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
+  # Reimplemented from the original R function WriteNAMES by Michael Thrun.
   
   if(!is.character(FileName)) {
     stop("FileName has to be character/string")

@@ -11,6 +11,7 @@ ask2writeFile <- function(extension, Suggestion="", InDirectory=getwd()){
 # OUTPUT
 # FileName
 # InDirectory
+# AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 

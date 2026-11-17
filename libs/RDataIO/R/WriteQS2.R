@@ -15,6 +15,7 @@ WriteQS2 = function(FileName, Data, Names=NULL, OutDirectory=getwd(), NThreads=1
   # Overwrite      Allow replacement of an existing .qs2 file; default is TRUE.
   # OUTPUT
   # FilePath       Full saved path, returned invisibly.
+  # AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   # DETAILS

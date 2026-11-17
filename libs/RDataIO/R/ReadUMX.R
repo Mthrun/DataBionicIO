@@ -10,7 +10,7 @@ ReadUMX <-function(FileName = NULL,InDirectory=getwd()){ # value: data.frame of 
 #   
 #   OUTPUT
 #   UMatrix[1:Nrlines,1:NrCols]        matrix with U-Matrix height values
-# author: Michael Thrun
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

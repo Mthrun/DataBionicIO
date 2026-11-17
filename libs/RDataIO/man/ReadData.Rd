@@ -39,7 +39,7 @@ ReadData(FileName, InDirectory=getwd())
 	\url{www.uni-marburg.de/fb12/datenbionik}
 	\email{databionics@mathematik.uni-marburg.de}
 }
-\author{Tim Schneider, Michael Thrun}
+\author{Tim Schneider, Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{WriteData}}
 \examples{

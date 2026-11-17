@@ -23,3 +23,4 @@ The writer supports both the native R and cdbt.DataIO versions of \code{WriteLRN
 \value{Used for its side effect of writing an LRN file.}
 \seealso{\code{ReadGMM}, \code{\link{WriteLRN}}}
 \keyword{file}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}

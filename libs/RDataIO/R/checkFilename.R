@@ -15,7 +15,7 @@ checkFilename=function(FileName,Directory=getwd(),Extension,ReadOrWrite,NameOfFu
 # OUTPUT
 # Bricht mit Fehlermeldung die Ein/AusleseProzedure ab, wenn mit Dateiname/Directory etwas nicht stimmt
 
-# author: MT 06/2015
+# author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 06/2015
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   FileName;

@@ -21,6 +21,6 @@ On Windows, a temporary backup permits restoration if replacement fails.
 The working directory does not change.
 }
 \value{Returns \code{NULL} invisibly. Updates the LRN file.}
-\author{QMS}
+\author{Quirin Stier (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{ReadLRN}}, \code{\link{WriteLRN}}}
 \keyword{file}

@@ -25,7 +25,7 @@ WriteDates2LRN=function(FileName, Data, DatesTime, Header, DataDefined=c(), OutD
   # OUTPUT
   # A .lrn file with Date keys in YYYYMMDD form, or numeric keys for other inputs.
   # Keys must be unique finite integers within +/- .Machine$integer.max.
-  #author: MT 2021
+  #author: Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 2021
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   #example

@@ -14,8 +14,10 @@ function Result = dataio_legacy_read(FileName, Directory, Format)
 % LRN adds a numeric Data matrix. NAMES adds a Names character matrix.
 % CLS adds a Cls vector. Rest holds additional NAMES fields as text cells.
 % Invalid keys are NaN. LRN Types and Header omit key and ignored columns.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB ReadLRN, ReadCLS, and ReadNAMES functions by Alfred Ultsch.
 
 if isempty(Directory), Directory = pwd; end
 [~,~,Extension] = fileparts(FileName);

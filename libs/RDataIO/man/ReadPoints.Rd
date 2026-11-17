@@ -21,4 +21,4 @@
 \description{
   Load bestmatches (bm) and/or ProjectedPoints (xy) from *.bm file   }
 \author{
-MT 07/2015}
+Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 07/2015}

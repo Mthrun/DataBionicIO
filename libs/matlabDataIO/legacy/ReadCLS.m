@@ -9,8 +9,10 @@ function [Key,Cls,Comment,UniqueClasses,ClassColors] = ReadCLS(FileName,Director
 % OUTPUT
 % Key, Cls, Comment, and UniqueClasses from a legacy CLS file.
 % ClassColors is empty. Int4NaN can replace missing class values.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB ReadCLS interface by Alfred Ultsch.
 
 if nargin < 2, Directory = []; end
 Result = dataio_legacy_read(FileName,Directory,'cls');

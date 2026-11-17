@@ -15,3 +15,4 @@ WriteLRN2Data(LRNFileName,LRNDirectory=getwd(),NamesFileName,NamesDirectory=LRND
 \value{*.data file in same Directory as LRNDirectory with same filename as LRNFileName}
 \description{
  WriteLRN2Data(LRNFileName) reads *.lrn file and writes *.Data File }
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}

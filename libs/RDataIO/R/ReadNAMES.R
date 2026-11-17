@@ -26,9 +26,10 @@ ReadNAMES = function(FileName,InDirectory=getwd(),Verbose=TRUE){
 # Later rows cannot add columns. Version 2.0 files require the current header.
 # Legacy support is read-only.
 #
-# author: Luca Brinkmann 05/2024
+# author: Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects) 05/2024
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
+# Reimplemented from the original R function ReadNAMES by Michael Thrun.
 
   if(!is.character(FileName)) {
     stop("FileName has to be character/string")

@@ -10,8 +10,10 @@ function WriteNAMES(FileName, Names, Key, RowRest, Directory, DescriptionHeader,
 % OPTIONS: struct('Overwrite',true,'Verbose',false).
 % OUTPUT
 % A NAMES format 2.0 file. The function has no return value.
+% AUTHOR: Alfred Ultsch
 % SPDX-License-Identifier: AGPL-3.0-only
 % Additional permission: see MATLAB-EXCEPTION.txt.
+% Based on the original MATLAB WriteNAMES interface by Alfred Ultsch.
 
 if nargin < 3, Key = []; end
 Names = dataio_texts(Names);

@@ -2,7 +2,7 @@
  * 
  * Function implementations for helpers.
  * 
- * AUTHOR: JULIAN MÄRTE, LUCA BRINKMANN, OLEKSANDER DOSKALIUK
+ * AUTHOR: JULIAN MÄRTE (IAP-GmbH Intelligent Analytics Projects), LUCA BRINKMANN (IAP-GmbH Intelligent Analytics Projects), OLEKSANDER DOSKALIUK (IAP-GmbH Intelligent Analytics Projects)
  * SPDX-License-Identifier: AGPL-3.0-only
  * Additional permission: see MATLAB-EXCEPTION.txt.
  * 

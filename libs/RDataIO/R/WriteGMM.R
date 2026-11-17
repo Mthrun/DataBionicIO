@@ -21,6 +21,7 @@ WriteGMM <- function(GMMfile, GMMdir, Means, Sdevs, Weights){
   # 
   # |    -> Anzahl Moden
   # V Anzahl Variablen
+ # AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
  # SPDX-License-Identifier: AGPL-3.0-only
  # Additional permission: see MATLAB-EXCEPTION.txt.
   

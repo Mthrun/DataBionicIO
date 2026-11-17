@@ -10,6 +10,7 @@ TrimHeader = function(Header,UnderlineReplacement = " "){
 #
 # OUTPUT
 # Header               the trimmed Header
+# AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

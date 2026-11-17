@@ -30,9 +30,10 @@ WriteLRN = function(FileName, Data, Header, Key=c(), DataDefined=c(), OutDirecto
   # A format 2.0 LRN file with keys, column types, labels, and values.
   # Returns NULL invisibly through the native writer.
   #
-  # author: Luca Brinkmann 05/2024
+  # author: Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects) 05/2024
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
+  # Reimplemented from the original R function WriteLRN by Michael Thrun.
 
 
 

@@ -21,7 +21,7 @@ ReadTXT(FileName,InDirectory=getwd(),NrLinesToSkip,HasNamesInCols,EmptySymbol)
   \code{filename} may have a .txt extension, if not, it will be added automatically.
 }
 \value{Data(1:n,1:d)        data i.e. all numeric colums of *.txt}
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{addext}, \code{DataIO}, \code{WriteTXT} }
 

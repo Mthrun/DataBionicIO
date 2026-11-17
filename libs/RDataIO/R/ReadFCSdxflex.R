@@ -50,6 +50,7 @@ ReadFCSdxflex = function(FileName, FilePath = "", Dataset = NULL,
   # 
   # Temporarily REMOVED INPUT  
   # Anonymize if T, then parts of FCS Data get overwritten by placeholders to remove links to patients
+  # AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   FileName  = addext(FileName,'fcs');     #  checks for the right extension and adds it if necessary

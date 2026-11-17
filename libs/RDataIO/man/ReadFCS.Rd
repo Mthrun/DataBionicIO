@@ -44,7 +44,7 @@ variable) (e.g. "FS-H", "FS-A", "SS-H", "SS-A","FL1-A", "FL1-H", "FL2-A",
 \item{Cls}{[1:n] Classes from Clustering.}
 }
 \author{
-Quirin Stier
+Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
 }
 %\examples{
 %}

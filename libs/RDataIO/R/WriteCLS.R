@@ -20,9 +20,10 @@ WriteCLS <- function(FileName, Cls, OutDirectory=getwd(),Key ,Comment=NULL, Int4
 # A format 2.0 CLS file with keys, classes, and comments.
 # Returns NULL invisibly through the native writer.
 #
-# author: Luca Brinkmann 05/2024
+# author: Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects) 05/2024
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
+# Reimplemented from the original R function WriteCLS by Michael Thrun.
 
   if(!is.character(FileName)) {
     stop("FileName has to be character/string")

@@ -26,7 +26,7 @@ List of
 \item{SpilloverMatrix}{[1:d, 1:d] Numerical matrix with spillover matrix for given variables.}
 }
 \author{
-Quirin Stier
+Quirin Stier (IAP-GmbH Intelligent Analytics Projects)
 }
 %\examples{
 %}

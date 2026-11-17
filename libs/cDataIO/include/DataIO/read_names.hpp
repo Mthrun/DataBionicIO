@@ -2,9 +2,10 @@
  *
  * Function declarations for read_names.
  *
- * AUTHOR: LUCA BRINKMANN
+ * AUTHOR: LUCA BRINKMANN (IAP-GmbH Intelligent Analytics Projects)
  * SPDX-License-Identifier: AGPL-3.0-only
  * Additional permission: see MATLAB-EXCEPTION.txt.
+ * Reimplemented from the original R function ReadNAMES by Michael Thrun.
  *
  ***********************************************************************************************/
 

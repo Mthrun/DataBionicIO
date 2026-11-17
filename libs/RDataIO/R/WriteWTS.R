@@ -27,7 +27,7 @@ WriteWTS = function(FileName,wts, OutDirectory=getwd(), Lines=NULL,Columns=NULL,
 # A .wts file with grid metadata and tab-separated weight vectors.
 # Returns the previous working directory invisibly after restoration.
 #
-# author: FL/MT 07/2015 # comment changed ALU 2021
+# author: FL/Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 07/2015 # comment changed ALU 2021
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 

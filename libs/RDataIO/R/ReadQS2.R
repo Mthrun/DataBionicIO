@@ -10,6 +10,7 @@ ReadQS2 = function(FileName, InDirectory=getwd(), NThreads=1, Strict=FALSE){
   # Strict         Validate the checksum before reading; default is FALSE.
   # OUTPUT
   # DataV          The stored R object, including its attributes.
+  # AUTHOR: Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
   # SPDX-License-Identifier: AGPL-3.0-only
   # Additional permission: see MATLAB-EXCEPTION.txt.
   # DETAILS

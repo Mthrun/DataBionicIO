@@ -37,7 +37,7 @@ Int4NaN = NULL, Overwrite = TRUE, Verbose = TRUE)
 	\email{databionics@mathematik.uni-marburg.de}
 }
 
-\author{Michael Thrun, Alfred Ultsch, Luca Brinkmann}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Alfred Ultsch, Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{ReadCLS}, \code{addext} }
 

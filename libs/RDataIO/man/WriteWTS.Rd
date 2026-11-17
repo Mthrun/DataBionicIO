@@ -40,7 +40,7 @@ Not More than 3 seperate Lines of Comments allowed}
   som[k,l,1], ... , som[k,l,m]
 }
 
-\author{Michael Thrun, Florian Lerch}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Florian Lerch}
 
 \seealso{ \code{ReadWTS}, \code{addext} }
 

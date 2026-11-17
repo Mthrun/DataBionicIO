@@ -10,4 +10,4 @@
 \item{ext}{character string representing file extension}
 }
 \description{to be written}
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}

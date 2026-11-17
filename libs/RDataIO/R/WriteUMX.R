@@ -18,7 +18,7 @@ WriteUMX = function(FileName,UMatrix, OutDirectory=getwd(),Comment){
   #
 # OUTPUT
 #
-# author: Alfred Ultsch, Michael thrun
+# author: Alfred Ultsch, Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   

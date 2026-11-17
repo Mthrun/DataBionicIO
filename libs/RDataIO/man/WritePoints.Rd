@@ -15,5 +15,5 @@
 \description{
 Save bestmatches (bm) of ESOM and/or ProjectedPoints (xy) to a *.pbm file. }
 \author{
-MT 07/2015
+Michael Thrun (IAP-GmbH Intelligent Analytics Projects) 07/2015
 }

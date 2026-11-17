@@ -27,7 +27,7 @@ A temporary destination file prevents publishing incomplete output. Replacement
 on Windows uses a file copy and is not atomic.
 }
 \value{The converted .qs2 path, invisibly.}
-\author{DataIO package contributors}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 \examples{\dontrun{ConvertQSToQS2("old-data.qs", InDirectory="/path/to/data")}}
 \seealso{\code{\link{ReadQS}}, \code{\link{ReadQS2}}, \code{\link{WriteQS2}}}
 \keyword{file}

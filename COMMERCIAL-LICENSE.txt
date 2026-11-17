@@ -11,9 +11,10 @@ An alternative license can permit uses that the AGPL would otherwise not
 permit, such as distribution of a covered application under proprietary
 terms without the AGPL source-code obligations.
 
-An alternative commercial license takes effect only through a separate
-written agreement with IAP-GmbH. This notice does not itself grant such a
-license, set a price, promise support, or change the AGPL grant.
+An alternative commercial license takes effect only through a separate written
+agreement with IAP-GmbH Intelligent Analytics Projects. This notice does not
+itself grant such a license, set a price, promise support, or change the AGPL
+grant.
 
 Third-party software is outside this alternative grant unless its rights
 are expressly included in the agreement. In particular, this notice does

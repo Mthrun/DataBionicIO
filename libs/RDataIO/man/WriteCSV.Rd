@@ -39,7 +39,7 @@ the csv
 }
 
 \author{
-Michael Thrun
+Michael Thrun (IAP-GmbH Intelligent Analytics Projects)
 }
 
 \seealso{

@@ -27,7 +27,7 @@ ReadWTS(FileName, InDirectory=getwd())
   \item{Keys}{ the Keys for the data dimensions, usually just ones }
   \item{Header}{vector of strings representing the titles of each variable represented by the weights.}
 }
-\author{Michael Thrun}
+\author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \seealso{ \code{WriteWTS}, \code{addext} }
 \keyword{ file }

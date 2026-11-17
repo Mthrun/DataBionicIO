@@ -2,7 +2,7 @@
  * 
  * Function declarations for read_dates.
  * 
- * AUTHOR: JULIAN MÄRTE
+ * AUTHOR: JULIAN MÄRTE (IAP-GmbH Intelligent Analytics Projects)
  * SPDX-License-Identifier: AGPL-3.0-only
  * Additional permission: see MATLAB-EXCEPTION.txt.
  * 
