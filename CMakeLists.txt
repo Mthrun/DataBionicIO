@@ -30,7 +30,7 @@ if(CMAKE_HOST_APPLE AND BUILD_PYPACKAGE AND NOT CMAKE_OSX_DEPLOYMENT_TARGET
     endif()
     set(CMAKE_OSX_DEPLOYMENT_TARGET "${default_macos_target}" CACHE STRING "Minimum macOS version" FORCE)
 endif()
-project(DataBionicIO)
+project(DataBionicIO VERSION 1.0.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -46,10 +46,9 @@ else ()
     add_compile_options(-Wall -Wextra -Wold-style-cast -pedantic -Wno-error)
 endif ()
 
-# version handling
-set(CppLIB_VERSION "1.0")
-# CMake used the C++ version for R; keep the R release version separate.
-set(RPACKAGE_VERSION "0.1.5")
+# Use the project version for the C++, Python, and R packages.
+set(CppLIB_VERSION "${PROJECT_VERSION}")
+set(RPACKAGE_VERSION "${PROJECT_VERSION}")
 add_subdirectory(libs/cDataIO)
 
 define_property(TARGET PROPERTY Package_Name

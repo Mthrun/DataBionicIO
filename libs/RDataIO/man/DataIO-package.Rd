@@ -20,8 +20,8 @@ See the vignettes for more examples of how to use the functions for writing and 
 \tabular{ll}{
 Package: \tab cdbt.DataIO\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2015-03-03\cr
+Version: \tab 1.0.0\cr
+Date: \tab 2026-11-17\cr
 License: \tab AGPL-3 + file LICENSE\cr
 }
 }
