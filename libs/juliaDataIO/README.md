@@ -33,7 +33,7 @@ julia libs/juliaDataIO/build.jl build/julia-local /path/to/cmake
 ```
 
 Use a build directory below the project `build/` folder.
-Use the same Julia version and depot for the build and package use.
+Use the same Julia and CxxWrap versions for the build and package use.
 After a Julia or CxxWrap update, build the package again.
 
 ## Tests
@@ -55,18 +55,45 @@ It has these configurations:
 
 | Operating system | Processor | Julia versions | Compiler |
 | --- | --- | --- | --- |
-| Ubuntu 24.04 | x86-64 | 1.10 and latest stable 1.x | GCC. |
+| Ubuntu 22.04 | x86-64 | 1.10 and latest stable 1.x | GCC. |
 | Windows Server 2022 | x86-64 | 1.10 and latest stable 1.x | MinGW-w64 GCC. |
 | macOS 15 | ARM64 | 1.10 and latest stable 1.x | Apple Clang. |
+| macOS 15 | x86-64 | 1.10 and latest stable 1.x | Apple Clang. |
 
 Each configuration builds the native library and starts the package tests and examples.
 The Linux configuration with the latest Julia release also tests file exchange with R and Python.
 These tests include all four formats in both directions.
 
+Each configuration also makes a ZIP package with the native library and a dependency manifest.
+The job extracts the archive in an isolated folder.
+It installs dependencies in a new Julia depot.
+It then starts the package tests and example from the extracted archive.
+The test search path does not include compiler folders.
+The job keeps the package only after its tests pass.
+
+The macOS builds use deployment target 13.0.
+Julia and its dependencies can have their own operating system requirements.
+
 The workflow uses path filters for pull requests and pushes to `main`.
 These filters select changes to source files, tests, documentation, licenses, and build configuration.
 To start it manually, select **Actions > Julia tests > Run workflow** in GitHub.
 The workflow stores build logs, dependency versions, and test reports as artifacts for 30 days.
+It also keeps packages, SHA-256 checksums, and JSON build records for 30 days.
+
+## Install a binary package
+
+1. Open a completed **Julia tests** run in GitHub Actions.
+2. Select an artifact with a name that ends in `-package`.
+3. Extract the artifact ZIP.
+4. Select the package ZIP for your Julia version, operating system, and processor.
+5. Extract the package ZIP.
+6. Follow `INSTALL.txt` in the extracted `DataBionicIO` folder.
+
+The filename gives the exact Julia version used for the build.
+Use that Julia version and the included dependency manifest.
+The package includes the compiled module.
+A C++ compiler is not necessary for package use.
+An Internet connection is necessary to install the Julia dependencies.
 
 ## Package use
 

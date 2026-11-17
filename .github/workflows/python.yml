@@ -1,0 +1,184 @@
+# OUTPUT
+# Installed-wheel tests, platform wheels, checksums, and build reports.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+
+name: Python wheels
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'libs/cDataIO/**'
+      - 'libs/pyDataIO/**'
+      - 'ci/python/**'
+      - 'ci/release_common.py'
+      - 'tests/Python/**'
+      - 'tests/test_release_packages.py'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'LICENSE*'
+      - 'LICENSES/**'
+      - 'LICENSING.md'
+      - 'MATLAB-EXCEPTION.txt'
+      - 'THIRD-PARTY-NOTICES.txt'
+      - 'NOTICE.txt'
+      - 'COMMERCIAL-LICENSE.txt'
+      - '.github/workflows/python.yml'
+      - '.gitattributes'
+  pull_request:
+    paths:
+      - 'libs/cDataIO/**'
+      - 'libs/pyDataIO/**'
+      - 'ci/python/**'
+      - 'ci/release_common.py'
+      - 'tests/Python/**'
+      - 'tests/test_release_packages.py'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'LICENSE*'
+      - 'LICENSES/**'
+      - 'LICENSING.md'
+      - 'MATLAB-EXCEPTION.txt'
+      - 'THIRD-PARTY-NOTICES.txt'
+      - 'NOTICE.txt'
+      - 'COMMERCIAL-LICENSE.txt'
+      - '.github/workflows/python.yml'
+      - '.gitattributes'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+concurrency:
+  group: python-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: ${{ matrix.platform }} / CPython ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13', '3.14', '3.15']
+        platform: [windows-x64, macos-arm64, macos-x64]
+        include:
+          - platform: windows-x64
+            os: windows-2022
+            arch: x64
+          - platform: macos-arm64
+            os: macos-15
+            arch: arm64
+          - platform: macos-x64
+            os: macos-15-intel
+            arch: x64
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+          architecture: ${{ matrix.arch }}
+
+      - name: Install build and test dependencies
+        run: python -m pip install numpy pandas tzdata setuptools wheel packaging pybind11 cmake
+
+      - name: Install macOS wheel tools
+        if: runner.os == 'macOS'
+        run: python -m pip install delocate
+
+      - name: Check package rejection conditions
+        run: python tests/test_release_packages.py
+
+      - name: Build and test the installed wheel
+        run: python ci/python/build_wheel.py --macos-target 13.0
+
+      - name: Upload tested wheel
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: DataBionicIO-Python-${{ matrix.python }}-${{ matrix.platform }}-package
+          path: build/ci/packages/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: DataBionicIO-Python-${{ matrix.python }}-${{ matrix.platform }}-reports
+          path: |
+            build/ci/python-release/logs/
+            build/ci/python-release/cmake/CMakeCache.txt
+          if-no-files-found: warn
+          retention-days: 30
+
+  linux:
+    name: linux-x64 / CPython ${{ matrix.python }}
+    runs-on: ubuntu-24.04
+    container: quay.io/pypa/manylinux_2_28_x86_64
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.11'
+            tag: cp311-cp311
+          - python: '3.12'
+            tag: cp312-cp312
+          - python: '3.13'
+            tag: cp313-cp313
+          - python: '3.14'
+            tag: cp314-cp314
+          - python: '3.15'
+            tag: cp315-cp315
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Select Python
+        run: echo "/opt/python/${{ matrix.tag }}/bin" >> "$GITHUB_PATH"
+
+      - name: Install build and test dependencies
+        run: python -m pip install numpy pandas tzdata setuptools wheel packaging pybind11 cmake auditwheel
+
+      - name: Check package rejection conditions
+        run: python tests/test_release_packages.py
+
+      - name: Build and test the installed wheel
+        run: python ci/python/build_wheel.py --manylinux manylinux_2_28_x86_64
+
+      - name: Upload tested wheel
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: DataBionicIO-Python-${{ matrix.python }}-linux-x64-package
+          path: build/ci/packages/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: DataBionicIO-Python-${{ matrix.python }}-linux-x64-reports
+          path: |
+            build/ci/python-release/logs/
+            build/ci/python-release/cmake/CMakeCache.txt
+          if-no-files-found: warn
+          retention-days: 30

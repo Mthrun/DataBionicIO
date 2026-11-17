@@ -84,6 +84,35 @@ cmake --build build/python --config Release --target PyPackageInstall
 `PyPackageInstall` installs the package into the selected Python environment.
 It does not install dependencies.
 
+## GitHub Actions packages
+
+The source workflow is `.github/workflows/python.yml`.
+It selects CPython 3.11, 3.12, 3.13, 3.14, and 3.15 for each configuration:
+
+| Build system | Processor | Wheel platform |
+| --- | --- | --- |
+| manylinux container | x86-64 | Linux with glibc 2.28 or newer. |
+| Windows Server 2022 | x86-64 | Windows, 64-bit. |
+| macOS 15 | ARM64 | macOS, Apple Silicon. |
+| macOS 15 | x86-64 | macOS, Intel. |
+
+The macOS builds use deployment target 13.0.
+Python and its dependencies can have their own operating system requirements.
+Each job installs its wheel in an isolated Python environment.
+It tests keys, public functions, and `TheSameKey` through that installation.
+The job keeps the wheel only after these tests pass.
+Each wheel has a SHA-256 checksum and a JSON build record.
+
+To start the workflow, select **Actions > Python wheels > Run workflow** in GitHub.
+Open the completed run.
+Select an artifact with a name that ends in `-package`.
+Extract the artifact ZIP.
+Install the wheel with the command in the Install section.
+
+Select a wheel for your CPython version, operating system, and processor.
+These wheels use standard CPython builds with the global interpreter lock.
+The workflow keeps packages and reports for 30 days.
+
 ## macOS build options
 
 The wheel platform tag identifies the compiled architectures.

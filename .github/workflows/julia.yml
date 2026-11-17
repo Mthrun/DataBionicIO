@@ -15,6 +15,8 @@ on:
       - 'libs/RDataIO/**'
       - 'libs/pyDataIO/**'
       - 'libs/qslegacy/**'
+      - 'ci/julia/**'
+      - 'ci/release_common.py'
       - 'tests/**'
       - 'examples/**'
       - 'cmake/**'
@@ -35,6 +37,8 @@ on:
       - 'libs/RDataIO/**'
       - 'libs/pyDataIO/**'
       - 'libs/qslegacy/**'
+      - 'ci/julia/**'
+      - 'ci/release_common.py'
       - 'tests/**'
       - 'examples/**'
       - 'cmake/**'
@@ -71,10 +75,10 @@ jobs:
       fail-fast: false
       matrix:
         julia: ['1.10', '1']
-        platform: [linux-x64, windows-x64, macos-arm64]
+        platform: [linux-x64, windows-x64, macos-arm64, macos-x64]
         include:
           - platform: linux-x64
-            os: ubuntu-24.04
+            os: ubuntu-22.04
             arch: x64
           - platform: windows-x64
             os: windows-2022
@@ -82,6 +86,9 @@ jobs:
           - platform: macos-arm64
             os: macos-15
             arch: aarch64
+          - platform: macos-x64
+            os: macos-15-intel
+            arch: x64
     defaults:
       run:
         shell: bash
@@ -90,6 +97,15 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+
+      - name: Set up Python for packaging and file exchange
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Set the minimum macOS version
+        if: runner.os == 'macOS'
+        run: echo 'MACOSX_DEPLOYMENT_TARGET=13.0' >> "$GITHUB_ENV"
 
       - name: Set up Julia
         uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2
@@ -148,11 +164,10 @@ jobs:
           ctest --test-dir build/ci/julia -C Release -R '^julia-' --no-tests=error \
             --output-on-failure --output-junit julia-tests.xml 2>&1 | tee build/ci/reports/julia-tests.txt
 
-      - name: Set up Python for file exchange
-        if: runner.os == 'Linux' && matrix.julia == '1'
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
-        with:
-          python-version: '3.12'
+      - name: Package and test the extracted Julia archive
+        run: |
+          python ci/julia/package_julia.py \
+            --package build/ci/julia/libs/juliaDataIO/DataBionicIO --macos-target 13.0
 
       - name: Install R and Python dependencies
         if: runner.os == 'Linux' && matrix.julia == '1'
@@ -191,6 +206,14 @@ jobs:
             python tests/interop/interop.py verify-julia build/ci/interop build/ci/python/libs/pyDataIO
           } 2>&1 | tee build/ci/reports/interop-tests.txt
 
+      - name: Upload tested Julia package
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: DataBionicIO-Julia-${{ matrix.julia }}-${{ matrix.platform }}-package
+          path: build/ci/packages/
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -198,6 +221,7 @@ jobs:
           name: DataBionicIO-Julia-${{ matrix.julia }}-${{ matrix.platform }}-${{ github.run_attempt }}
           path: |
             build/ci/reports/
+            build/ci/julia-release/logs/
             build/ci/julia/CMakeCache.txt
             build/ci/julia/julia-tests.xml
             build/ci/julia/Testing/Temporary/

@@ -45,7 +45,8 @@ def package_matlab(build, require_interop=False, require_fixtures=False):
         raise ValueError("The package source commit does not match this job")
     if not re.fullmatch(r"R20\d{2}[ab]", info["release"]):
         raise ValueError("Invalid MATLAB release")
-    extensions = {"win64": "mexw64", "glnxa64": "mexa64", "maca64": "mexmaca64"}
+    extensions = {"win64": "mexw64", "glnxa64": "mexa64",
+                  "maca64": "mexmaca64", "maci64": "mexmaci64"}
     if extensions.get(info["architecture"]) != info["mex_extension"]:
         raise ValueError("Unexpected MEX architecture or extension")
     mex = package / "bin" / ("dataio_mex." + info["mex_extension"])

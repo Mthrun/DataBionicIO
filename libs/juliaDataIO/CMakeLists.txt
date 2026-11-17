@@ -28,6 +28,9 @@ target_compile_definitions(databionicio_julia PRIVATE DATAIO_STATIC)
 target_link_libraries(databionicio_julia PRIVATE JlCxx::cxxwrap_julia JlCxx::cxxwrap_julia_stl)
 set_target_properties(databionicio_julia PROPERTIES
     CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON PREFIX "lib"
+    # CxxWrap loads its runtime before this module. Omit local build paths.
+    SKIP_BUILD_RPATH TRUE
+    BUILD_WITH_INSTALL_NAME_DIR TRUE INSTALL_NAME_DIR "@rpath"
     LIBRARY_OUTPUT_DIRECTORY "${julia_package}/lib"
     RUNTIME_OUTPUT_DIRECTORY "${julia_package}/lib")
 foreach(config ${CMAKE_CONFIGURATION_TYPES})

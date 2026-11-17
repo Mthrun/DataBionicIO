@@ -144,6 +144,7 @@ The MATLAB workflow has these configurations:
 | Windows Server 2022 | x64 | R2024b | Microsoft Visual C++ 2022 |
 | Ubuntu 24.04 | x64 | R2024b | GCC 12 |
 | macOS 15 | Apple Silicon | R2025b | Xcode 16.4 |
+| macOS 15 | Intel | R2025b | Xcode 16.4 |
 
 The workflow builds the MEX module and starts the modern and legacy test modes.
 Each configuration uses the same MATLAB release for both test modes.

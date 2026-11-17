@@ -43,7 +43,7 @@ Third-party components keep their own licenses.
 | `libs/qslegacy/` | An R package for legacy QS files. |
 | `cmake/` | CMake support files. |
 | `ci/matlab/` | The MATLAB build and test command for GitHub Actions. |
-| `.github/workflows/` | GitHub Actions workflows for MATLAB and Julia. |
+| `.github/workflows/` | GitHub Actions workflows for Python, MATLAB, Julia, and file-exchange tests. |
 | `tests/` | Test programs and fixed sample files. |
 | `examples/` | Examples of package use. |
 | `build/` | Build output. |
@@ -68,6 +68,11 @@ Rscript --vanilla tests/run_tests.R
 The [Julia workflow](.github/workflows/julia.yml) builds and tests the package on Linux, Windows, and macOS.
 It uses Julia 1.10 and the latest stable Julia 1 release.
 Its Linux job also tests file exchange between Julia, R, and Python.
+The workflow tests extracted Julia binary packages before it makes them available as download artifacts.
+
+The [Python workflow](.github/workflows/python.yml) builds wheels for CPython 3.11 through 3.15.
+It tests installed wheels on Linux, Windows, and macOS.
+Both workflows include macOS configurations for Intel and Apple Silicon processors.
 
 ## C++ build
 

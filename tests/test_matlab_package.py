@@ -64,7 +64,7 @@ def reject(build, interop=False):
 
 
 for architecture, extension in (("win64", "mexw64"), ("glnxa64", "mexa64"),
-                                 ("maca64", "mexmaca64")):
+                                 ("maca64", "mexmaca64"), ("maci64", "mexmaci64")):
     with tempfile.TemporaryDirectory() as temporary:
         build = Path(temporary)
         package = prepare(build, architecture, extension)
@@ -75,6 +75,13 @@ for architecture, extension in (("win64", "mexw64"), ("glnxa64", "mexa64"),
             assert "DataBionicIO/build-info.json" in bundle.namelist()
             assert "DataBionicIO/validation.tsv" in bundle.namelist()
         assert archive.with_suffix(".zip.sha256").read_text().split()[0] == hashlib.sha256(archive.read_bytes()).hexdigest()
+
+# A Mac package must not accept the binary for the other processor architecture.
+for architecture, extension in (("maci64", "mexmaca64"), ("maca64", "mexmaci64")):
+    with tempfile.TemporaryDirectory() as temporary:
+        build = Path(temporary)
+        prepare(build, architecture, extension)
+        reject(build)
 
 for failure in ("failed-test", "missing-test", "missing-license", "missing-mex", "wrong-architecture", "missing-interop"):
     with tempfile.TemporaryDirectory() as temporary:
@@ -108,7 +115,7 @@ with tempfile.TemporaryDirectory() as temporary:
     (build / "interop" / "python-verified.txt").write_text("PASS: Python checks\n")
     assert package_matlab(build, True).is_file()
 
-print("MATLAB package archive checks passed for three platforms and rejection cases.")
+print("MATLAB package archive checks passed for four platforms and rejection cases.")
 
 with tempfile.TemporaryDirectory() as temporary:
     build = Path(temporary)
