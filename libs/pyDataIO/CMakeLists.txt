@@ -7,7 +7,12 @@ set(TARGET_NAME pyDataIO)
 
 # Select one interpreter for compilation, packaging and tests.
 set(PYBIND11_FINDPYTHON ON)
-find_package(Python 3.9 REQUIRED COMPONENTS Interpreter Development)
+# CMake 3.18 can find module headers without an interpreter-embedding library.
+if(CMAKE_VERSION VERSION_LESS 3.18)
+    find_package(Python 3.9 REQUIRED COMPONENTS Interpreter Development)
+else()
+    find_package(Python 3.9 REQUIRED COMPONENTS Interpreter Development.Module)
+endif()
 find_package(pybind11 CONFIG REQUIRED)
 
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS src/*.cpp src/*.h src/*.hpp)
