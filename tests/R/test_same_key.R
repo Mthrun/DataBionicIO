@@ -1,5 +1,5 @@
 # INPUT
-# An isolated cdbt.DataIO test library and fixed numeric sequences.
+# An isolated DataBionicIO test library and fixed numeric sequences.
 # DATAIO_RUN_LEGACY_AUDIT=1 also checks the generated comparison grid.
 # OUTPUT
 # Assertions check the public Boolean comparison; no files are written.
@@ -8,7 +8,7 @@
 
 test_library <- Sys.getenv("DATAIO_TEST_LIBRARY")
 if (nzchar(test_library)) .libPaths(c(test_library, .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 audit_option <- Sys.getenv("DATAIO_RUN_LEGACY_AUDIT", "0")
 stopifnot(audit_option %in% c("0", "1"))
 cases <- list(

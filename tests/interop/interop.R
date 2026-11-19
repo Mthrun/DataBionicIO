@@ -13,7 +13,7 @@ if (length(args) != 3L || !args[1] %in% c("generate", "verify", "verify-r-python
 mode <- args[1]
 out <- normalizePath(args[2], mustWork = TRUE)
 .libPaths(c(normalizePath(args[3], mustWork = TRUE), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 key <- c(-2^53, 2^31, 2^53)
 values <- matrix(c(1.25, 10, NaN, -2.5, 3.75, 30), nrow = 3, byrow = TRUE)
 classes <- c(2, NaN, 1)

@@ -8,7 +8,7 @@ args <- commandArgs(trailingOnly=TRUE)
 mode <- args[1]
 out <- normalizePath(args[2])
 .libPaths(c(normalizePath(args[3]),.libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 key <- c(1,2^31,2^53)
 values <- matrix(c(1.25,10,NaN,-2.5,3.75,30),nrow=3,byrow=TRUE)
 times <- c("2024-01-01 12:30:00.125","2024-06-15 13:45:10.250","2024-12-31 23:59:59.999")

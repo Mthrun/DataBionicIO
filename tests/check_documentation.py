@@ -18,8 +18,8 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_FILES = (
-    "README.md", "libs/pyDataIO/README.md", "libs/matlabDataIO/README.md",
-    "libs/qslegacy/README.txt", "tests/README.md", "tests/legacy/README.md",
+    "README.md", "API.md", "libs/pyDataIO/README.md", "libs/matlabDataIO/README.md",
+    "libs/qslegacy/README.txt", "libs/pyDataIO/py/common.py", "tests/README.md", "tests/legacy/README.md",
     "tests/qslegacy/README.md", "libs/pyDataIO/py/extension.py",
     "libs/juliaDataIO/README.md",
     "examples/excel/README.md",

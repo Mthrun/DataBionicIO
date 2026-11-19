@@ -1,4 +1,4 @@
-set(TARGET_NAME cdbt.DataIO)
+set(TARGET_NAME DataBionicIO)
 
 #find_package(Rcpp REQUIRED)
 file(GLOB_RECURSE sources src/*.cpp)

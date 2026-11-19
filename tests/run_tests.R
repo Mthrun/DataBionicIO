@@ -54,7 +54,7 @@ if (!length(args)) {
   # Build copies: tests must not install packages in the user's library or edit source files.
   stage <- file.path(run, "source")
   dir.create(stage)
-  pkg <- file.path(stage, "cdbt.DataIO")
+  pkg <- file.path(stage, "DataBionicIO")
   dir.create(pkg)
   for (name in c("DESCRIPTION", "NAMESPACE", "LICENSE"))
     stopifnot(file.copy(file.path(root, "libs/RDataIO", name), pkg))
@@ -77,17 +77,18 @@ if (!length(args)) {
   run_command("build-qslegacy", r, c("CMD", "INSTALL", "--preclean", paste0("--library=", lib),
                                    file.path(stage, "qslegacy")))
 }
-if (!file.exists(file.path(lib, "cdbt.DataIO", "DESCRIPTION"))) {
-  record("test-library", "FAIL", "cdbt.DataIO is not installed in the selected library")
+if (!file.exists(file.path(lib, "DataBionicIO", "DESCRIPTION"))) {
+  record("test-library", "FAIL", "DataBionicIO is not installed in the selected library")
   quit(status = 1L)
 }
 .libPaths(c(lib, .libPaths()))
-for (package in c("cdbt.DataIO", "qslegacy", "Rcpp", "lubridate", "qs2")) {
+for (package in c("DataBionicIO", "qslegacy", "Rcpp", "lubridate", "qs2")) {
   version <- tryCatch(as.character(packageVersion(package)), error = function(e) "not installed")
   cat(package, version, "\n", file = file.path(run, "environment.txt"), append = TRUE)
 }
 tests <- c(basics = "tests/R/test_package.R", keys = "tests/R/test_key64.R",
            same_key = "tests/R/test_same_key.R",
+           common_api = "tests/R/test_common_api.R",
            headers = "tests/R/test_header_warnings.R", numbers = "tests/R/test_small_optimizations.R",
            legacy = "tests/legacy/test_readers.R", documentation = "tests/R/test_documentation.R")
 for (name in names(tests))

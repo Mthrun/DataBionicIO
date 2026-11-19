@@ -1,0 +1,18 @@
+# OUTPUT
+# The former pyDataIO import keeps its existing Python interface.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+
+from DataBionicIO.extension import TheSameKey, the_same_key
+from DataBionicIO.extension import ReadDates
+from DataBionicIO.extension import WriteDates
+from DataBionicIO.extension import ReadLRN
+from DataBionicIO.extension import WriteLRN
+from DataBionicIO.extension import ReadNames
+from DataBionicIO.extension import WriteNames
+from DataBionicIO.extension import ReadCls
+from DataBionicIO.extension import WriteCls
+from DataBionicIO.extension import LRN_reader
+from DataBionicIO.extension import ReadCLS, WriteCLS, ReadNAMES, WriteNAMES
+from DataBionicIO.extension import read_lrn, read_cls, read_names, read_dates
+

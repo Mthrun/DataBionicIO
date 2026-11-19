@@ -30,7 +30,7 @@ from release_common import (ROOT, build_path, clean_test_environment, run,
 def inspect_wheel(path, version):
     """Reject a wrong version, incompatible tags, or a wheel without its native module."""
     name, wheel_version, _, tags = parse_wheel_filename(path.name)
-    if name != "pydataio" or str(wheel_version) != version or not tags.intersection(sys_tags()):
+    if name != "databionicio" or str(wheel_version) != version or not tags.intersection(sys_tags()):
         raise ValueError("The wheel identity or compatibility tags do not match this build")
     with zipfile.ZipFile(path) as bundle:
         if bundle.testzip() is not None:
@@ -42,7 +42,7 @@ def inspect_wheel(path, version):
         fields = BytesParser().parsebytes(bundle.read(metadata[0]))
         if fields["Version"] != version:
             raise ValueError("The wheel metadata version is incorrect")
-        native = [n for n in names if n.startswith("pyDataIO/libs/") and n.endswith((".so", ".pyd"))]
+        native = [n for n in names if n.startswith("DataBionicIO/libs/") and n.endswith((".so", ".pyd"))]
         if len(native) != 1:
             raise ValueError("Expected one compiled Python module in the wheel")
         for required in ("LICENSE", "MATLAB-EXCEPTION.txt", "THIRD-PARTY-NOTICES.txt"):
@@ -105,18 +105,18 @@ def main():
     test_env = clean_test_environment(python)
     run([python, "-m", "pip", "install", "--no-index", "--no-deps", "--ignore-installed", wheel],
         logs / "install.log", cwd=args.build, env=test_env)
-    probe = ("import importlib.metadata,json,pathlib,sys,pyDataIO; "
-             "p=pathlib.Path(pyDataIO.__file__).resolve(); "
+    probe = ("import importlib.metadata,json,pathlib,sys,DataBionicIO; "
+             "p=pathlib.Path(DataBionicIO.__file__).resolve(); "
              "assert p.is_relative_to(pathlib.Path(sys.prefix).resolve()),p; "
-             "assert importlib.metadata.version('pyDataIO')==sys.argv[1]; "
+             "assert importlib.metadata.version('DataBionicIO')==sys.argv[1]; "
              "print(json.dumps(str(p.parent.parent)))")
     run([python, "-c", probe, info["version"]], logs / "installed-origin.log", cwd=args.build, env=test_env)
     site = Path(json.loads((logs / "installed-origin.log").read_text().strip()))
-    extensions = list((site / "pyDataIO/libs").glob("*.pyd" if os.name == "nt" else "*.so"))
+    extensions = list((site / "DataBionicIO/libs").glob("*.pyd" if os.name == "nt" else "*.so"))
     if len(extensions) != 1:
         raise ValueError("The installed native module is missing or ambiguous")
     for test, argument in (("test_key64.py", extensions[0]), ("test_wrappers.py", site),
-                           ("test_same_key.py", site)):
+                           ("test_same_key.py", site), ("test_common_api.py", site)):
         run([python, ROOT / "tests/Python" / test, argument], logs / (test + ".log"),
             cwd=args.build, env=test_env)
     if args.r_library:
@@ -125,7 +125,7 @@ def main():
         run([python, ROOT / "tests/Python/test_interop.py", site, args.r_library.resolve()],
             logs / "interop.log", cwd=args.build, env=interop_env)
     info.update(python=platform.python_version(), artifact=wheel.name, status="PASS",
-                installation_tests=["native-keys", "wrappers", "same-key"])
+                installation_tests=["native-keys", "wrappers", "same-key", "common-api"])
     if args.r_library:
         info["installation_tests"].append("r-interop")
     args.output.mkdir(parents=True, exist_ok=True)

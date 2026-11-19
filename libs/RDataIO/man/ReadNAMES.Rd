@@ -27,20 +27,21 @@ The reader adds \code{.names} if the filename has neither a \code{.names} nor a 
 The read operation does not change the input file.
 }
 \value{
-A list with these elements:
+A list with these elements in this order:
 \item{Key}{Numeric vector with one key per row.
 Keys are whole numbers in \code{[-2^53, 2^53]}.
 Missing keys and keys outside this range become \code{NA} with a warning.
 A numeric prefix can supply a key. Additional text after that prefix causes a warning.}
 \item{Names}{Character vector from the second file column.
 The file marker \code{"NA"} becomes an R missing value.}
-\item{FurtherTexts}{Optional character matrix from the third and subsequent file columns.
+\item{FurtherTexts}{Character matrix from the third and subsequent file columns.
+Without additional text columns, this matrix has one row per record and zero columns.
 Each matrix row contains one record.
 The file marker \code{"NA"} becomes an R missing value.}
-\item{Header}{Optional character vector with the column names for \code{FurtherTexts}.
-The result contains this element only when the file has additional text columns.}
-\item{Comments}{Optional string from the comment lines.
-The result omits this element when the comment is empty.
+\item{Header}{Character vector with the column names for \code{FurtherTexts}.
+Without additional text columns, this vector is empty.}
+\item{Comments}{String from the comment lines.
+The result contains an empty string when the file has no comment.
 The format tag is not part of the comment.}
 }
 \author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}

@@ -105,7 +105,7 @@ jobs:
         run: |
           R_LIBRARY=$(Rscript --vanilla -e 'p <- Sys.glob("build/tests/*/library"); stopifnot(length(p)==1L); cat(normalizePath(p,winslash="/"))')
           echo "DATAIO_R_TEST_LIBRARY=$R_LIBRARY" >> "$GITHUB_ENV"
-          Rscript --vanilla -e '.libPaths(c(commandArgs(TRUE)[1],.libPaths())); library(cdbt.DataIO); library(jsonlite); print(sessionInfo()); print(attr(OlsonNames(),"Version")); print(installed.packages()[,c("Package","Version")]); print(Sys.getlocale())' "$R_LIBRARY" > 'build/k3/${{ matrix.system }}/r-environment.txt'
+          Rscript --vanilla -e '.libPaths(c(commandArgs(TRUE)[1],.libPaths())); library(DataBionicIO); library(jsonlite); print(sessionInfo()); print(attr(OlsonNames(),"Version")); print(installed.packages()[,c("Package","Version")]); print(Sys.getlocale())' "$R_LIBRARY" > 'build/k3/${{ matrix.system }}/r-environment.txt'
           Rscript --vanilla -e 'compiler <- system2(file.path(R.home("bin"),"R"),c("CMD","config","CXX20"),stdout=TRUE); print(compiler); system(paste(compiler,"--version"))' > 'build/k3/${{ matrix.system }}/r-compiler.txt'
 
       - name: Build Python and run separate regressions
@@ -195,7 +195,7 @@ jobs:
               for p in Path(root).rglob('CMakeCXXCompiler.cmake'):
                   q=out/'build-records'/p; q.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(p,q)
           records=[]
-          for root in ['build/ci/python/libs/pyDataIO/pyDataIO',os.environ['DATAIO_R_TEST_LIBRARY'],'build/ci/julia/libs/juliaDataIO/DataBionicIO','build/ci/package/DataBionicIO']:
+          for root in ['build/ci/python/libs/pyDataIO/DataBionicIO','build/ci/python/libs/pyDataIO/pyDataIO',os.environ['DATAIO_R_TEST_LIBRARY'],'build/ci/julia/libs/juliaDataIO/DataBionicIO','build/ci/package/DataBionicIO']:
               for p in Path(root).rglob('*'):
                   if p.is_file() and '__pycache__' not in p.parts:
                       records.append(dict(path=p.as_posix(),sha256=hashlib.sha256(p.read_bytes()).hexdigest()))
@@ -228,7 +228,9 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: K3-python-${{ matrix.system }}
-          path: build/ci/python/libs/pyDataIO/pyDataIO/
+          path: |
+            build/ci/python/libs/pyDataIO/DataBionicIO/
+            build/ci/python/libs/pyDataIO/pyDataIO/
           if-no-files-found: warn
           retention-days: 30
 
@@ -266,7 +268,7 @@ jobs:
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: K3-python-${{ matrix.system }}
-          path: build/ci/python/libs/pyDataIO/pyDataIO
+          path: build/ci/python/libs/pyDataIO
       - name: Read the eight unchanged files from the other systems
         run: |
           python - <<'PY'

@@ -6,7 +6,7 @@
 # Execute help examples against the isolated package and verify documented fields.
 test_library <- Sys.getenv("DATAIO_TEST_LIBRARY")
 if (nzchar(test_library)) .libPaths(c(test_library, .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 script <- sub("^--file=", "", grep("^--file=", commandArgs(), value = TRUE)[1])
 root <- dirname(dirname(dirname(normalizePath(script))))
 topics <- c("ReadDates", "WriteDates", "ReadNAMES", "ReadLRN", "WriteLRN",

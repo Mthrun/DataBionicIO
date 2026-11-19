@@ -1,5 +1,5 @@
 # OUTPUT
-# Source archives for cdbt.DataIO and qslegacy in the selected output folder.
+# Source archives for DataBionicIO and qslegacy in the selected output folder.
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 

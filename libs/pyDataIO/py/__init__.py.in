@@ -1,5 +1,5 @@
 # OUTPUT
-# The public pyDataIO interface is available from the package namespace.
+# The public DataBionicIO interface is available from the package namespace.
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
 
@@ -16,3 +16,6 @@ from .extension import LRN_reader
 from .extension import ReadCLS, WriteCLS, ReadNAMES, WriteNAMES
 from .extension import read_lrn, read_cls, read_names, read_dates
 
+
+# Common interface shared with R, MATLAB, and Julia.
+from .common import ReadLRN, WriteLRN, ReadCLS, WriteCLS, ReadNAMES, WriteNAMES, ReadDates, WriteDates

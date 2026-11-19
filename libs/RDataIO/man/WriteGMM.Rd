@@ -18,7 +18,7 @@ or a numeric vector for one variable.}
 \details{
 The blocks use keys starting at 1 for means, 101 for standard deviations and
 1001 for weights. The comment describes the block layout.
-The writer supports both the native R and cdbt.DataIO versions of \code{WriteLRN}.
+The writer supports both the native R and DataBionicIO versions of \code{WriteLRN}.
 }
 \value{Used for its side effect of writing an LRN file.}
 \seealso{\code{ReadGMM}, \code{\link{WriteLRN}}}

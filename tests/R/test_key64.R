@@ -6,7 +6,7 @@
 # Set DATAIO_TEST_LIBRARY to test an isolated build.
 test_library <- Sys.getenv("DATAIO_TEST_LIBRARY")
 if (nzchar(test_library)) .libPaths(c(test_library, .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 directory <- tempfile("dataio-key64-")
 dir.create(directory)
 
@@ -66,7 +66,7 @@ for (format in c("lrn", "cls", "names", "dts")) {
 }
 
 # The registered Rcpp entry point must also check keys before conversion.
-result <- try(cdbt.DataIO:::write_cls(c(1, 2), c(1.5, 2), NaN,
+result <- try(DataBionicIO:::write_cls(c(1, 2), c(1.5, 2), NaN,
   file.path(directory, "direct.cls"), "", TRUE, FALSE), silent = TRUE)
 stopifnot(inherits(result, "try-error"), !file.exists(file.path(directory, "direct.cls")))
 unlink(directory, recursive = TRUE)

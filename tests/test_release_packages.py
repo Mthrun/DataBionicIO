@@ -41,13 +41,13 @@ class ReleaseInspectionTests(unittest.TestCase):
 
     def wheel(self, *, version="1.0.0", metadata="1.0.0", tag=None, omit=None):
         """Create a wheel-shaped fixture for metadata and completeness inspection."""
-        path = self.root / f"pydataio-{version}-{tag or next(sys_tags())}.whl"
+        path = self.root / f"databionicio-{version}-{tag or next(sys_tags())}.whl"
         extension = ".pyd" if platform.system() == "Windows" else ".so"
-        files = {"pyDataIO/libs/pyDataIO" + extension: b"inspection fixture",
-                 f"pydataio-{version}.dist-info/METADATA":
-                     f"Name: pyDataIO\nVersion: {metadata}\n".encode()}
+        files = {"DataBionicIO/libs/pyDataIO" + extension: b"inspection fixture",
+                 f"databionicio-{version}.dist-info/METADATA":
+                     f"Name: DataBionicIO\nVersion: {metadata}\n".encode()}
         for name in ("LICENSE", "MATLAB-EXCEPTION.txt", "THIRD-PARTY-NOTICES.txt"):
-            files[f"pydataio-{version}.dist-info/licenses/{name}"] = b"license fixture"
+            files[f"databionicio-{version}.dist-info/licenses/{name}"] = b"license fixture"
         with zipfile.ZipFile(path, "w") as bundle:
             for name, data in files.items():
                 if omit is None or omit not in name:
@@ -87,7 +87,7 @@ class ReleaseInspectionTests(unittest.TestCase):
                 wheel_builder.inspect_wheel(self.wheel(**options), "1.0.0")
 
     def test_wheel_rejects_missing_native_module_and_license(self):
-        for omit in ("pyDataIO/libs/", "MATLAB-EXCEPTION.txt"):
+        for omit in ("DataBionicIO/libs/", "MATLAB-EXCEPTION.txt"):
             with self.subTest(omit=omit), self.assertRaises(ValueError):
                 wheel_builder.inspect_wheel(self.wheel(omit=omit), "1.0.0")
 

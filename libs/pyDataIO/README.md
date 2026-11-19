@@ -3,8 +3,8 @@
 The project uses GNU AGPL version 3 only, with a MATLAB linking exception.
 The wheel includes the license texts and the pybind11 license notice.
 
-`pyDataIO` reads and writes LRN, CLS, NAMES, and DATES files.
-Its functions use the same C++ code as the R package `cdbt.DataIO`.
+`DataBionicIO` reads and writes LRN, CLS, NAMES, and DATES files.
+Its functions use the same C++ code as the R package `DataBionicIO`.
 The writers use format 2.0.
 The readers also accept specified legacy layouts for LRN, CLS, and NAMES.
 
@@ -123,11 +123,11 @@ The default value is the major version number of the build system.
 ## Example
 
 ```python
-import pyDataIO as io
+import DataBionicIO as io
 
 io.WriteLRN("measurements", [[1.5, 2.0], [3.5, 4.0]],
             Header=["A", "B"], Key=[10, 20], OutDirectory="/path/to/data")
-data = io.ReadLRN("measurements", Directory="/path/to/data")
+data = io.ReadLRN("measurements", InDirectory="/path/to/data")
 frame = io.read_lrn("measurements", Directory="/path/to/data")
 ```
 
@@ -143,7 +143,24 @@ It does not test the key constraints of the file formats.
 The name `the_same_key` gives the same function.
 Numeric values must convert to binary64 without loss.
 
-## Functions
+## Common interface
+
+The common readers are `ReadLRN`, `ReadCLS`, `ReadNAMES`, and `ReadDates`.
+The writers are `WriteLRN`, `WriteCLS`, `WriteNAMES`, and `WriteDates`.
+Readers take `FileName`, `InDirectory`, and `Verbose`, in this order.
+Their dictionaries contain the fixed fields below, in this order.
+
+| Reader | Fields |
+| --- | --- |
+| `ReadLRN` | `Key`, `Data`, `Header`, `DataDefined`, `Comments` |
+| `ReadCLS` | `Key`, `Cls`, `UniqueClasses`, `Comments` |
+| `ReadNAMES` | `Key`, `Names`, `FurtherTexts`, `Header`, `Comments` |
+| `ReadDates` | `Key`, `Time`, `Data`, `Header`, `Comments`, `Timezone`, `DST` |
+
+`WriteCLS` takes `FileName`, `Cls`, `OutDirectory`, `Key`, `Comment`, `Int4NaN`, `Overwrite`, and `Verbose`.
+The other writers keep the argument order shown by their Python help text.
+
+## Additional Python functions
 
 | Format | Dictionary reader | Writer | DataFrame reader |
 | --- | --- | --- | --- |
@@ -154,7 +171,8 @@ Numeric values must convert to binary64 without loss.
 
 The default directory is the working directory at the time of the function call.
 Paths can be strings or `pathlib.Path` objects.
-The default value of `Overwrite` is `False`.
+The common interface has `Overwrite=True` and `Verbose=True` as defaults.
+The compatibility import `pyDataIO` keeps its previous defaults.
 The writer examines the input before it opens the output file.
 
 To replace an existing file, set `Overwrite=True`.
@@ -208,7 +226,8 @@ The writers keep spaces, commas, and semicolons in text cells.
 
 ## Results
 
-Dictionary results contain `Key`, `Comments`, and the alias `Comment`.
+The compatibility import `pyDataIO` returns the additional fields described in this section.
+Its dictionary results contain `Key`, `Comments`, and the alias `Comment`.
 LRN results contain `DataDefined` and the alias `Types`.
 
 For NAMES, `FurtherTexts` contains one record in each row.
@@ -263,6 +282,6 @@ For these time zones, set `tz='UTC'`.
 
 `LRN_reader` reads a file one line at a time.
 It accepts LF and CRLF line endings.
-It uses the same result conversion as `ReadLRN`.
+It uses the compatibility result conversion.
 The `has_nan` attribute identifies missing values.
 `get_lrn(True)` returns the same DataFrame structure as `read_lrn`.

@@ -6,7 +6,7 @@
 # Run with the test library path. An optional second argument saves comparison results.
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) .libPaths(c(normalizePath(args[1]), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 directory <- tempfile("DataIO-small-optimizations-")
 dir.create(directory)
 results <- list()

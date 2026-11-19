@@ -1,12 +1,14 @@
 \name{DataIO-package}
 \alias{DataIO-package}
+\alias{DataBionicIO-package}
+\alias{DataBionicIO}
 \alias{DataIO}
 \docType{package}
 \title{
 DataBionicIO for R
 }
 \description{
-Functions for writing and reading data are being provided in the cdbt.DataIO package of DataBionicIO, which specializes on [n,k] matrices and data frames. The file format with the extension *.data enables the user to import data to Microsoft Excel and Mathworks Matlab. Furthermore it allows for inspecting and editing data with any text editor. To prevent failure which for example might occur during unintentional alteration of the *.data file in Excel or an editor, the files are verified by a checksum for each column of data.
+Functions for writing and reading data are being provided in the DataBionicIO R package, which specializes on [n,k] matrices and data frames. The file format with the extension *.data enables the user to import data to Microsoft Excel and Mathworks Matlab. Furthermore it allows for inspecting and editing data with any text editor. To prevent failure which for example might occur during unintentional alteration of the *.data file in Excel or an editor, the files are verified by a checksum for each column of data.
 
 See the vignettes for more examples of how to use the functions for writing and reading *.data files.
 
@@ -18,7 +20,7 @@ See the vignettes for more examples of how to use the functions for writing and 
 }
 
 \tabular{ll}{
-Package: \tab cdbt.DataIO\cr
+Package: \tab DataBionicIO\cr
 Type: \tab Package\cr
 Version: \tab 1.0.0\cr
 Date: \tab 2026-11-17\cr

@@ -3,6 +3,37 @@
 This package reads and writes LRN, CLS, NAMES, and DATES files through the shared C++ code.
 The Julia package name is `DataBionicIO`.
 
+
+## Common interface
+
+The package name is `DataBionicIO`.
+The common readers are `ReadLRN`, `ReadCLS`, `ReadNAMES`, and `ReadDates`.
+The writers are `WriteLRN`, `WriteCLS`, `WriteNAMES`, and `WriteDates`.
+Readers take `FileName`, `InDirectory`, and `Verbose`, in this order.
+
+| Reader | Outputs, in order |
+| --- | --- |
+| `ReadLRN` | `Key`, `Data`, `Header`, `DataDefined`, `Comments` |
+| `ReadCLS` | `Key`, `Cls`, `UniqueClasses`, `Comments` |
+| `ReadNAMES` | `Key`, `Names`, `FurtherTexts`, `Header`, `Comments` |
+| `ReadDates` | `Key`, `Time`, `Data`, `Header`, `Comments`, `Timezone`, `DST` |
+
+Empty fields keep their output positions.
+The common LRN reader keeps type `0` columns.
+The default values of `Overwrite` and `Verbose` are true.
+
+Use positional arguments or the common keyword names:
+
+```julia
+result = ReadLRN("example"; InDirectory=pwd(), Verbose=false)
+WriteDates("series", (Time=times, Value=values); Key=keys, tz="America/Chicago")
+```
+
+The common DTS writer accepts a NamedTuple of columns, matrix, or time vector.
+Input times must already use `tz`.
+The reader returns local time text, the zone name, and DST markers.
+The functions with lower-case names below keep their previous interfaces.
+
 ## Requirements
 
 The build uses Julia 1.10 or newer, CxxWrap 0.17, CMake 3.15 or newer, and a C++20 compiler.

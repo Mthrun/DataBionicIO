@@ -6,7 +6,7 @@
 # Run with the path to an isolated test library.
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) .libPaths(c(normalizePath(args[1]), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 directory <- tempfile("DataIO-header-warnings-")
 dir.create(directory)
 

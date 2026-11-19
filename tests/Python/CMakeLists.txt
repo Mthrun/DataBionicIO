@@ -15,7 +15,12 @@ add_test(NAME python-wrappers
 add_test(NAME python-same-key
     COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_same_key.py"
             "${CMAKE_BINARY_DIR}/libs/pyDataIO")
-set(python_tests python-keys python-wrappers python-same-key)
+add_test(NAME python-common-api
+    COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_common_api.py"
+            "${CMAKE_BINARY_DIR}/libs/pyDataIO")
+add_test(NAME python-common-contract
+    COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../test_common_contract.py")
+set(python_tests python-keys python-wrappers python-same-key python-common-api python-common-contract)
 set(DATAIO_R_TEST_LIBRARY "" CACHE PATH "Fresh isolated R library for the optional Python/R comparison")
 if(DATAIO_R_TEST_LIBRARY)
     add_test(NAME python-interop

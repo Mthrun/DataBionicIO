@@ -8,7 +8,7 @@
 args <- commandArgs(trailingOnly=TRUE)
 stopifnot(length(args) == 3L)
 .libPaths(c(normalizePath(args[3], mustWork=TRUE), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 requests <- jsonlite::read_json(args[1], simplifyVector=FALSE)
 num <- function(x) if (is.null(x)) NaN else as.numeric(x)
 nums <- function(x) vapply(x, num, numeric(1))

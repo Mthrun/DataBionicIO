@@ -7,9 +7,9 @@ The R, Python, MATLAB, and Julia interfaces use the same C++ code for LRN, CLS, 
 The R and MATLAB packages also contain functions for other formats.
 Excel can open the text files with tab separators.
 
-The R package name is `cdbt.DataIO`. The Python package name is `pyDataIO`.
-The MATLAB entry points are `buildDataIO` and `setupDataIO`.
-The Julia package name is `DataBionicIO`.
+The package name is `DataBionicIO` in all four languages.
+The [common interface](API.md) defines the function names, argument order, and output fields.
+The MATLAB build and setup functions are `buildDataIO` and `setupDataIO`.
 
 ## Key vectors
 
@@ -87,7 +87,7 @@ cmake --build build/core --config Release
 
 ## R package
 
-The R package is `cdbt.DataIO`. Its `DESCRIPTION` file gives the R package dependencies.
+The R package is `DataBionicIO`. Its `DESCRIPTION` file gives the R package dependencies.
 The CMake build uses R, Rcpp, a C++20 compiler, and a Bash shell.
 
 Use these commands from the project folder:
@@ -104,11 +104,11 @@ The script `build_RDataIO.R` gives an alternative build procedure.
 It uses `devtools`, `Rcpp`, and `this.path`.
 An optional `.pfad` value sets the archive output folder.
 Without this value, the script writes archives above the project folder.
-The script writes one archive for `cdbt.DataIO` and one for `qslegacy`.
+The script writes one archive for `DataBionicIO` and one for `qslegacy`.
 
 ## Python package
 
-The Python package is `pyDataIO`.
+The Python package is `DataBionicIO`.
 The [Python instructions](libs/pyDataIO/README.md) give the requirements, build commands, and function interfaces.
 The example `examples/python/example.py` shows package use.
 
@@ -138,8 +138,8 @@ Start Julia with this package:
 julia --project=build/julia/libs/juliaDataIO/DataBionicIO
 ```
 
-The package supplies `read_lrn`, `read_cls`, `read_names`, and `read_dates`.
-The writers are `write_lrn`, `write_cls`, `write_names`, and `write_dates`.
+The common readers are `ReadLRN`, `ReadCLS`, `ReadNAMES`, and `ReadDates`.
+The writers are `WriteLRN`, `WriteCLS`, `WriteNAMES`, and `WriteDates`.
 
 ## Excel
 

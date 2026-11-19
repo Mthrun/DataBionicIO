@@ -5,7 +5,7 @@
 
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) .libPaths(c(normalizePath(args[1]), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 stopifnot(requireNamespace("qs2", quietly = TRUE))
 directory <- tempfile("DataIO-qs2-")
 dir.create(directory)

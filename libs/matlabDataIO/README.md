@@ -11,6 +11,39 @@ Other formats use MATLAB functions from the DataIO source archive.
 The build script uses 64-bit MATLAB R2022a or newer and a C++20 compiler.
 Each platform has its own MEX file.
 
+
+## Common interface
+
+The package name is `DataBionicIO`.
+The common readers are `ReadLRN`, `ReadCLS`, `ReadNAMES`, and `ReadDates`.
+The writers are `WriteLRN`, `WriteCLS`, `WriteNAMES`, and `WriteDates`.
+Readers take `FileName`, `InDirectory`, and `Verbose`, in this order.
+
+| Reader | Outputs, in order |
+| --- | --- |
+| `ReadLRN` | `Key`, `Data`, `Header`, `DataDefined`, `Comments` |
+| `ReadCLS` | `Key`, `Cls`, `UniqueClasses`, `Comments` |
+| `ReadNAMES` | `Key`, `Names`, `FurtherTexts`, `Header`, `Comments` |
+| `ReadDates` | `Key`, `Time`, `Data`, `Header`, `Comments`, `Timezone`, `DST` |
+
+Empty fields keep their output positions.
+The common LRN reader keeps type `0` columns.
+The default values of `Overwrite` and `Verbose` are true.
+
+Use the namespace after `setupDataIO('modern')`:
+
+```matlab
+[Key, Data, Header, DataDefined, Comments] = DataBionicIO.ReadLRN('example', pwd, false);
+DataBionicIO.WriteDates('series', TSdata, Key, pwd, '', 'America/Chicago', 2, true, false);
+```
+
+The common DTS writer accepts a table, cell matrix, or time vector as `TSdata`.
+Its arguments follow the R order, including `tz`.
+Zoned datetime values keep their instants when the writer changes the time zone.
+Text input must already use that zone.
+The reader returns local time text, the zone name, and DST markers.
+The unqualified functions below keep their previous interfaces, including the UTC-only `WriteDates` writer.
+
 ## Folders
 
 | Folder | Contents |

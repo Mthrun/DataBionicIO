@@ -1,0 +1,9 @@
+Function	Inputs	Outputs
+ReadLRN	FileName,InDirectory,Verbose	Key,Data,Header,DataDefined,Comments
+ReadCLS	FileName,InDirectory,Verbose	Key,Cls,UniqueClasses,Comments
+ReadNAMES	FileName,InDirectory,Verbose	Key,Names,FurtherTexts,Header,Comments
+ReadDates	FileName,InDirectory,Verbose	Key,Time,Data,Header,Comments,Timezone,DST
+WriteLRN	FileName,Data,Header,Key,DataDefined,OutDirectory,Comments,SignificantDigits,DecimalDigits,Scientific,Overwrite,Verbose	
+WriteCLS	FileName,Cls,OutDirectory,Key,Comment,Int4NaN,Overwrite,Verbose	
+WriteNAMES	FileName,Names,Key,FurtherTexts,Header,OutDirectory,Comments,Overwrite,Verbose	
+WriteDates	FileName,TSdata,Key,OutDirectory,Comments,tz,Format,Overwrite,Verbose	

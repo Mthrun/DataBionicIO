@@ -6,7 +6,7 @@
 # Separate from text legacy tests so this support can be removed on its own.
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) .libPaths(c(normalizePath(args[1]), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 stopifnot(requireNamespace("qslegacy", quietly = TRUE))
 samples <- "tests/qslegacy/samples"
 expected <- readRDS(file.path(samples, "expected.rds"))

@@ -37,18 +37,23 @@ For affected POSIXt input, set \code{tz = "UTC"} when you call \code{WriteDates}
 Date-only values do not need \code{TZ_DST}.
 }
 \value{
-A list with these elements:
-\item{Time}{A \code{Date} or \code{POSIXct} vector with one value per row.}
-\item{Data}{Optional numeric matrix with one row per record.
-The matrix excludes \code{Key}, \code{Time}, and \code{TZ_DST}.}
+A list with these elements in this order:
 \item{Key}{Numeric vector with whole-number keys in \code{[-2^53, 2^53]}.
 Missing keys and keys outside this range become \code{NA} with a warning.
 A numeric prefix can supply a key. Additional text after that prefix causes a warning.}
-\item{Header}{Optional character vector with the column names for \code{Data}.}
-\item{Comments}{Optional string from the comment lines.
-The result omits this element when the comment is empty.
+\item{Time}{A \code{Date} or \code{POSIXct} vector with one value per row.}
+\item{Data}{Numeric matrix with one row per record.
+Without measurement columns, this matrix has zero columns.
+The matrix excludes \code{Key}, \code{Time}, and \code{TZ_DST}.}
+
+\item{Header}{Character vector with the column names for \code{Data}.
+Without measurement columns, this vector is empty.}
+\item{Comments}{String from the comment lines.
+The result contains an empty string when the file has no comment.
 The format tag and time zone declaration are not part of the comment.}
 \item{Timezone}{Name of the file time zone. The default is \code{"UTC"}.}
+\item{DST}{Character vector of stored time zone abbreviations, such as \code{CST} and \code{CDT}.
+This vector is empty when the file has no \code{TZ_DST} column.}
 }
 \author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects), Luca Brinkmann (IAP-GmbH Intelligent Analytics Projects)}
 \seealso{\code{\link{WriteDates}}, \link{DataIO-text-formats}}

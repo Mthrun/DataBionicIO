@@ -24,7 +24,8 @@ pybind11_add_module(${TARGET_NAME} MODULE NO_EXTRAS ${sources})
 target_link_libraries(${TARGET_NAME} PRIVATE CDataIO)
 target_compile_definitions(${TARGET_NAME} PRIVATE MYLIB_EXPORTS)
 
-set(package_dir "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}")
+set(PACKAGE_NAME DataBionicIO)
+set(package_dir "${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}")
 set_target_properties(${TARGET_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY "${package_dir}/libs"
     RUNTIME_OUTPUT_DIRECTORY "${package_dir}/libs")
@@ -36,6 +37,7 @@ foreach(config ${CMAKE_CONFIGURATION_TYPES})
         RUNTIME_OUTPUT_DIRECTORY_${config_upper} "${package_dir}/libs")
 endforeach()
 
+configure_file(compat/__init__.py.in "${CMAKE_CURRENT_BINARY_DIR}/pyDataIO/__init__.py" @ONLY)
 configure_file(py/__init__.py.in "${package_dir}/__init__.py" @ONLY)
 configure_file(py/libs/__init__.py.in "${package_dir}/libs/__init__.py" @ONLY)
 
@@ -86,6 +88,6 @@ add_dependencies(PyPackageBuild ${TARGET_NAME})
 add_custom_target(PyPackageInstall
     COMMAND "${Python_EXECUTABLE}" -m pip install --upgrade --force-reinstall --no-deps --no-build-isolation .
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-    COMMENT "Installing pyDataIO in the selected Python environment"
+    COMMENT "Installing DataBionicIO in the selected Python environment"
     VERBATIM)
 add_dependencies(PyPackageInstall PyPackageBuild)

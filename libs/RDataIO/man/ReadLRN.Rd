@@ -32,16 +32,17 @@ The writer supplies format 2.0 files.
 See \code{\link{WriteLRN}} for the write function.
 }
 \value{
-A list with these elements:
-\item{Data}{Numeric matrix with one row per record and one column per data variable.}
+A list with these elements in this order:
 \item{Key}{Numeric vector with whole-number keys in \code{[-2^53, 2^53]}.
 Missing keys and keys outside this range become \code{NA} with a warning.
 A numeric prefix can supply a key. Additional text after that prefix causes a warning.}
+\item{Data}{Numeric matrix with one row per record and one column per data variable.}
+
 \item{Header}{Column names for \code{Data}.}
 \item{DataDefined}{Column type codes, with the key type first.
 See \link{DataIO-text-formats} for the type codes.}
-\item{Comments}{Optional string from the comment lines.
-The result omits this element when the comment is empty.
+\item{Comments}{String from the comment lines.
+The result contains an empty string when the file has no comment.
 The format tag is not part of the comment.}
 }
 \references{

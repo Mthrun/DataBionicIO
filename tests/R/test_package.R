@@ -6,7 +6,7 @@
 # Basic contracts from the C++ and R work in this project.
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) .libPaths(c(normalizePath(args[1]), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 directory <- tempfile("DataIO-basics-")
 dir.create(directory)
 expect_warning <- function(expr) {
@@ -85,7 +85,7 @@ x <- ReadDates('parser', directory, Verbose = FALSE)
 expected <- c(1704164645.123, NA_real_, 1709164800, 0.001)
 stopifnot(inherits(x$Time, 'POSIXct'), identical(is.na(x$Time), is.na(expected)),
           max(abs(as.numeric(x$Time) - expected), na.rm = TRUE) < 1e-6,
-          !'fasttime' %in% names(getNamespaceImports('cdbt.DataIO')))
+          !'fasttime' %in% names(getNamespaceImports('DataBionicIO')))
 
 # Recovery keeps rows and the declared width, including the last empty text cell.
 path <- file.path(directory, "short.names")
@@ -118,6 +118,6 @@ stopifnot(identical(bytes(path), original))
 for (file in list.files("libs/RDataIO/R", pattern = "[.]R$", full.names = TRUE)) parse(file)
 for (file in list.files("libs/RDataIO/man", pattern = "[.]Rd$", full.names = TRUE)) tools::parse_Rd(file)
 stopifnot(all(c("ReadFCS", "ReadQS", "WriteQS2", "ConvertQSToQS2", "ReadData") %in%
-              getNamespaceExports("cdbt.DataIO")))
+              getNamespaceExports("DataBionicIO")))
 unlink(directory, recursive = TRUE)
 cat("Basic format, R conversion, date, append, and help checks passed.\n")

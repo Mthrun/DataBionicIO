@@ -1,4 +1,4 @@
-useDynLib(cdbt.DataIO, .registration = TRUE)
+useDynLib(DataBionicIO, .registration = TRUE)
 
 exportPattern("^[[:upper:]][[:alpha:]]+")
 #importFrom("digest",digest)

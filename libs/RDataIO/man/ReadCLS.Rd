@@ -25,11 +25,11 @@ ReadCLS(FileName, InDirectory=getwd(), Verbose = TRUE)
 
 }
 \value{
-  a list of length 3 containing the following:
+  A list with these four elements in this order:
   \item{Key}{[1:n] numeric vector of whole-number keys within \code{+/- 2^53}. Invalid or missing file keys give \code{NA}, with a warning.}
   \item{Cls}{[1:n] numeric vector of cls}
   \item{UniqueClasses}{[1:m] numeric vector, m indicating the number of unique classes}
-  \item{Comment}{(Optional) String containing the comment given in the lines, which start with #. Header-line, beginning with < and ending with > as well as automatically created cls statistics (created by \code{\link{WriteCLS}}) are ignored}
+  \item{Comments}{String containing the comment given in the lines, which start with #. Header-line, beginning with < and ending with > as well as automatically created cls statistics (created by \code{\link{WriteCLS}}) are ignored. The result is an empty string when the file has no comment.}
 }
 \references{
 	\url{www.uni-marburg.de/fb12/datenbionik}

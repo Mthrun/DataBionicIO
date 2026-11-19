@@ -45,5 +45,6 @@ ReadLRN=function(FileName=NULL, InDirectory=getwd(), Verbose=TRUE) {
   
   res = read_lrn(path, Verbose)
   
-  return(res)
+  return(list(Key = res$Key, Data = res$Data, Header = res$Header,
+              DataDefined = res$DataDefined, Comments = if(is.null(res$Comments)) "" else res$Comments))
 }

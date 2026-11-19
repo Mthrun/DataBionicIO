@@ -6,7 +6,7 @@
 # Run: Rscript tests/legacy/test_readers.R <test-library> [sample-directory]
 args <- commandArgs(TRUE)
 if (length(args)) .libPaths(c(normalizePath(args[1]), .libPaths()))
-library(cdbt.DataIO)
+library(DataBionicIO)
 samples <- if (length(args) > 1L) args[2] else "tests/legacy/samples"
 directory <- tempfile("DataIO-legacy-")
 dir.create(directory)
