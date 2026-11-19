@@ -6,7 +6,7 @@ Write numeric data, column names, and column type codes to an LRN file in format
 See \link{DataIO-text-formats} for the file layout.
 }
 \usage{
-WriteLRN(FileName, Data, Header, Key = c(), DataDefined = c(),
+WriteLRN(FileName, Data, Header = NULL, Key = NULL, DataDefined = NULL,
          OutDirectory = getwd(), Comments = NULL, SignificantDigits = NULL,
          DecimalDigits = NULL, Scientific = FALSE, Overwrite = TRUE,
          Verbose = TRUE)

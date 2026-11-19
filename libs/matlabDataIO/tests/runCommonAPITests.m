@@ -40,5 +40,56 @@ assert(isequal(size(Texts),[2 0]) && isempty(Header) && isempty(Comments));
 DataBionicIO.WriteDates('only-time', Time(1), 1, Directory, [], [], [], false, false);
 [~,~,Data,Header,Comments] = DataBionicIO.ReadDates('only-time',Directory,false);
 assert(isequal(size(Data),[1 0]) && isempty(Header) && isempty(Comments));
-fprintf('Common MATLAB API and Chicago DST passed.\n');
+% Defaults must follow the working directory after package setup.
+Previous = pwd;
+RestoreDirectory = onCleanup(@() cd(Previous)); %#ok<NASGU>
+for Folder = {'first','second'}
+    Working = fullfile(Directory, Folder{1}); mkdir(Working); cd(Working);
+    Times = {'2026-01-01';'2026-01-02'};
+    FirstTS = table(Times, [1;2], 'VariableNames', {'Time','Value'});
+    SecondTS = table(Times, [3.25;4.5], 'VariableNames', {'Time','Value'});
+    Cases = {
+        @DataBionicIO.WriteLRN, @DataBionicIO.ReadLRN, 'lrn', [1;2], [3.25;4.5], 2, 5, 11;
+        @DataBionicIO.WriteCLS, @DataBionicIO.ReadCLS, 'cls', [1;2], [3;4], 2, 4, 7;
+        @DataBionicIO.WriteNAMES, @DataBionicIO.ReadNAMES, 'names', {'A';'B'}, {'C';'D'}, 2, 5, 8;
+        @DataBionicIO.WriteDates, @DataBionicIO.ReadDates, 'dts', FirstTS, SecondTS, 3, 5, 8};
+    for I = 1:size(Cases,1)
+        Writer = Cases{I,1}; Reader = Cases{I,2};
+        Writer('defaults', Cases{I,4});
+        Writer('defaults', Cases{I,5});
+        Path = fullfile(Working, ['defaults.' Cases{I,3}]);
+        assert(isfile(Path));
+        Results = cell(1,nargout(Reader));
+        [Results{:}] = Reader('defaults');
+        Expected = Cases{I,5};
+        if istable(Expected), Expected = Expected.Value; end
+        assert(isequal(Results{Cases{I,6}},Expected));
+        assert(isequal(Results{1},[1;2]) && isempty(Results{Cases{I,7}}));
+        if strcmp(Cases{I,3},'dts'), assert(strcmp(Results{6},'UTC')); end
+        Original = fileread(Path);
+        Args = [{'defaults', Cases{I,4}}, repmat({[]},1,Cases{I,8}-3), {false}];
+        Failed = false;
+        try
+            Writer(Args{:});
+        catch Error
+            Failed = true;
+            assert(contains(Error.message,'exist'));
+        end
+        assert(Failed && strcmp(fileread(Path),Original));
+    end
+    % Invalid logical flags must fail before changing an existing DTS file.
+    Original = fileread(fullfile(Working,'defaults.dts'));
+    for Invalid = {2, NaN, [true false], 'true'}
+        Failed = false;
+        try
+            DataBionicIO.WriteDates('defaults', FirstTS, [], [], [], [], [], Invalid{1});
+        catch Error
+            Failed = true;
+            assert(strcmp(Error.identifier,'DataIO:Options'));
+        end
+        assert(Failed && strcmp(fileread(fullfile(Working,'defaults.dts')),Original));
+    end
+end
+cd(Previous);
+fprintf('Common MATLAB API, defaults, current paths, overwrite protection, and Chicago DST passed.\n');
 end

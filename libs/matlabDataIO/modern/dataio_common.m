@@ -10,6 +10,10 @@ function Result = dataio_common(Command, Request, Verbose)
 % Additional permission: see MATLAB-EXCEPTION.txt.
 Request.Path = char(Request.Path);
 if strcmp(Command, 'write_dates')
+    Options = dataio_options(struct('Overwrite', Request.Overwrite, 'Verbose', Verbose), ...
+        struct('Overwrite', true, 'Verbose', true));
+    Request.Overwrite = Options.Overwrite;
+    Verbose = Options.Verbose;
     Request.Time = dataio_texts(Request.Time);
     Request.Data = dataio_numeric(Request.Data);
     if size(Request.Data, 1) ~= numel(Request.Time)

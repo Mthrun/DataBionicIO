@@ -172,10 +172,10 @@ The other writers keep the argument order shown by their Python help text.
 The default directory is the working directory at the time of the function call.
 Paths can be strings or `pathlib.Path` objects.
 The common interface has `Overwrite=True` and `Verbose=True` as defaults.
-The compatibility import `pyDataIO` keeps its previous defaults.
+The compatibility import `pyDataIO` also uses these defaults.
 The writer examines the input before it opens the output file.
 
-To replace an existing file, set `Overwrite=True`.
+To keep an existing file, set `Overwrite=False`.
 
 ## Inputs
 

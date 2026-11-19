@@ -1,6 +1,6 @@
 # DataBionicIO for MATLAB
 
-Version: 1.0.0.
+Version: 1.0.1.
 
 The project uses GNU AGPL version 3 only, with a MATLAB linking exception.
 The built package includes `LICENSE` and `MATLAB-EXCEPTION.txt`.
@@ -33,8 +33,10 @@ The default values of `Overwrite` and `Verbose` are true.
 Use the namespace after `setupDataIO('modern')`:
 
 ```matlab
-[Key, Data, Header, DataDefined, Comments] = DataBionicIO.ReadLRN('example', pwd, false);
-DataBionicIO.WriteDates('series', TSdata, Key, pwd, '', 'America/Chicago', 2, true, false);
+InDirectory = pwd;
+OutDirectory = pwd;
+[Key, Data, Header, DataDefined, Comments] = DataBionicIO.ReadLRN('example', InDirectory, false);
+DataBionicIO.WriteDates('series', TSdata, Key, OutDirectory, '', 'America/Chicago', 2, true, false);
 ```
 
 The common DTS writer accepts a table, cell matrix, or time vector as `TSdata`.

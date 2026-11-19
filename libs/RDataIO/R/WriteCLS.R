@@ -1,4 +1,4 @@
-WriteCLS <- function(FileName, Cls, OutDirectory=getwd(),Key ,Comment=NULL, Int4NaN = NULL, Overwrite = TRUE, Verbose = TRUE){
+WriteCLS <- function(FileName, Cls, OutDirectory=getwd(), Key=NULL, Comment=NULL, Int4NaN = NULL, Overwrite = TRUE, Verbose = TRUE){
 
 # WriteCLS(FileName,Cls)
 # Write CLS file

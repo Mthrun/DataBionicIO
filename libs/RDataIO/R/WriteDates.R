@@ -1,4 +1,4 @@
-WriteDates=function(FileName, TSdata, Key=c(), OutDirectory=getwd(), Comments=NULL, tz = NULL, Format = NULL, Overwrite = TRUE, Verbose = TRUE) {
+WriteDates=function(FileName, TSdata, Key=NULL, OutDirectory=getwd(), Comments=NULL, tz = NULL, Format = NULL, Overwrite = TRUE, Verbose = TRUE) {
   
   # WriteDates(FileName,TSData, key)
   # Write Dates file

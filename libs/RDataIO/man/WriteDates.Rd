@@ -7,7 +7,7 @@ The writer accepts dates and timestamps.
 See \link{DataIO-text-formats} for the file layout.
 }
 \usage{
-WriteDates(FileName, TSdata, Key = c(), OutDirectory = getwd(),
+WriteDates(FileName, TSdata, Key = NULL, OutDirectory = getwd(),
            Comments = NULL, tz = NULL, Format = NULL,
            Overwrite = TRUE, Verbose = TRUE)
 }

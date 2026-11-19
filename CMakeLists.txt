@@ -30,7 +30,7 @@ if(CMAKE_HOST_APPLE AND BUILD_PYPACKAGE AND NOT CMAKE_OSX_DEPLOYMENT_TARGET
     endif()
     set(CMAKE_OSX_DEPLOYMENT_TARGET "${default_macos_target}" CACHE STRING "Minimum macOS version" FORCE)
 endif()
-project(DataBionicIO VERSION 1.0.0)
+project(DataBionicIO VERSION 1.0.1)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 

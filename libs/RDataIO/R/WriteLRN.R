@@ -1,4 +1,4 @@
-WriteLRN = function(FileName, Data, Header, Key=c(), DataDefined=c(), OutDirectory=getwd(),  Comments=NULL, SignificantDigits = NULL, DecimalDigits = NULL, Scientific = FALSE, Overwrite = TRUE, Verbose = TRUE) {
+WriteLRN = function(FileName, Data, Header=NULL, Key=NULL, DataDefined=NULL, OutDirectory=getwd(),  Comments=NULL, SignificantDigits = NULL, DecimalDigits = NULL, Scientific = FALSE, Overwrite = TRUE, Verbose = TRUE) {
   # WriteLRN(FileName,Data,Header);
   # Write LRN file
   #

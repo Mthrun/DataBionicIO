@@ -5,7 +5,7 @@
   write classification to a *.cls file.
 }
 \usage{
-WriteCLS(FileName, Cls, OutDirectory = getwd(), Key, Comment=NULL,
+WriteCLS(FileName, Cls, OutDirectory = getwd(), Key = NULL, Comment=NULL,
 Int4NaN = NULL, Overwrite = TRUE, Verbose = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.

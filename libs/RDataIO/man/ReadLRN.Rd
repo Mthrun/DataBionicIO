@@ -6,11 +6,11 @@ Read numeric data, keys, and metadata from an LRN file.
 See \link{DataIO-text-formats} for the file layout.
 }
 \usage{
-ReadLRN(FileName = NULL, InDirectory = getwd(), Verbose = TRUE)
+ReadLRN(FileName, InDirectory = getwd(), Verbose = TRUE)
 }
 \arguments{
 \item{FileName}{Name of the input file.
-Supply a character string. The default, \code{NULL}, is not a valid file name.
+Supply a character string.
 The reader accepts \code{.lrn} and \code{.csv} files.}
 \item{InDirectory}{Directory that contains the input file. The default is \code{getwd()}.}
 \item{Verbose}{Enable information messages. The default is \code{TRUE}.

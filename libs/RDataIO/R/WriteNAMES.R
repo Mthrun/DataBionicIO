@@ -1,4 +1,4 @@
-WriteNAMES = function(FileName, Names, Key, FurtherTexts, Header, OutDirectory=getwd(),
+WriteNAMES = function(FileName, Names, Key=NULL, FurtherTexts=NULL, Header=NULL, OutDirectory=getwd(),
                       Comments = "", Overwrite = TRUE, Verbose = TRUE){   
 
   # WriteNames(FileName,Names,Key,FurtherTexts,Header);

@@ -1,4 +1,4 @@
-ReadLRN=function(FileName=NULL, InDirectory=getwd(), Verbose=TRUE) {
+ReadLRN=function(FileName, InDirectory=getwd(), Verbose=TRUE) {
 #  V = ReadLRN(FileName,InDirectory);
 #  Key = V$Key
 #  Data = V$Data

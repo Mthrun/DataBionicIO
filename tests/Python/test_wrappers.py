@@ -366,7 +366,7 @@ class Wrappers(unittest.TestCase):
         self.write(io.WriteCls, "a", [1, 2], Key=[1, 2])
         original = (self.directory / "a.cls").read_bytes()
         with self.assertRaises(ValueError):
-            self.write(io.WriteCls, "a", [3, 4], Key=[1, 2])
+            self.write(io.WriteCls, "a", [3, 4], Key=[1, 2], Overwrite=False)
         self.assertEqual((self.directory / "a.cls").read_bytes(), original)
         buffer = StringIO()
         with redirect_stdout(buffer):

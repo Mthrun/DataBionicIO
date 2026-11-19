@@ -439,7 +439,7 @@ def read_lrn(FileName, Directory=None, Verbose=True):
 
 def WriteLRN(FileName, Data, Header=None, Key=None, DataDefined=None,
              OutDirectory=None, Comments="", SignificantDigits=None,
-             DecimalDigits=None, Scientific=False, Overwrite=False, Verbose=True):
+             DecimalDigits=None, Scientific=False, Overwrite=True, Verbose=True):
     # Write a LRN file through the shared C++ core.
     #
     # INPUT
@@ -453,7 +453,7 @@ def WriteLRN(FileName, Data, Header=None, Key=None, DataDefined=None,
     # SignificantDigits  Optional positive integer significant-digit limit.
     # DecimalDigits  Optional non-negative integer decimal-place limit.
     # Scientific  Boolean switch for scientific notation.
-    # Overwrite  Boolean permission to replace an existing file; default False.
+    # Overwrite  Boolean permission to replace an existing file; default True.
     # Verbose  Boolean flag for native information messages; warnings remain active.
     #
     # OUTPUT
@@ -520,7 +520,7 @@ def read_cls(FileName, Directory=None, Verbose=True):
 
 
 def WriteCls(FileName, Cls, Key=None, OutDirectory=None, Comments="",
-             Int4NaN=float("nan"), Overwrite=False, Verbose=True):
+             Int4NaN=float("nan"), Overwrite=True, Verbose=True):
     # Write a CLS file through the shared C++ core.
     #
     # INPUT
@@ -530,7 +530,7 @@ def WriteCls(FileName, Cls, Key=None, OutDirectory=None, Comments="",
     # OutDirectory  Output directory; None uses the current working directory at call time.
     # Comments  Comment string; None becomes an empty string.
     # Int4NaN  Replacement for missing class values; None or NaN retains missing values.
-    # Overwrite  Boolean permission to replace an existing file; default False.
+    # Overwrite  Boolean permission to replace an existing file; default True.
     # Verbose  Boolean flag for native information messages; warnings remain active.
     #
     # OUTPUT
@@ -604,7 +604,7 @@ def read_names(FileName, Directory=None, Verbose=True):
 
 
 def WriteNames(FileName, Names, Key=None, FurtherTexts=None, Header=None,
-               OutDirectory=None, Comments="", Overwrite=False, Verbose=True):
+               OutDirectory=None, Comments="", Overwrite=True, Verbose=True):
     # Write a NAMES file through the shared C++ core.
     #
     # INPUT
@@ -615,7 +615,7 @@ def WriteNames(FileName, Names, Key=None, FurtherTexts=None, Header=None,
     # Header  Optional text labels; accepted widths depend on the format.
     # OutDirectory  Output directory; None uses the current working directory at call time.
     # Comments  Comment string; None becomes an empty string.
-    # Overwrite  Boolean permission to replace an existing file; default False.
+    # Overwrite  Boolean permission to replace an existing file; default True.
     # Verbose  Boolean flag for native information messages; warnings remain active.
     #
     # OUTPUT
@@ -844,7 +844,7 @@ def _write_times(values, tz, markers=None, format_value=-1):
 
 
 def WriteDates(FileName, TSdata, Key=None, OutDirectory=None, Comments="", tz=None,
-               Format=-1, Overwrite=False, Verbose=True):
+               Format=-1, Overwrite=True, Verbose=True):
     # Write a DATES file through the shared C++ core.
     #
     # INPUT
@@ -855,7 +855,7 @@ def WriteDates(FileName, TSdata, Key=None, OutDirectory=None, Comments="", tz=No
     # Comments  Comment string; None becomes an empty string.
     # tz  Optional IANA time-zone name; absent values use the input zone or UTC.
     # Format  -1 or None selects automatic resolution; 1 selects dates, 2 seconds, 3 milliseconds.
-    # Overwrite  Boolean permission to replace an existing file; default False.
+    # Overwrite  Boolean permission to replace an existing file; default True.
     # Verbose  Boolean flag for native information messages; warnings remain active.
     #
     # OUTPUT

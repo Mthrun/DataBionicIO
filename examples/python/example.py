@@ -19,4 +19,4 @@ with TemporaryDirectory(prefix="dataio-example-") as directory:
                             "Value": [10.5, 20.5]}, **common)
     for reader, filename in [(io.ReadLRN, "measurements"), (io.ReadCLS, "classes"),
                              (io.ReadNAMES, "samples"), (io.ReadDates, "times")]:
-        print(reader(filename, directory, Verbose=False))
+        print(reader(filename, InDirectory=directory, Verbose=False))

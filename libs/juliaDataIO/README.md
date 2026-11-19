@@ -25,8 +25,11 @@ The default values of `Overwrite` and `Verbose` are true.
 Use positional arguments or the common keyword names:
 
 ```julia
-result = ReadLRN("example"; InDirectory=pwd(), Verbose=false)
-WriteDates("series", (Time=times, Value=values); Key=keys, tz="America/Chicago")
+InDirectory = pwd()
+OutDirectory = pwd()
+result = ReadLRN("example"; InDirectory=InDirectory, Verbose=false)
+WriteDates("series", (Time=times, Value=values); Key=keys,
+    OutDirectory=OutDirectory, tz="America/Chicago")
 ```
 
 The common DTS writer accepts a NamedTuple of columns, matrix, or time vector.

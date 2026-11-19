@@ -6,6 +6,38 @@
 # Additional permission: see MATLAB-EXCEPTION.txt.
 using DataBionicIO, Test
 
+@testset "Common defaults and current directory" begin
+    mktempdir() do directory
+        for folder in ("first", "second")
+            working = mkdir(joinpath(directory, folder))
+            cd(working) do
+                times = ["2026-01-01", "2026-01-02"]
+                cases = [
+                    (WriteLRN, ReadLRN, "lrn", reshape([1., 2.], 2, 1), reshape([3.25, 4.5], 2, 1), :Data, reshape([3.25, 4.5], 2, 1)),
+                    (WriteCLS, ReadCLS, "cls", [1, 2], [3, 4], :Cls, [3, 4]),
+                    (WriteNAMES, ReadNAMES, "names", ["A", "B"], ["C", "D"], :Names, ["C", "D"]),
+                    (WriteDates, ReadDates, "dts", (Time=times, Value=[1, 2]), (Time=times, Value=[3.25, 4.5]), :Data, reshape([3.25, 4.5], 2, 1))]
+                for (writer, reader, extension, first, second, field, expected) in cases
+                    writer("defaults", first)
+                    writer("defaults", second)
+                    path = joinpath(working, "defaults." * extension)
+                    @test isfile(path)
+                    value = reader("defaults")
+                    @test value[field] == expected
+                    @test value.Key == [1, 2]
+                    @test value.Comments == ""
+                    if extension == "dts"
+                        @test value.Timezone == "UTC"
+                    end
+                    original = read(path)
+                    @test_throws Exception writer("defaults", first; Overwrite=false)
+                    @test read(path) == original
+                end
+            end
+        end
+    end
+end
+
 @testset "Common API" begin
     mktempdir() do directory
         key = Int64[11, 22]

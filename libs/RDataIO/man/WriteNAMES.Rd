@@ -5,7 +5,8 @@
 Save names and possibly further texts to a *.names file.
 }
 \usage{
-WriteNAMES(FileName, Names, Key, FurtherTexts, Header,OutDirectory=getwd(),
+WriteNAMES(FileName, Names, Key = NULL, FurtherTexts = NULL, Header = NULL,
+           OutDirectory=getwd(),
 Comments="", Overwrite=TRUE, Verbose = TRUE)
 }
 \arguments{
