@@ -14,6 +14,7 @@ on:
       - 'tests/**'
       - 'cmake/**'
       - 'CMakeLists.txt'
+      - 'API.md'
       - '.github/workflows/matlab.yml'
       - '.gitattributes'
   pull_request:
@@ -27,6 +28,7 @@ on:
       - 'tests/**'
       - 'cmake/**'
       - 'CMakeLists.txt'
+      - 'API.md'
       - '.github/workflows/matlab.yml'
       - '.gitattributes'
 

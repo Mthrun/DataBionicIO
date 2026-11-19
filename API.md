@@ -54,15 +54,15 @@ The default value of `Scientific` is false.
 | `InDirectory`, `OutDirectory` | Use the current working directory at each call. |
 | `Overwrite`, `Verbose` | True. |
 | `Scientific` | False. |
-| `Key` | Use keys from the input when supported; otherwise use `1:n` with a warning. |
+| `Key` | Use keys from the input when supported. Otherwise, use `1:n` with a warning. |
 | `Header` | Use available input labels or automatic column labels. |
 | `DataDefined` | Use type `9` for the key and type `1` for data columns. |
 | `FurtherTexts` | No additional text columns. |
 | `Comment`, `Comments` | No comment. |
-| `SignificantDigits`, `DecimalDigits` | No requested rounding; keep binary64 precision. |
+| `SignificantDigits`, `DecimalDigits` | No requested rounding. Keep binary64 precision. |
 | `Int4NaN` | Keep missing class values. |
 | `Format` | Select timestamp precision from the input. |
-| `tz` | Use an available input time zone, otherwise UTC; see the time zone section below. |
+| `tz` | Use an available input time zone, otherwise UTC. See the time zone section below. |
 
 The interfaces express absent metadata with `NULL` in R, `None` in Python, `[]` in MATLAB, and `nothing` in Julia.
 An empty comment can also be an empty string.
@@ -141,7 +141,8 @@ These examples read `example.lrn` from the current working directory.
 They write `copy.lrn` to its `output` subdirectory.
 Each example supplies both directory arguments.
 Change `InDirectory` and `OutDirectory` to use other locations.
-The writers create the output files; the examples create the output directory first.
+The examples create the output directory first.
+The writers then create the output files.
 
 R:
 
