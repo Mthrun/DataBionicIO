@@ -36,15 +36,18 @@ end
 Names = {sprintf('Sample\tA'); sprintf('A\r\nB'); ['N', char(0), 'Z']; ' café '; 'é'};
 Texts = repmat({sprintf('X\nY')}, numel(Names), 1);
 Saved = Texts;
-for Replacement = {'_', '[sep]'}
+Replacements = {'_', '[sep]'};
+for I = 1:numel(Replacements)
+    Replacement = Replacements{I};
+    FileName = sprintf('matlab-%d.names', I);
     lastwarn('');
-    DataBionicIO.WriteNAMES('matlab.names', Names, (1:numel(Names))', Texts, ...
-        {'Names', 'Description'}, Directory, '', true, false, 'TextReplacement', Replacement{1});
-    assert(strcmp(lastwarn, ['Replaced 9 forbidden text characters in 8 fields with "', Replacement{1}, '".']));
-    [~, Result] = DataBionicIO.ReadNAMES('matlab.names', Directory, false);
+    DataBionicIO.WriteNAMES(FileName, Names, (1:numel(Names))', Texts, ...
+        {'Names', 'Description'}, Directory, '', true, false, 'TextReplacement', Replacement);
+    assert(strcmp(lastwarn, ['Replaced 9 forbidden text characters in 8 fields with "', Replacement, '".']));
+    [~, Result] = DataBionicIO.ReadNAMES(FileName, Directory, false);
     Expected = Names;
     for C = [9, 10, 13, 0]
-        Expected = cellfun(@(S) strrep(S, char(C), Replacement{1}), Expected, 'UniformOutput', false);
+        Expected = cellfun(@(S) strrep(S, char(C), Replacement), Expected, 'UniformOutput', false);
     end
     assert(isequal(Result(:), Expected(:)) && isequal(Texts, Saved));
 end
