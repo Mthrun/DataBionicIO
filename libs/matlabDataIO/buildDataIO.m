@@ -46,6 +46,7 @@ mex(Args{:});
 for Name = {'modern','native','legacy','archive','tests'}
     copyfile(fullfile(Source,Name{1}), fullfile(Package,Name{1}));
 end
+copyfile(fullfile(Project,'tests','encoding'), fullfile(Package,'tests','encoding'));
 for Name = {'setupDataIO.m','README.md','ORIGIN.txt'}
     copyfile(fullfile(Source,Name{1}), fullfile(Package,Name{1}));
 end

@@ -93,6 +93,7 @@ class ReleaseInspectionTests(unittest.TestCase):
 
     def test_julia_rejects_source_only_and_wrong_version_packages(self):
         required = ("Project.toml", "Manifest.toml", "src/DataBionicIO.jl", "test/runtests.jl",
+                    "test/text_encoding.jl", "test/encoding/fixtures/sample.names",
                     "examples/example.jl", "README.md", "LICENSE", "MATLAB-EXCEPTION.txt",
                     "THIRD-PARTY-NOTICES.txt", "LICENSES/CxxWrap-MIT.md",
                     "LICENSES/libcxxwrap-julia-MIT.md")
