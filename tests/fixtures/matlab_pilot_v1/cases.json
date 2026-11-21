@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "selection_sha256": "a920b41e04903a8fd131035ef14ebb589d024d05659c19f949845132e8743f70",
+  "selection_sha256": "d320a7ed12371b0933e5f18a455a4b62c56da184590901e777dfb691f89acbe8",
   "scope": "MATLAB fixture pilot; not the four-language main study",
   "oracle_sha256": {
     "20261116_P3_Hauptkorpus_Sollwerte.json": "0b9b5f4bf20aa91da765e5077c057a340fb350aa59c09130e1ce76564bc21b6e",
@@ -4433,7 +4433,7 @@
       },
       "expected": {
         "ok": true,
-        "diagnostic": "required_text_separator_removal",
+        "diagnostic": "required_text_separator_replacement",
         "file": {
           "ok": true,
           "keys": [
@@ -4441,7 +4441,7 @@
             "18"
           ],
           "names": [
-            "AB",
+            "A_B",
             "CD"
           ],
           "further_texts": [
@@ -4468,7 +4468,7 @@
         "file_cells": [
           [
             "17",
-            "AB",
+            "A_B",
             "uv",
             "x"
           ],
@@ -4487,7 +4487,7 @@
         ]
       },
       "initial_base64": null,
-      "purpose": "Report removed text separators with Verbose=false."
+      "purpose": "Report replaced text separators with Verbose=false."
     },
     {
       "request": {

@@ -38,7 +38,7 @@ SIDE-EFFECTS/overwrite_false/dts	Keep an existing file when overwrite is disable
 KEY-COMPARE/4/helper	Return false for key comparisons containing NaN.
 TEXT-BOUNDARY/TEXT-B01/names_leading_spaces/False/names	Keep leading spaces in native text output.
 TEXT-BOUNDARY/TEXT-B02/names_trailing_spaces/False/names	Keep trailing spaces and record character-matrix padding.
-TEXT-BOUNDARY/TEXT-B04/0/False/False/names	Report removed text separators with Verbose=false.
+TEXT-BOUNDARY/TEXT-B04/0/False/False/names	Report replaced text separators with Verbose=false.
 META-HEADER/META-H04/header_custom_primary/False/names	Keep a custom primary text label.
 META-HEADER/META-H05/header_type_zero/False/lrn	Apply LRN type-zero column selection.
 META-HEADER/META-H06/header_cleanable/False/names	Report header repair with Verbose=false.

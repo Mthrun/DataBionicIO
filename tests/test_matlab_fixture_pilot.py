@@ -52,6 +52,30 @@ class FixturePilot(unittest.TestCase):
         self.corruption("KEY-READ-BAD/KEY-READ-BAD/keys_invalid_text/lrn", "diagnostic",
                         lambda a: a.update(diagnostics=[], stdout=""))
 
+    def test_text_separator_replacement(self):
+        # INPUT: the fixed text-separator case and independently constructed files.
+        # OUTPUT: assertions for underscore replacement, rejected deletion, and a required warning.
+        # SPDX-License-Identifier: AGPL-3.0-only
+        # Additional permission: see MATLAB-EXCEPTION.txt.
+        case = next(c for c in BUNDLE["cases"]
+                    if c["request"]["id"].startswith("TEXT-BOUNDARY/TEXT-B04/"))
+        actual = dict(ok=True, working_directory_unchanged=True,
+                      diagnostics=['Replaced 1 forbidden text characters in 1 fields with "_".'])
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "replacement.names"
+            request = dict(case["request"], path=str(path))
+            for name, status in (("A_B", "PASS"), ("AB", "FAIL")):
+                path.write_text('#<?names version="2.0"?>\n% 2\n% 4\n'
+                                '% Key\tNames\tExtra1\tExtra2\n'
+                                f'17\t{name}\tuv\tx\n18\tCD\twx\ty\n', encoding="utf-8")
+                result = compare_case(request, actual, case["expected"])
+                self.assertEqual(result["status"], status)
+                if status == "FAIL":
+                    self.assertEqual({e["field"] for e in result["errors"]}, {"names", "file_cells"})
+                else:
+                    result = compare_case(request, dict(actual, diagnostics=[]), case["expected"])
+                    self.assertEqual([e["field"] for e in result["errors"]], ["diagnostic"])
+
     def test_working_directory(self):
         self.corruption("BASE-CLS/", "working_directory", lambda a: a.update(working_directory_unchanged=False))
 
