@@ -1,6 +1,6 @@
 # DataBionicIO: C++ File I/O for R, Python, MATLAB, and Julia
 
-Version: 1.0.1.
+Version: 1.0.2.
 
 DataBionicIO contains readers and writers for data files.
 The R, Python, MATLAB, and Julia interfaces use the same C++ code for LRN, CLS, NAMES, and DATES.

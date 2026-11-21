@@ -24,7 +24,7 @@ from release_common import (ROOT, build_path, clean_test_environment, run,
 
 def inspect_package(package, version):
     """Reject incomplete packages and package metadata from a different version."""
-    for name in ("Project.toml", "Manifest.toml", "src/DataBionicIO.jl", "test/runtests.jl",
+    for name in ("Project.toml", "Manifest.toml", "src/DataBionicIO.jl", "test/runtests.jl", "test/text_encoding.jl", "test/encoding/fixtures/sample.names",
                  "examples/example.jl", "README.md", "LICENSE", "MATLAB-EXCEPTION.txt",
                  "THIRD-PARTY-NOTICES.txt", "LICENSES/CxxWrap-MIT.md",
                  "LICENSES/libcxxwrap-julia-MIT.md"):

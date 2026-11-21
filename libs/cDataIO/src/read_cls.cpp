@@ -25,6 +25,7 @@
 #include <algorithm>
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 #include "DataIO/legacy_readers.hpp"
 
 namespace dbt {
@@ -37,6 +38,7 @@ namespace dbt {
 		 * path  Filesystem path.
 		 * verbose  Select information messages; data warnings can remain active.
 		 * output_stream  Destination stream for diagnostics.
+		 * encoding  Optional source encoding; empty selects BOM detection, otherwise UTF-8.
 		 *
 		 * OUTPUT
 		 * Tuple: keys, class values, unique classes, comments.
@@ -44,9 +46,9 @@ namespace dbt {
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
-		std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> _read_cls(std::string path, bool verbose, std::ostream& output_stream) {
+		std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> _read_cls(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding) {
 			path = addext_checkext(path, "cls");
-			std::ifstream stream = open_read(path);
+			TextInput stream(open_read(path), encoding, output_stream);
 
 			bool first_line = true;
 			bool legacy_format = false;
@@ -199,6 +201,14 @@ namespace dbt {
 			return { std::move(keys), std::move(cls), std::move(unique_classes), std::move(comment) };
 		}
 
+		// INPUT: path, diagnostics, optional input encoding.
+		// OUTPUT: decoded fields; malformed encoding throws.
+		// SPDX-License-Identifier: AGPL-3.0-only
+		// Additional permission: see MATLAB-EXCEPTION.txt.
+		std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> read_cls(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding) {
+			return _read_cls(path, verbose, output_stream, encoding);
+		}
+
 		/**
 		 * Read a CLS file through the shared core.
 		 *
@@ -214,7 +224,7 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> read_cls(std::string path, bool verbose, std::ostream& output_stream) {
-			return(_read_cls(path, verbose, output_stream));
+			return(_read_cls(path, verbose, output_stream, ""));
 		}
 
 
@@ -232,7 +242,7 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> read_cls(std::string path, bool verbose) {
-			return(_read_cls(path, verbose, std::cout));
+			return(_read_cls(path, verbose, default_output_stream(), ""));
 		}
 
 	}

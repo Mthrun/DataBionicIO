@@ -23,6 +23,7 @@
 #include <algorithm>
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 
 namespace dbt {
 	namespace DataIO {
@@ -99,11 +100,13 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		void _write_lrn(std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<double>> numerics, std::vector<int> types, std::string path, std::string comment, int significant_digits, int decimal_digits, bool scientific, bool overwrite, bool verbose, int version_major, int version_minor, std::ostream& output_stream) {
+			validate_utf8(comment);
+			validate_utf8(column_names);
 			// The layout is 2.0; older version arguments must not label it as a legacy file.
 			if (version_major != 2 || version_minor != 0)
 				throw std::invalid_argument("Only format version 2.0 is supported for writing.");
@@ -333,7 +336,7 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
@@ -362,13 +365,13 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		void write_lrn(std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<double>> numerics, std::vector<int> types, std::string path, std::string comment, int significant_digits, int decimal_digits, bool scientific, bool overwrite, bool verbose, int version_major, int version_minor) {
 			// Avoid a second deep copy: these owned arguments are no longer used here.
-			_write_lrn(std::move(column_names), std::move(keys), std::move(numerics), std::move(types), path, comment, significant_digits, decimal_digits, scientific, overwrite, verbose, version_major, version_minor, std::cout);
+			_write_lrn(std::move(column_names), std::move(keys), std::move(numerics), std::move(types), path, comment, significant_digits, decimal_digits, scientific, overwrite, verbose, version_major, version_minor, default_output_stream());
 		}
 	}
 }

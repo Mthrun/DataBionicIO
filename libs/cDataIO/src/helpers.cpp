@@ -437,7 +437,7 @@ namespace dbt {
 	    		throw std::invalid_argument("ERROR: File " + path + " does not exist under given path!");
 	    	}
 
-			std::ifstream res(path);
+			std::ifstream res(path, std::ios::binary);
 
 		    if (res.is_open()) {
 		       	return res;
@@ -670,7 +670,7 @@ namespace dbt {
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
-		std::pair<std::vector<std::string>, std::streampos> read_header_lines(std::ifstream& inputFile, std::ostream& output_stream, bool verbose) {
+		std::pair<std::vector<std::string>, std::streampos> read_header_lines(std::istream& inputFile, std::ostream& output_stream, bool verbose) {
 			std::string line;
 			std::vector<std::string> headerLines;
 			std::streampos posAfterHeader;

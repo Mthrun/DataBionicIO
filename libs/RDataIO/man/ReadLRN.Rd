@@ -6,9 +6,10 @@ Read numeric data, keys, and metadata from an LRN file.
 See \link{DataIO-text-formats} for the file layout.
 }
 \usage{
-ReadLRN(FileName, InDirectory = getwd(), Verbose = TRUE)
+ReadLRN(FileName, InDirectory = getwd(), Verbose = TRUE, ...)
 }
 \arguments{
+\item{...}{Optional exact named encoding setting. Normally omit it. See Details.}
 \item{FileName}{Name of the input file.
 Supply a character string.
 The reader accepts \code{.lrn} and \code{.csv} files.}
@@ -17,6 +18,17 @@ The reader accepts \code{.lrn} and \code{.csv} files.}
 Data warnings can occur when this argument is \code{FALSE}.}
 }
 \details{
+The optional named argument \code{Encoding} in \code{...} is normally unnecessary.
+Omit it in the typical workflow. The reader detects a BOM; otherwise it assumes UTF-8.
+Use \code{Encoding="Windows-1252"} or \code{Encoding="ISO-8859-1"} only for a known input encoding.
+\code{Encoding="UTF-8"} explicitly selects UTF-8. An incompatible BOM causes an error.
+One initial UTF-8 BOM is skipped. UTF-16 and UTF-32 BOMs select complete decoding.
+Legacy conversion gives one warning, also with \code{Verbose=FALSE}.
+Malformed encoding causes an error; the reader does not guess or replace invalid bytes.
+Unicode character sequences are preserved without automatic normalization.
+Unknown, duplicate, or unnamed options in \code{...} cause an error.
+
+
 The reader removes spaces, commas, and semicolons from header labels with a warning.
 Tabs in the file separate columns.
 The reader does not apply these header rules to text values.

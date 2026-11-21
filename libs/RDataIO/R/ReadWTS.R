@@ -38,7 +38,7 @@ function(FileName,InDirectory=getwd()){
   con = file(FileName, "r", blocking = FALSE)
   fileContent = readLines(con)
   # finde die letzte Zeile die mit %, # oder \t beginnt. (ende des headers)
-  headerLength = tail(grep("^(%|#|\\t)", fileContent),1)
+  headerLength = utils::tail(grep("^(%|#|\\t)", fileContent),1)
   fullHeader = fileContent[1:headerLength]
   close(con)
   

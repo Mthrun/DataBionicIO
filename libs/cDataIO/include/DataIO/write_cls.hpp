@@ -22,6 +22,7 @@
 #include <string>
 #include <iostream>
 #include "dataio_exports.hpp"
+#include "output_stream.hpp"
 
 namespace dbt {
     namespace DataIO {
@@ -46,7 +47,7 @@ namespace dbt {
          *
          * OUTPUT
          * No return value. Creates or replaces the output file according to overwrite.
-         * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+         * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
          * SPDX-License-Identifier: AGPL-3.0-only
          * Additional permission: see MATLAB-EXCEPTION.txt.
          */
@@ -70,11 +71,11 @@ namespace dbt {
          *
          * OUTPUT
          * No return value. Creates or replaces the output file according to overwrite.
-         * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+         * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
          * SPDX-License-Identifier: AGPL-3.0-only
          * Additional permission: see MATLAB-EXCEPTION.txt.
          */
-        MYLIB_API void write_cls(std::vector<Key> keys, std::vector<double> cls, double nan_replacement, std::string path, std::string comment = "", bool overwrite = true, bool verbose = true, int version_major = CLS_WRITER_CURRENT_MAJOR, int version_minor = CLS_WRITER_CURRENT_MINOR, std::ostream& output_stream = std::cout);
+        MYLIB_API void write_cls(std::vector<Key> keys, std::vector<double> cls, double nan_replacement, std::string path, std::string comment = "", bool overwrite = true, bool verbose = true, int version_major = CLS_WRITER_CURRENT_MAJOR, int version_minor = CLS_WRITER_CURRENT_MINOR, std::ostream& output_stream = default_output_stream());
     }
 }
 

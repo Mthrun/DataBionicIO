@@ -11,7 +11,7 @@ script <- sub('^--file=', '', grep('^--file=', commandArgs(), value=TRUE)[1])
 root <- dirname(dirname(dirname(normalizePath(script))))
 schema <- read.delim(file.path(root, 'tests/common_api.tsv'), stringsAsFactors=FALSE)
 contract <- setNames(lapply(seq_len(nrow(schema)), function(i) list(inputs=strsplit(schema$Inputs[i], ',')[[1]], outputs=strsplit(schema$Outputs[i], ',')[[1]])), schema$Function)
-for(name in names(contract)) stopifnot(identical(names(formals(get(name))), unlist(contract[[name]]$inputs)))
+for(name in names(contract)) stopifnot(identical(setdiff(names(formals(get(name))), "..."), unlist(contract[[name]]$inputs)))
 for(name in names(contract)) {
  defaults <- list(InDirectory=quote(getwd()), OutDirectory=quote(getwd()),
   Verbose=TRUE, Overwrite=TRUE, Scientific=FALSE, Key=NULL, Header=NULL,

@@ -27,6 +27,7 @@
 
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 
 namespace dbt {
 	namespace DataIO {
@@ -48,11 +49,12 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		void _write_cls(std::vector<Key> keys, std::vector<double> cls, double nan_replacement, std::string path, std::string comment, bool overwrite, bool verbose, int version_major, int version_minor, std::ostream& output_stream) {
+			validate_utf8(comment);
 			// The layout is 2.0; older version arguments must not label it as a legacy file.
 			if (version_major != 2 || version_minor != 0)
 				throw std::invalid_argument("Only format version 2.0 is supported for writing.");
@@ -229,7 +231,7 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
@@ -254,13 +256,13 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		void write_cls(std::vector<Key> keys, std::vector<double> cls, double nan_replacement, std::string path, std::string comment, bool overwrite, bool verbose, int version_major, int version_minor) {
 			// Avoid a second deep copy: these owned arguments are no longer used here.
-			_write_cls(std::move(keys), std::move(cls), nan_replacement, path, comment, overwrite, verbose, version_major, version_minor, std::cout);
+			_write_cls(std::move(keys), std::move(cls), nan_replacement, path, comment, overwrite, verbose, version_major, version_minor, default_output_stream());
 		}
 
 	}

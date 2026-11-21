@@ -1,6 +1,6 @@
 ReadFCSdxflex = function(FileName, FilePath = "", Dataset = NULL,
-                   VarsToCompensate = NULL, tryToCompensate = T,
-                   Anonymize = F){
+                   VarsToCompensate = NULL, tryToCompensate = TRUE,
+                   Anonymize = FALSE){
   # # Read fcs files
   # V = ReadFCSdxflex(InFileName, InDirectory)
   # V = ReadFCSdxflex(FileName, FilePath, Dataset = 2)
@@ -13,7 +13,7 @@ ReadFCSdxflex = function(FileName, FilePath = "", Dataset = NULL,
   # OPTIONAL
   # FilePath             name of the file's directory.
   # Dataset              in FCS files, multiple datasets can be saved. If
-  #                      another than the last shall be loaded, this gives its
+  #                      another than the first shall be loaded, this gives its
   #                      index
   # VarsToCompensate     Vector of TRUE and FALSE for each variable in the data.
   #                      If TRUE, the variable will be compensated.

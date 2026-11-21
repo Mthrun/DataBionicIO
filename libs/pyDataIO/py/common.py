@@ -13,51 +13,55 @@ See the project API.md for argument order, defaults, and result fields.
 from . import extension as _impl
 
 
-def ReadLRN(FileName, InDirectory=None, Verbose=True):
+def ReadLRN(FileName, InDirectory=None, Verbose=True, *, Encoding=None):
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding is optional and normally unnecessary; see the detailed encoding rules.
     # OUTPUT
     # Key, Data, Header, DataDefined, Comments in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Return Key, Data, Header, DataDefined, and Comments, in that order."""
-    value = _impl.ReadLRN(FileName, InDirectory, Verbose)
+    value = _impl.ReadLRN(FileName, InDirectory, Verbose, Encoding=Encoding)
     return {name: value[name] for name in ("Key", "Data", "Header", "DataDefined", "Comments")}
 
 
-def ReadCLS(FileName, InDirectory=None, Verbose=True):
+def ReadCLS(FileName, InDirectory=None, Verbose=True, *, Encoding=None):
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding is optional and normally unnecessary; see the detailed encoding rules.
     # OUTPUT
     # Key, Cls, UniqueClasses, Comments in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Return Key, Cls, UniqueClasses, and Comments, in that order."""
-    value = _impl.ReadCls(FileName, InDirectory, Verbose)
+    value = _impl.ReadCls(FileName, InDirectory, Verbose, Encoding=Encoding)
     return {name: value[name] for name in ("Key", "Cls", "UniqueClasses", "Comments")}
 
 
-def ReadNAMES(FileName, InDirectory=None, Verbose=True):
+def ReadNAMES(FileName, InDirectory=None, Verbose=True, *, Encoding=None):
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding is optional and normally unnecessary; see the detailed encoding rules.
     # OUTPUT
     # Key, Names, FurtherTexts, Header, Comments in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Return Key, Names, FurtherTexts, Header, and Comments, in that order."""
-    value = _impl.ReadNames(FileName, InDirectory, Verbose)
+    value = _impl.ReadNames(FileName, InDirectory, Verbose, Encoding=Encoding)
     return {name: value[name] for name in ("Key", "Names", "FurtherTexts", "Header", "Comments")}
 
 
-def ReadDates(FileName, InDirectory=None, Verbose=True):
+def ReadDates(FileName, InDirectory=None, Verbose=True, *, Encoding=None):
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding is optional and normally unnecessary; see the detailed encoding rules.
     # OUTPUT
     # Key, Time, Data, Header, Comments, Timezone, DST in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Return Key, Time, Data, Header, Comments, Timezone, and DST, in that order."""
-    value = _impl.ReadDates(FileName, InDirectory, Verbose)
+    value = _impl.ReadDates(FileName, InDirectory, Verbose, Encoding=Encoding)
     return {name: value[name] for name in ("Key", "Time", "Data", "Header", "Comments", "Timezone", "DST")}
 
 
@@ -90,16 +94,17 @@ def WriteCLS(FileName, Cls, OutDirectory=None, Key=None, Comment=None,
 
 
 def WriteNAMES(FileName, Names, Key=None, FurtherTexts=None, Header=None,
-               OutDirectory=None, Comments="", Overwrite=True, Verbose=True):
+               OutDirectory=None, Comments="", Overwrite=True, Verbose=True, *, TextReplacement="_"):
     # INPUT
     # FileName, Names, Key, FurtherTexts, Header, OutDirectory, Comments, Overwrite, Verbose. See the function documentation and API.md.
+    # TextReplacement is optional and normally unnecessary; the default is one underscore.
     # OUTPUT
     # A format 2.0 file. No return value.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Write names and optional additional text, with one record per row."""
     return _impl.WriteNames(FileName, Names, Key, FurtherTexts, Header,
-                            OutDirectory, Comments, Overwrite, Verbose)
+                            OutDirectory, Comments, Overwrite, Verbose, TextReplacement=TextReplacement)
 
 
 def WriteDates(FileName, TSdata, Key=None, OutDirectory=None, Comments=None,

@@ -22,6 +22,7 @@
 #include <algorithm>
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 
 namespace dbt {
 	namespace DataIO {
@@ -41,14 +42,18 @@ namespace dbt {
 		 * version_major  Major output format version; the supported value is 2.
 		 * version_minor  Minor output format version; the supported value is 0.
 		 * output_stream  Destination stream for diagnostics.
+		 * replacement  Optional nonempty replacement; default one underscore per forbidden character.
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
-		void _write_names(std::vector<std::string> names, std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<std::string>> further_texts, std::string path, std::string comment, bool overwrite, bool verbose, int version_major, int version_minor, std::ostream& output_stream) {
+		void _write_names(std::vector<std::string> names, std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<std::string>> further_texts, std::string path, std::string comment, bool overwrite, bool verbose, int version_major, int version_minor, std::ostream& output_stream, const std::string& replacement = "_") {
+			validate_utf8(comment);
+			validate_utf8(column_names);
+			TextReplacement text_replacement(replacement);
 			// The layout is 2.0; older version arguments must not label it as a legacy file.
 			if (version_major != 2 || version_minor != 0)
 				throw std::invalid_argument("Only format version 2.0 is supported for writing.");
@@ -172,33 +177,25 @@ namespace dbt {
 					}
 					buffer << std::endl;
 
-					bool cleaned_text = false;
+
 					// BODY
 					for (int i = 0; i < N; i++) {
 
 						buffer << keys[i];
 
-						std::string name = names[i];
-
-						if (contains_break(name)) {
-							name = clean_string(name);
-							cleaned_text = true;
-						}
+						std::string& name = names[i];
+						text_replacement.apply(name);
 
 						buffer << "\t" << name;
 
 						if (M != 0) {
-							const std::vector<std::string>& row = further_texts[i];
+							std::vector<std::string>& row = further_texts[i];
 							if (static_cast<int>(row.size()) != d - 1) {
 								throw std::invalid_argument("Row " + std::to_string(i) + " has not the same number of columns as described; " + std::to_string(d) + " should be given but row has " + std::to_string(row.size()) + " columns!");
 							}
 
-							for (std::string val : row) {
-
-								if (contains_break(val)) {
-									val = clean_string(val);
-									cleaned_text = true;
-								}
+							for (std::string& val : row) {
+								text_replacement.apply(val);
 								buffer << "\t" << val;
 
 							}
@@ -206,9 +203,7 @@ namespace dbt {
 						if (i != N - 1)
 							buffer << std::endl;
 					}
-					if (cleaned_text) {
-						output_stream << "WARNING: Detected line breaks, tabs or carriage return symbols in text and deleted them" << std::endl;
-					}
+					text_replacement.warn(output_stream);
 				}
 				else {
 					throw std::invalid_argument("There is no writer for version " + std::to_string(version_major) + "." + std::to_string(version_minor) + "!");
@@ -221,6 +216,14 @@ namespace dbt {
 			std::ofstream of_stream = open_write(path, verbose, output_stream);
 			of_stream << buffer.rdbuf();
 			close_write(of_stream);
+		}
+
+		// INPUT: existing writer arguments and a nonempty text replacement.
+		// OUTPUT: UTF-8 NAMES file and one replacement summary warning.
+		// SPDX-License-Identifier: AGPL-3.0-only
+		// Additional permission: see MATLAB-EXCEPTION.txt.
+		void write_names(std::vector<std::string> names, std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<std::string>> further_texts, std::string path, std::string comment, bool overwrite, bool verbose, int version_major, int version_minor, std::ostream& output_stream, const std::string& replacement) {
+			_write_names(std::move(names), std::move(column_names), std::move(keys), std::move(further_texts), path, comment, overwrite, verbose, version_major, version_minor, output_stream, replacement);
 		}
 
 		/**
@@ -241,7 +244,7 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
@@ -267,13 +270,13 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		void write_names(std::vector<std::string> names, std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<std::string>> further_texts, std::string path, std::string comment, bool overwrite, bool verbose, int version_major, int version_minor) {
 			// Avoid a second deep copy: these owned arguments are no longer used here.
-			_write_names(std::move(names), std::move(column_names), std::move(keys), std::move(further_texts), path, comment, overwrite, verbose, version_major, version_minor, std::cout);
+			_write_names(std::move(names), std::move(column_names), std::move(keys), std::move(further_texts), path, comment, overwrite, verbose, version_major, version_minor, default_output_stream());
 		}
 
 	}

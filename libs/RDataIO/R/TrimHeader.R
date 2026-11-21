@@ -1,6 +1,6 @@
 TrimHeader = function(Header,UnderlineReplacement = " "){
 # Header = TrimHeader(Header)
-# deblank Header replace _ by " " and remove  
+# Remove trailing whitespace, then replace underscores by the selected text.
 # 
 # INPUT
 # Header               a string array
@@ -14,7 +14,7 @@ TrimHeader = function(Header,UnderlineReplacement = " "){
 # SPDX-License-Identifier: AGPL-3.0-only
 # Additional permission: see MATLAB-EXCEPTION.txt.
   
-  Header = deblank(Header)
+  Header = trimws(Header, which = "right")
   Header = gsub("_", UnderlineReplacement, Header)
   return(Header)
 }

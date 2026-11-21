@@ -7,6 +7,7 @@
 // All C++ objects leave scope before MATLAB receives an error or warning.
 #include "mex.h"
 #include "DataIO/the_same_key.hpp"
+#include "DataIO/text_encoding.hpp"
 #include "DataIO/read_lrn.hpp"
 #include "DataIO/write_lrn.hpp"
 #include "DataIO/read_names.hpp"
@@ -45,7 +46,7 @@ void require(bool valid, const char* message) {
  * Convert a MATLAB character row to UTF-8.
  *
  * INPUT
- * value  MATLAB character row without NUL characters.
+ * value  MATLAB UTF-16 character row, including possible field NUL characters.
  *
  * OUTPUT
  * UTF-8 std::string; invalid shape or conversion failure throws.
@@ -55,12 +56,23 @@ void require(bool valid, const char* message) {
 std::string text(const mxArray* value) {
     require(value && mxIsChar(value) && mxGetM(value) <= 1, "Expected one character row.");
     const auto* chars = mxGetChars(value);
-    for (mwSize i = 0; i < mxGetNumberOfElements(value); ++i)
-        require(chars[i] != 0, "Text must not contain a NUL character.");
-    char* bytes = mxArrayToUTF8String(value);
-    require(bytes != nullptr, "Cannot convert text to UTF-8.");
-    std::string result(bytes);
-    mxFree(bytes);
+    const auto size = mxGetNumberOfElements(value);
+    std::string result; result.reserve(size);
+    for (mwSize i = 0; i < size; ++i) {
+        uint32_t c = chars[i];
+        if (c >= 0xd800 && c <= 0xdbff) {
+            require(++i < size && chars[i] >= 0xdc00 && chars[i] <= 0xdfff, "Invalid UTF-16 surrogate pair.");
+            c = 0x10000 + ((c - 0xd800) << 10) + chars[i] - 0xdc00;
+        } else require(c < 0xdc00 || c > 0xdfff, "Invalid UTF-16 surrogate.");
+        if (c < 0x80) result += char(c);
+        else if (c < 0x800) { result += char(0xc0 | c >> 6); result += char(0x80 | (c & 63)); }
+        else if (c < 0x10000) {
+            result += char(0xe0 | c >> 12); result += char(0x80 | ((c >> 6) & 63)); result += char(0x80 | (c & 63));
+        } else {
+            result += char(0xf0 | c >> 18); result += char(0x80 | ((c >> 12) & 63));
+            result += char(0x80 | ((c >> 6) & 63)); result += char(0x80 | (c & 63));
+        }
+    }
     return result;
 }
 
@@ -370,22 +382,23 @@ void dispatch(const std::string& command, const mxArray* request, mxArray* resul
         return;
     }
     const auto path = text(field(request, "Path"));
+    require(path.find('\0') == std::string::npos, "Path must not contain NUL.");
     // Collect all messages. MATLAB decides which information to show after this function returns.
     if (command == "read_lrn") {
-        const auto value = read_lrn(path, true, log);
+        const auto value = read_lrn(path, true, log, mxGetField(request, 0, "Encoding") ? text(field(request, "Encoding")) : "");
         put(result, "Header", strings_out(std::get<0>(value)));
         put(result, "Key", keys_out(std::get<1>(value)));
         put(result, "Data", matrix_out(std::get<2>(value), std::get<1>(value).size(), std::get<0>(value).size(), false));
         put(result, "DataDefined", vector_out(std::get<3>(value)));
         put(result, "Comment", mxCreateString(std::get<4>(value).c_str()));
     } else if (command == "read_cls") {
-        const auto value = read_cls(path, true, log);
+        const auto value = read_cls(path, true, log, mxGetField(request, 0, "Encoding") ? text(field(request, "Encoding")) : "");
         put(result, "Key", keys_out(std::get<0>(value)));
         put(result, "Cls", vector_out(std::get<1>(value)));
         put(result, "UniqueClasses", vector_out(std::get<2>(value)));
         put(result, "Comment", mxCreateString(std::get<3>(value).c_str()));
     } else if (command == "read_names") {
-        const auto value = read_names(path, true, log);
+        const auto value = read_names(path, true, log, mxGetField(request, 0, "Encoding") ? text(field(request, "Encoding")) : "");
         const auto n = std::get<1>(value).size();
         const auto& rest = std::get<3>(value); // The reader returns columns; the writer accepts rows.
         auto* cells = mxCreateCellMatrix(n, rest.size());
@@ -397,7 +410,7 @@ void dispatch(const std::string& command, const mxArray* request, mxArray* resul
         put(result, "FurtherTexts", cells);
         put(result, "Comment", mxCreateString(std::get<4>(value).c_str()));
     } else if (command == "read_dates") {
-        const auto value = read_dates(path, true, log);
+        const auto value = read_dates(path, true, log, mxGetField(request, 0, "Encoding") ? text(field(request, "Encoding")) : "");
         put(result, "Header", strings_out(std::get<0>(value)));
         put(result, "Key", keys_out(std::get<1>(value)));
         put(result, "DST", strings_out(std::get<2>(value)));
@@ -428,7 +441,8 @@ void dispatch(const std::string& command, const mxArray* request, mxArray* resul
             std::vector<std::vector<std::string>> rest(n, std::vector<std::string>(d));
             for (mwSize j = 0; j < d; ++j)
                 for (mwSize i = 0; i < n; ++i) rest[i][j] = values[i+n*j];
-            write_names(strings(field(request, "Names")), strings(field(request, "Header")), key, rest, path, comment, overwrite, true, 2, 0, log);
+            write_names(strings(field(request, "Names")), strings(field(request, "Header")), key, rest, path, comment, overwrite, true, 2, 0, log,
+                mxGetField(request, 0, "TextReplacement") ? text(field(request, "TextReplacement")) : "_");
         } else if (command == "write_dates") {
             const int format = integer(request, "Format");
             require(format == -1 || (format >= 1 && format <= 3), "Format must be -1, 1, 2, or 3.");

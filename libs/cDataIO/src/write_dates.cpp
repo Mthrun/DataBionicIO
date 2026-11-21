@@ -24,6 +24,7 @@
 #include <unordered_set>
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 
 namespace dbt {
 	namespace DataIO {
@@ -47,11 +48,14 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		void _write_dates(std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::string> times, std::vector<std::vector<double>> numerics, std::string path, std::string comment, int format, bool overwrite, bool verbose, int version_major, int version_minor, std::ostream& output_stream) {
+			validate_utf8(comment);
+			validate_utf8(column_names);
+			validate_utf8(times);
 			path = addext_checkext(path, "dts");
 
 
@@ -293,7 +297,7 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
@@ -320,13 +324,13 @@ namespace dbt {
 		 *
 		 * OUTPUT
 		 * No return value. Creates or replaces the output file according to overwrite.
-		 * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+		 * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		void write_dates(std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::string> times, std::vector<std::vector<double>> numerics, std::string path, std::string comment, int format, bool overwrite, bool verbose, int version_major, int version_minor) {
 			// Avoid a second deep copy: these owned arguments are no longer used here.
-			_write_dates(std::move(column_names), std::move(keys), std::move(times), std::move(numerics), path, comment, format, overwrite, verbose, version_major, version_minor, std::cout);
+			_write_dates(std::move(column_names), std::move(keys), std::move(times), std::move(numerics), path, comment, format, overwrite, verbose, version_major, version_minor, default_output_stream());
 		}
 
 	}

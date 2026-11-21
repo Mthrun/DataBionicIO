@@ -20,10 +20,23 @@
 
 
 #include <functional>
+#include <sstream>
 #include <iostream>
 #include <pybind11/iostream.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+
+// INPUT: captured native diagnostics. OUTPUT: encoding warnings through Python warnings.
+// SPDX-License-Identifier: AGPL-3.0-only
+// Additional permission: see MATLAB-EXCEPTION.txt.
+static void text_messages(const std::string& messages) {
+    std::istringstream input(messages);
+    for (std::string line; std::getline(input, line);) {
+        if (line.starts_with("WARNING: Converted input") || line.starts_with("WARNING: Replaced "))
+            pybind11::module_::import("warnings").attr("warn")(line.substr(9), pybind11::module_::import("builtins").attr("UserWarning"));
+        else std::cout << line << std::endl;
+    }
+}
 
 PYBIND11_MODULE(pyDataIO, m)
 {
@@ -60,13 +73,39 @@ PYBIND11_MODULE(pyDataIO, m)
         ;
  
 
-    m.def("_read_dates", py::overload_cast<std::string, bool>(&dbt::DataIO::read_dates));
+    m.def("_read_dates", [](std::string path, bool verbose, const std::string& encoding) {
+        std::ostringstream log;
+        auto result = dbt::DataIO::read_dates(path, verbose, log, encoding);
+        text_messages(log.str()); return result;
+    }, py::arg("path"), py::arg("verbose"), py::arg("encoding") = "");
     m.def("_write_dates", py::overload_cast<std::vector<std::string>, std::vector<dbt::DataIO::Key>, std::vector<std::string>, std::vector<std::vector<double>>, std::string, std::string, int, bool, bool, int, int>(&dbt::DataIO::write_dates));
-    m.def("_read_lrn", py::overload_cast<std::string, bool>(&dbt::DataIO::read_lrn));
+    m.def("_read_lrn", [](std::string path, bool verbose, const std::string& encoding) {
+        std::ostringstream log;
+        auto result = dbt::DataIO::read_lrn(path, verbose, log, encoding);
+        text_messages(log.str()); return result;
+    }, py::arg("path"), py::arg("verbose"), py::arg("encoding") = "");
     m.def("_write_lrn", py::overload_cast<std::vector<std::string>, std::vector<dbt::DataIO::Key>, std::vector<std::vector<double>>, std::vector<int>, std::string, std::string, int, int, bool, bool, bool, int, int>(&dbt::DataIO::write_lrn));
-    m.def("_read_names", py::overload_cast<std::string, bool>(&dbt::DataIO::read_names));
-    m.def("_write_names", py::overload_cast<std::vector<std::string>, std::vector<std::string>, std::vector<dbt::DataIO::Key>, std::vector<std::vector<std::string>>, std::string, std::string, bool, bool, int, int>(&dbt::DataIO::write_names));
-    m.def("_read_cls", py::overload_cast<std::string, bool>(&dbt::DataIO::read_cls));
+    m.def("_read_names", [](std::string path, bool verbose, const std::string& encoding) {
+        std::ostringstream log;
+        auto result = dbt::DataIO::read_names(path, verbose, log, encoding);
+        text_messages(log.str()); return result;
+    }, py::arg("path"), py::arg("verbose"), py::arg("encoding") = "");
+    m.def("_write_names", [](std::vector<std::string> names, std::vector<std::string> header,
+        std::vector<dbt::DataIO::Key> keys, std::vector<std::vector<std::string>> texts,
+        std::string path, std::string comment, bool overwrite, bool verbose, int major, int minor,
+        const std::string& replacement) {
+        std::ostringstream log;
+        dbt::DataIO::write_names(std::move(names), std::move(header), std::move(keys), std::move(texts),
+            path, comment, overwrite, verbose, major, minor, log, replacement);
+        text_messages(log.str());
+    }, py::arg("names"), py::arg("header"), py::arg("keys"), py::arg("texts"), py::arg("path"),
+       py::arg("comment"), py::arg("overwrite"), py::arg("verbose"), py::arg("major"), py::arg("minor"),
+       py::arg("replacement") = "_");
+    m.def("_read_cls", [](std::string path, bool verbose, const std::string& encoding) {
+        std::ostringstream log;
+        auto result = dbt::DataIO::read_cls(path, verbose, log, encoding);
+        text_messages(log.str()); return result;
+    }, py::arg("path"), py::arg("verbose"), py::arg("encoding") = "");
     m.def("_write_cls", py::overload_cast<std::vector<dbt::DataIO::Key>, std::vector<double>, double, std::string, std::string, bool, bool, int, int>(&dbt::DataIO::write_cls));
 
 

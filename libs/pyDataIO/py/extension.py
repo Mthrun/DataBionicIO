@@ -90,7 +90,8 @@ def _call(function, *args):
     # args  Positional arguments for the callable.
     #
     # OUTPUT
-    # The native return value; C++ diagnostics are forwarded to Python stdout.
+    # The native return value; ordinary C++ diagnostics go to Python stdout.
+    # Encoding conversion and text replacement use Python warnings.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     with ostream_redirect():
@@ -285,15 +286,13 @@ def _text(value):
     # value  String or missing scalar.
     #
     # OUTPUT
-    # String, or NA for missing input. Nontext values, tabs, line breaks, and NUL raise an error.
+    # String, or NA for missing input. Nontext values raise an error. The core replaces forbidden field characters.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     if _missing(value):
         return "NA"
     if not isinstance(value, str):
         raise TypeError("Names and FurtherTexts must contain strings or missing values")
-    if any(char in value for char in "\t\r\n\0"):
-        raise ValueError("Text cells cannot contain tabs, line breaks or NUL")
     return value
 
 
@@ -403,23 +402,24 @@ def _frame(data, header, keys, *, dtype=None, **metadata):
     return frame
 
 
-def ReadLRN(FileName, Directory=None, Verbose=True):
+def ReadLRN(FileName, Directory=None, Verbose=True, *, Encoding=None):
     # Read a LRN file into named fields.
     #
     # INPUT
     # FileName  File name, including an optional format extension.
     # Directory  Input directory; None uses the current working directory at call time.
     # Verbose  Boolean flag for native information messages; warnings remain active.
+    # Encoding  Optional known input encoding; omit in normal workflows.
     #
     # OUTPUT
     # Dictionary with Header, Key, Data, Types, DataDefined, Comment, and Comments.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Read LRN into a dictionary with row-oriented Data and exact integer Key."""
-    return _lrn_result(_call(_read_lrn, _path(FileName, Directory), _bool(Verbose, "Verbose")))
+    return _lrn_result(_call(_read_lrn, _path(FileName, Directory), _bool(Verbose, "Verbose"), "" if Encoding is None else Encoding))
 
 
-def read_lrn(FileName, Directory=None, Verbose=True):
+def read_lrn(FileName, Directory=None, Verbose=True, *, Encoding=None):
     # Read a LRN file into a DataFrame.
     #
     # INPUT
@@ -432,7 +432,7 @@ def read_lrn(FileName, Directory=None, Verbose=True):
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Read a DataFrame. The function stores column types and comments in frame.attrs."""
-    result = ReadLRN(FileName, Directory, Verbose)
+    result = ReadLRN(FileName, Directory, Verbose, Encoding=Encoding)
     return _frame(result["Data"], result["Header"], result["Key"],
                   DataDefined=result["DataDefined"], Comments=result["Comments"])
 
@@ -484,24 +484,25 @@ def WriteLRN(FileName, Data, Header=None, Key=None, DataDefined=None,
           _bool(Scientific, "Scientific"), _bool(Overwrite, "Overwrite"), _bool(Verbose, "Verbose"), 2, 0)
 
 
-def ReadCls(FileName, Directory=None, Verbose=True):
+def ReadCls(FileName, Directory=None, Verbose=True, *, Encoding=None):
     # Read a CLS file into named fields.
     #
     # INPUT
     # FileName  File name, including an optional format extension.
     # Directory  Input directory; None uses the current working directory at call time.
     # Verbose  Boolean flag for native information messages; warnings remain active.
+    # Encoding  Optional known input encoding; omit in normal workflows.
     #
     # OUTPUT
     # Dictionary with Key, Cls, UniqueClasses, Comment, and Comments.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Read class labels, exact keys, unique classes and comments."""
-    key, cls, unique, comment = _call(_read_cls, _path(FileName, Directory), _bool(Verbose, "Verbose"))
+    key, cls, unique, comment = _call(_read_cls, _path(FileName, Directory), _bool(Verbose, "Verbose"), "" if Encoding is None else Encoding)
     return _comments(dict(Key=_read_keys(key), Cls=cls, UniqueClasses=unique), comment)
 
 
-def read_cls(FileName, Directory=None, Verbose=True):
+def read_cls(FileName, Directory=None, Verbose=True, *, Encoding=None):
     # Read a CLS file into a DataFrame.
     #
     # INPUT
@@ -514,7 +515,7 @@ def read_cls(FileName, Directory=None, Verbose=True):
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Read a DataFrame with Key and Cls columns."""
-    result = ReadCls(FileName, Directory, Verbose)
+    result = ReadCls(FileName, Directory, Verbose, Encoding=Encoding)
     return _frame([[value] for value in result["Cls"]], ["Cls"], result["Key"],
                   UniqueClasses=result["UniqueClasses"], Comments=result["Comments"])
 
@@ -560,13 +561,14 @@ def WriteCls(FileName, Cls, Key=None, OutDirectory=None, Comments="",
           _bool(Overwrite, "Overwrite"), _bool(Verbose, "Verbose"), 2, 0)
 
 
-def ReadNames(FileName, Directory=None, Verbose=True):
+def ReadNames(FileName, Directory=None, Verbose=True, *, Encoding=None):
     # Read a NAMES file into named fields.
     #
     # INPUT
     # FileName  File name, including an optional format extension.
     # Directory  Input directory; None uses the current working directory at call time.
     # Verbose  Boolean flag for native information messages; warnings remain active.
+    # Encoding  Optional known input encoding; omit in normal workflows.
     #
     # OUTPUT
     # Dictionary with Header, FileHeader, Key, Names, row-oriented FurtherTexts, Comment, and Comments.
@@ -576,14 +578,14 @@ def ReadNames(FileName, Directory=None, Verbose=True):
 
     Header contains the additional text labels. Missing text is None.
     """
-    header, key, names, columns, comment = _call(_read_names, _path(FileName, Directory), _bool(Verbose, "Verbose"))
+    header, key, names, columns, comment = _call(_read_names, _path(FileName, Directory), _bool(Verbose, "Verbose"), "" if Encoding is None else Encoding)
     text = lambda value: None if value == "NA" else value
     rows = [[text(column[i]) for column in columns] for i in range(len(key))]
     return _comments(dict(Header=header[2:], FileHeader=header, Key=_read_keys(key),
                           Names=[text(value) for value in names], FurtherTexts=rows), comment)
 
 
-def read_names(FileName, Directory=None, Verbose=True):
+def read_names(FileName, Directory=None, Verbose=True, *, Encoding=None):
     # Read a NAMES file into a DataFrame.
     #
     # INPUT
@@ -597,14 +599,14 @@ def read_names(FileName, Directory=None, Verbose=True):
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Read Key, the names column and each additional text column into a DataFrame."""
-    result = ReadNames(FileName, Directory, Verbose)
+    result = ReadNames(FileName, Directory, Verbose, Encoding=Encoding)
     data = [[name] + row for name, row in zip(result["Names"], result["FurtherTexts"])]
     return _frame(data, result["FileHeader"][1:], result["Key"],
                   dtype=object, Comments=result["Comments"])
 
 
 def WriteNames(FileName, Names, Key=None, FurtherTexts=None, Header=None,
-               OutDirectory=None, Comments="", Overwrite=True, Verbose=True):
+               OutDirectory=None, Comments="", Overwrite=True, Verbose=True, *, TextReplacement="_"):
     # Write a NAMES file through the shared C++ core.
     #
     # INPUT
@@ -617,6 +619,7 @@ def WriteNames(FileName, Names, Key=None, FurtherTexts=None, Header=None,
     # Comments  Comment string; None becomes an empty string.
     # Overwrite  Boolean permission to replace an existing file; default True.
     # Verbose  Boolean flag for native information messages; warnings remain active.
+    # TextReplacement  Optional nonempty replacement string; omit in normal workflows.
     #
     # OUTPUT
     # Returns None. Writes format 2.0; validation or I/O failures raise exceptions.
@@ -640,7 +643,7 @@ def WriteNames(FileName, Names, Key=None, FurtherTexts=None, Header=None,
     text = [[_text(value) for value in row] for row in array]
     _call(_write_names, names, header, _keys(Key, len(names)), text,
           _path(FileName, OutDirectory), _comment(Comments),
-          _bool(Overwrite, "Overwrite"), _bool(Verbose, "Verbose"), 2, 0)
+          _bool(Overwrite, "Overwrite"), _bool(Verbose, "Verbose"), 2, 0, TextReplacement)
 
 
 def _local_time(value, zone, marker=None):
@@ -703,13 +706,14 @@ def _read_times(times, dst, zone):
     return result
 
 
-def ReadDates(FileName, Directory=None, Verbose=True):
+def ReadDates(FileName, Directory=None, Verbose=True, *, Encoding=None):
     # Read a DATES file into named fields.
     #
     # INPUT
     # FileName  File name, including an optional format extension.
     # Directory  Input directory; None uses the current working directory at call time.
     # Verbose  Boolean flag for native information messages; warnings remain active.
+    # Encoding  Optional known input encoding; omit in normal workflows.
     #
     # OUTPUT
     # Dictionary with Header, FileHeader, Key, Time, Times, Data, DST, Timezone, Comment, and Comments.
@@ -724,14 +728,14 @@ def ReadDates(FileName, Directory=None, Verbose=True):
     When daylight saving time ends, the DST abbreviation identifies the occurrence of a repeated local time.
     """
     header, key, dst, times, data, comment, zone = _call(
-        _read_dates, _path(FileName, Directory), _bool(Verbose, "Verbose"))
+        _read_dates, _path(FileName, Directory), _bool(Verbose, "Verbose"), "" if Encoding is None else Encoding)
     rows = [[column[i] for column in data] for i in range(len(key))]
     return _comments(dict(Header=header[2:], FileHeader=header, Key=_read_keys(key),
                           Time=_read_times(times, dst, zone), Times=times, Data=rows,
                           DST=dst, Timezone=zone), comment)
 
 
-def read_dates(file_name, directory=None, Verbose=True):
+def read_dates(file_name, directory=None, Verbose=True, *, Encoding=None):
     # Read a DATES file into a DataFrame.
     #
     # INPUT
@@ -744,7 +748,7 @@ def read_dates(file_name, directory=None, Verbose=True):
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     """Read a DataFrame with Key, Time and the numeric data columns."""
-    result = ReadDates(file_name, directory, Verbose)
+    result = ReadDates(file_name, directory, Verbose, Encoding=Encoding)
     frame = _frame(result["Data"], result["Header"], result["Key"],
                    Comments=result["Comments"], Timezone=result["Timezone"], DST=result["DST"])
     frame.insert(1, "Time", result["Time"], allow_duplicates=True)

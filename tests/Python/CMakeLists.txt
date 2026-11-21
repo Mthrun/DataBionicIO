@@ -20,7 +20,10 @@ add_test(NAME python-common-api
             "${CMAKE_BINARY_DIR}/libs/pyDataIO")
 add_test(NAME python-common-contract
     COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../test_common_contract.py")
-set(python_tests python-keys python-wrappers python-same-key python-common-api python-common-contract)
+add_test(NAME python-text-encoding
+    COMMAND "${CMAKE_COMMAND}" -E env "PYTHONPATH=${CMAKE_BINARY_DIR}/libs/pyDataIO"
+            "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_text_encoding.py")
+set(python_tests python-keys python-wrappers python-same-key python-common-api python-common-contract python-text-encoding)
 set(DATAIO_R_TEST_LIBRARY "" CACHE PATH "Fresh isolated R library for the optional Python/R comparison")
 if(DATAIO_R_TEST_LIBRARY)
     add_test(NAME python-interop

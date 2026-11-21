@@ -21,13 +21,14 @@ with (Path(__file__).resolve().parents[1] / 'common_api.tsv').open() as stream:
                                   'outputs': row['Outputs'].split(',')}
                 for row in csv.DictReader(stream, delimiter='\t')}
 for name, spec in contract.items():
-    assert list(inspect.signature(getattr(io, name)).parameters) == spec['inputs'], name
+    assert [n for n, p in inspect.signature(getattr(io, name)).parameters.items()
+            if p.kind != inspect.Parameter.KEYWORD_ONLY] == spec['inputs'], name
     defaults = {'InDirectory': None, 'OutDirectory': None, 'Verbose': True,
                 'Overwrite': True, 'Scientific': False, 'Key': None,
                 'Header': None, 'DataDefined': None, 'FurtherTexts': None,
                 'SignificantDigits': None, 'DecimalDigits': None, 'Int4NaN': None,
                 'Comment': None, 'Comments': '' if name == 'WriteNAMES' else None,
-                'tz': None, 'Format': None}
+                'tz': None, 'Format': None, 'Encoding': None, 'TextReplacement': '_'}
     for argument, parameter in inspect.signature(getattr(io, name)).parameters.items():
         expected = defaults.get(argument, inspect.Parameter.empty)
         assert parameter.default == expected, (name, argument, parameter.default)

@@ -33,7 +33,7 @@ diary(fullfile(ReportDirectory,'results.txt'));
 StopDiary = onCleanup(@() diary('off')); %#ok<NASGU>
 addpath(Root);
 if nargin < 1, Mode = setupDataIO(); else, setupDataIO(Mode); end
-if strcmp(Mode, 'modern'), runCommonAPITests; end
+if strcmp(Mode, 'modern'), runCommonAPITests; runTextEncodingTests; end
 fprintf('DataBionicIO MATLAB tests\nMATLAB: %s\nPlatform: %s\nMode: %s\nFolder: %s\n', ...
     version, computer, Mode, ReportDirectory);
 if strcmp(Mode,'modern')

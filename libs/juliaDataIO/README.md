@@ -217,7 +217,7 @@ Do not convert a larger identifier to `Float64` before the write operation.
 Numeric input can contain `missing` or NaN.
 Numeric output uses NaN for missing values.
 Text input and output use `missing` for the reserved file token `NA`.
-Text cells cannot contain tabs or line breaks.
+For NAMES, the writer replaces each TAB, LF, CR, or NUL with one underscore and gives a warning.
 
 The CLS writer has a `missing_class=NaN` keyword for the replacement of missing classes.
 Class values must be whole numbers in the C++ `int` range.

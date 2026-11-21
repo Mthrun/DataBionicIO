@@ -6,15 +6,27 @@ Read time values, numeric data, keys, and metadata from a DATES file.
 See \link{DataIO-text-formats} for the file layout.
 }
 \usage{
-ReadDates(FileName, InDirectory = getwd(), Verbose = TRUE)
+ReadDates(FileName, InDirectory = getwd(), Verbose = TRUE, ...)
 }
 \arguments{
+\item{...}{Optional exact named encoding setting. Normally omit it. See Details.}
 \item{FileName}{Name of the input file. The reader accepts \code{.dts} and \code{.csv} files.}
 \item{InDirectory}{Directory that contains the input file. The default is \code{getwd()}.}
 \item{Verbose}{Enable information messages. The default is \code{TRUE}.
 Data warnings can occur when this argument is \code{FALSE}.}
 }
 \details{
+The optional named argument \code{Encoding} in \code{...} is normally unnecessary.
+Omit it in the typical workflow. The reader detects a BOM; otherwise it assumes UTF-8.
+Use \code{Encoding="Windows-1252"} or \code{Encoding="ISO-8859-1"} only for a known input encoding.
+\code{Encoding="UTF-8"} explicitly selects UTF-8. An incompatible BOM causes an error.
+One initial UTF-8 BOM is skipped. UTF-16 and UTF-32 BOMs select complete decoding.
+Legacy conversion gives one warning, also with \code{Verbose=FALSE}.
+Malformed encoding causes an error; the reader does not guess or replace invalid bytes.
+Unicode character sequences are preserved without automatic normalization.
+Unknown, duplicate, or unnamed options in \code{...} cause an error.
+
+
 If all time values contain dates only, the reader returns a \code{Date} vector.
 If a time value contains hours, minutes, and seconds, the reader returns a \code{POSIXct} vector.
 The reader uses the file time zone for these timestamps.

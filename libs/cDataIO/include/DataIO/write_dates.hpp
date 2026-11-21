@@ -20,6 +20,7 @@
 #include <string>
 #include <iostream>
 #include "dataio_exports.hpp"
+#include "output_stream.hpp"
 
 namespace dbt {
     namespace DataIO {
@@ -45,7 +46,7 @@ namespace dbt {
          *
          * OUTPUT
          * No return value. Creates or replaces the output file according to overwrite.
-         * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+         * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
          * SPDX-License-Identifier: AGPL-3.0-only
          * Additional permission: see MATLAB-EXCEPTION.txt.
          *
@@ -130,11 +131,11 @@ namespace dbt {
          *
          * OUTPUT
          * No return value. Creates or replaces the output file according to overwrite.
-         * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+         * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
          * SPDX-License-Identifier: AGPL-3.0-only
          * Additional permission: see MATLAB-EXCEPTION.txt.
          */
-        MYLIB_API void write_dates(std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::string> times, std::vector<std::vector<double>> numerics, std::string path, std::string comment = "", int format = -1, bool overwrite = true, bool verbose = true, int version_major = DATES_WRITER_CURRENT_MAJOR, int version_minor = DATES_WRITER_CURRENT_MINOR, std::ostream& output_stream = std::cout);
+        MYLIB_API void write_dates(std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::string> times, std::vector<std::vector<double>> numerics, std::string path, std::string comment = "", int format = -1, bool overwrite = true, bool verbose = true, int version_major = DATES_WRITER_CURRENT_MAJOR, int version_minor = DATES_WRITER_CURRENT_MINOR, std::ostream& output_stream = default_output_stream());
     }
 }
 

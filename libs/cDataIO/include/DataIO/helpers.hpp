@@ -435,7 +435,7 @@ namespace dbt {
          * Header lines start with %, <, or #.
          * The stream itself is after the first data line.
 		 */
-		std::pair<std::vector<std::string>, std::streampos> read_header_lines(std::ifstream& inputFile, std::ostream& output_stream, bool verbose);
+		std::pair<std::vector<std::string>, std::streampos> read_header_lines(std::istream& inputFile, std::ostream& output_stream, bool verbose);
 
         /**
 		 * Inspect a generation tag for version metadata.

@@ -7,9 +7,10 @@ Save names and possibly further texts to a *.names file.
 \usage{
 WriteNAMES(FileName, Names, Key = NULL, FurtherTexts = NULL, Header = NULL,
            OutDirectory=getwd(),
-Comments="", Overwrite=TRUE, Verbose = TRUE)
+Comments="", Overwrite=TRUE, Verbose = TRUE, ...)
 }
 \arguments{
+\item{...}{Optional exact named TextReplacement setting. Normally omit it. See Details.}
 \item{FileName}{'String' , Name of the NAMES-file}
 \item{Names}{[1:n] character vector. Values can start with digits and contain spaces or periods. For example, \code{"1.0.4"} is text, not a column name.}
 optional:
@@ -28,9 +29,20 @@ top of file with leading #}
 
 }
 \details{
+The optional named argument \code{TextReplacement} in \code{...} selects another replacement character or string.
+It is normally unnecessary. For example, \code{TextReplacement="[sep]"} inserts that string once per forbidden character.
+The string must be nonempty and contain no TAB, LF, CR, or NUL. The writer validates it once per call.
+Replacement gives one warning with character and field counts, also with \code{Verbose=FALSE}.
+Replacement can make different inputs identical. It does not change caller input objects.
+An encoding or replacement-option error leaves any existing destination file unchanged.
+Output is UTF-8 without BOM. Unicode sequences remain unchanged, apart from the specified field replacement.
+Unknown, duplicate, or unnamed advanced options cause an error.
+
+
 Names and FurtherTexts are text fields. Digits do not need special handling.
 Empty text and the text "NA" represent missing text when the file is read.
-Tabs and line breaks in text values are removed by the writer.
+Each actual TAB, LF, CR, or NUL in a text field becomes one underscore by default.
+Consecutive characters are not collapsed: CR followed by LF becomes two underscores.
 The writer removes spaces, tabs, commas, and semicolons from Header labels and gives a warning.
 For example, "Version Currency" becomes "VersionCurrency". Header filtering does not change Names or FurtherTexts. Tabs and line breaks in text values are handled separately.
 Readers also remove spaces, commas, and semicolons from header labels with a warning. Tabs in a file separate columns.

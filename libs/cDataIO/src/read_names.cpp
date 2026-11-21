@@ -21,6 +21,7 @@
 #include <utility>
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 #include "DataIO/legacy_readers.hpp"
 
 namespace dbt {
@@ -48,7 +49,7 @@ namespace dbt {
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
-		FileHeaderMetadata process_header_lines(const std::vector<std::string>& headerLines, const std::vector<std::string>& mandatory_columns, const std::string& format_name, bool verbose = true, std::ostream& output_stream = std::cout) {
+		FileHeaderMetadata process_header_lines(const std::vector<std::string>& headerLines, const std::vector<std::string>& mandatory_columns, const std::string& format_name, bool verbose = true, std::ostream& output_stream = default_output_stream()) {
 			if (headerLines.empty()) {
 				throw std::invalid_argument("Header lines are empty!");
 			}
@@ -110,6 +111,7 @@ namespace dbt {
 		 * path  Filesystem path.
 		 * verbose  Select information messages; data warnings can remain active.
 		 * output_stream  Destination stream for diagnostics.
+		 * encoding  Optional source encoding; empty selects BOM detection, otherwise UTF-8.
 		 *
 		 * OUTPUT
 		 * Tuple: all column labels, keys, names, additional text columns, comments.
@@ -117,7 +119,7 @@ namespace dbt {
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
-		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::vector<std::string>>, std::string> _read_names(std::string path, bool verbose, std::ostream& output_stream) {
+		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::vector<std::string>>, std::string> _read_names(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding) {
 			std::vector<Key> keys;
 			std::vector<std::string> names;
 			std::vector<std::vector<std::string>> further_texts;
@@ -129,7 +131,7 @@ namespace dbt {
 
 			path = addext_checkext(path, FORMAT_NAME);
 
-			std::ifstream inputFile(path, std::ios::binary);
+			TextInput inputFile(std::ifstream(path, std::ios::binary), encoding, output_stream);
 			if (!inputFile) {
 				throw std::invalid_argument("Failed to open file");
 			}
@@ -140,7 +142,7 @@ namespace dbt {
 
 			inputFile.seekg(posAfterHeader);
 
-			std::vector<char> fileContents((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
+			auto fileContents = inputFile.read_remaining();
 			// close file stream
 			inputFile.close();
 			
@@ -170,6 +172,14 @@ namespace dbt {
 
 		}
 
+		// INPUT: path, diagnostics, optional input encoding.
+		// OUTPUT: decoded fields; malformed encoding throws.
+		// SPDX-License-Identifier: AGPL-3.0-only
+		// Additional permission: see MATLAB-EXCEPTION.txt.
+		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::vector<std::string>>, std::string> read_names(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding) {
+			return _read_names(path, verbose, output_stream, encoding);
+		}
+
 		/**
 		 * Read a NAMES file through the shared core.
 		 *
@@ -185,7 +195,7 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::vector<std::string>>, std::string> read_names(std::string path, bool verbose, std::ostream& output_stream) {
-			return(_read_names(path, verbose, output_stream));
+			return(_read_names(path, verbose, output_stream, ""));
 		}
 
 		/**
@@ -202,7 +212,7 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::vector<std::string>>, std::string> read_names(std::string path, bool verbose) {
-			return(_read_names(path, verbose, std::cout));
+			return(_read_names(path, verbose, default_output_stream(), ""));
 		}
 	}
 }

@@ -132,6 +132,34 @@ function _text(value)
     return text
 end
 
+# INPUT: one NAMES text value or missing.
+# OUTPUT: unchanged Unicode text for replacement in the shared writer.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+function _field_text(value)
+    ismissing(value) && return "NA"
+    value isa AbstractString || throw(ArgumentError("Text must contain strings or missing"))
+    return String(value)
+end
+
+# INPUT: one text value. OUTPUT: a length-aware C++ string, including embedded NUL.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+_native_text(value::AbstractString) = occursin('\0', value) ?
+    Native._text_bytes(StdVector{UInt8}(collect(codeunits(value)))) : StdString(value)
+
+# INPUT: a text matrix. OUTPUT: length-aware native text rows for field replacement.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+function _text_rows(values::AbstractMatrix)
+    Base.require_one_based_indexing(values)
+    rows = StdVector{StdVector{StdString}}()
+    for i in axes(values, 1)
+        push!(rows, StdVector{StdString}([_native_text(_field_text(values[i, j])) for j in axes(values, 2)]))
+    end
+    rows
+end
+
 # INPUT
 # keys: nothing or a vector of whole real values. n: row count.
 # OUTPUT
@@ -231,7 +259,7 @@ _read_text(value) = String(value) == "NA" ? missing : String(value)
 function _messages(messages)
     for line in split(String(messages), '\n'; keepempty=false)
         if startswith(strip(line), "WARNING")
-            @warn line
+            @warn (startswith(line, "WARNING: Converted input") || startswith(line, "WARNING: Replaced ")) ? line[10:end] : line
         else
             println(line)
         end
@@ -246,14 +274,14 @@ Read LRN through the C++ core. Return `(header, keys, data, types, comment)`.
 `data` is a Float64 matrix with observations in rows. Numeric missing values are NaN.
 `keys` contains Int64 values or missing. `types` includes the key column type.
 """
-function read_lrn(path::AbstractString; verbose::Bool=false)
+function read_lrn(path::AbstractString; verbose::Bool=false, encoding::AbstractString="")
     # INPUT
     # path: input file path. verbose: select native information messages.
     # OUTPUT
     # NamedTuple of Julia-owned LRN values. Warnings remain active with verbose=false.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    header, keys, data, types, comment, messages = Native._read_lrn(StdString(_string(path)), verbose)
+    header, keys, data, types, comment, messages = Native._read_lrn(StdString(_string(path)), verbose, StdString(_string(encoding)))
     _messages(messages)
     return GC.@preserve header keys data types comment (header=String[String(x) for x in header],
             keys=Union{Missing,Int64}[_read_key(x) for x in keys],
@@ -294,14 +322,14 @@ end
 Read CLS. Return `(keys, classes, unique_classes, comment)`.
 Invalid keys become missing. Missing classes are NaN.
 """
-function read_cls(path::AbstractString; verbose::Bool=false)
+function read_cls(path::AbstractString; verbose::Bool=false, encoding::AbstractString="")
     # INPUT
     # path: input file path. verbose: select information messages.
     # OUTPUT
     # NamedTuple of owned class data and metadata, with native diagnostics.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    keys, classes, unique_classes, comment, messages = Native._read_cls(StdString(_string(path)), verbose)
+    keys, classes, unique_classes, comment, messages = Native._read_cls(StdString(_string(path)), verbose, StdString(_string(encoding)))
     _messages(messages)
     return GC.@preserve keys classes unique_classes comment (keys=Union{Missing,Int64}[_read_key(x) for x in keys],
             classes=Float64[x for x in classes], unique_classes=Float64[x for x in unique_classes],
@@ -338,14 +366,14 @@ Read NAMES. Return `(header, file_header, keys, names, further_texts, comment)`.
 `header` labels the additional text columns. `file_header` contains all column labels.
 The text matrix contains observations in rows. The reserved NA token becomes missing.
 """
-function read_names(path::AbstractString; verbose::Bool=false)
+function read_names(path::AbstractString; verbose::Bool=false, encoding::AbstractString="")
     # INPUT
     # path: input file path. verbose: select information messages.
     # OUTPUT
     # NamedTuple with owned names, nullable text matrix, keys, and metadata.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    header, keys, names, texts, comment, messages = Native._read_names(StdString(_string(path)), verbose)
+    header, keys, names, texts, comment, messages = Native._read_names(StdString(_string(path)), verbose, StdString(_string(encoding)))
     _messages(messages)
     labels = GC.@preserve header String[String(x) for x in header]
     return GC.@preserve keys names texts comment (header=labels[3:end], file_header=labels,
@@ -361,13 +389,14 @@ end
 
 Write NAMES 2.0. `names` is a vector. `further_texts` is a matrix with observations in rows.
 `header` labels Names and the additional text columns. It can include Key first.
-Missing text becomes NA. Text cells cannot contain tabs or line breaks.
+Missing text becomes NA. TAB, LF, CR, and NUL become one underscore each.
+The optional text_replacement keyword selects another nonempty string; normal calls omit it.
 Return nothing.
 """
 function write_names(path::AbstractString, names::AbstractVector;
         further_texts::AbstractMatrix=Matrix{String}(undef, length(names), 0),
         header::AbstractVector=String[], keys=nothing, comment::AbstractString="",
-        overwrite::Bool=true, verbose::Bool=false)
+        overwrite::Bool=true, verbose::Bool=false, text_replacement::AbstractString="_")
     # INPUT
     # path, names: output path and name vector. Keywords: extra text matrix, labels, keys, comment, flags.
     # OUTPUT
@@ -376,9 +405,9 @@ function write_names(path::AbstractString, names::AbstractVector;
     # Additional permission: see MATLAB-EXCEPTION.txt.
     size(further_texts, 1) == length(names) ||
         throw(ArgumentError("further_texts must have one row per name"))
-    _messages(Native._write_names(_strings(_text.(names)), _strings(header),
-        _keys(keys, length(names)), _rows(further_texts, _text, StdString),
-        StdString(_string(path)), StdString(_string(comment)), overwrite, verbose))
+    _messages(Native._write_names(StdVector{StdString}([_native_text(_field_text(x)) for x in names]), _strings(header),
+        _keys(keys, length(names)), _text_rows(further_texts),
+        StdString(_string(path)), StdString(_string(comment)), overwrite, verbose, _native_text(text_replacement)))
 end
 
 # INPUT
@@ -400,14 +429,14 @@ Read DATES. Return `(header, file_header, keys, times, data, dst, timezone, comm
 `times` contains timestamp strings or missing. `data` contains numeric observations in rows.
 `dst` retains the daylight saving time markers. No time zone conversion occurs.
 """
-function read_dates(path::AbstractString; verbose::Bool=false)
+function read_dates(path::AbstractString; verbose::Bool=false, encoding::AbstractString="")
     # INPUT
     # path: input file path. verbose: select information messages.
     # OUTPUT
     # NamedTuple of owned DATES values, raw timestamps, DST markers, and zone metadata.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    header, keys, dst, times, data, comment, zone, messages = Native._read_dates(StdString(_string(path)), verbose)
+    header, keys, dst, times, data, comment, zone, messages = Native._read_dates(StdString(_string(path)), verbose, StdString(_string(encoding)))
     _messages(messages)
     labels = GC.@preserve header String[String(x) for x in header]
     return GC.@preserve keys times data dst zone comment (header=labels[3:end], file_header=labels,

@@ -104,7 +104,8 @@ using DataBionicIO
             write_names(path, ["plain", "with spaces"]; keys=[1, 2], header=["Names"])
             @test size(read_names(path).further_texts) == (2, 0)
             @test read_names(path).names == ["plain", "with spaces"]
-            @test_throws ArgumentError write_names(path, ["bad\tcell"]; keys=[1])
+            @test_logs (:warn, r"^Replaced 1 forbidden text characters in 1 fields") write_names(path, ["bad\tcell"]; keys=[1])
+            @test read_names(path).names == ["bad_cell"]
             @test_throws ArgumentError write_names(path, ["ok"]; further_texts=["a"; "b";;])
         end
 
@@ -196,3 +197,4 @@ using DataBionicIO
 end
 
 include("common_api.jl")
+include("text_encoding.jl")

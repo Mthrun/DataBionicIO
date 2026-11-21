@@ -25,8 +25,8 @@ addext(filename, extension)
 \author{Michael Thrun (IAP-GmbH Intelligent Analytics Projects)}
 
 \examples{
-addext('hallo.data','data') #  'hallo.data'
-addext('hallo','data')     #  'hallo.data'
+DataBionicIO:::addext('hallo.data','data') #  'hallo.data'
+DataBionicIO:::addext('hallo','data')     #  'hallo.data'
 
 }
 \keyword{ file }

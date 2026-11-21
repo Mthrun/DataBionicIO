@@ -21,9 +21,10 @@ with (root / 'tests/common_api.tsv').open() as stream:
         assert python_args[name] == expected, name
         signature = re.search(r'function ' + name + r'\((.*?)\)\n', julia, re.S)[1]
         actual = [arg.split('=')[0].strip() for arg in signature.replace(';', ',').split(',')]
-        assert actual == expected, (name, actual)
+        advanced = ['Encoding'] if name.startswith('Read') else ['TextReplacement'] if name == 'WriteNAMES' else []
+        assert actual == expected + advanced, (name, actual)
         matlab = (root / f'libs/matlabDataIO/modern/+DataBionicIO/{name}.m').read_text().splitlines()[0]
-        assert re.search(r'\((.*)\)', matlab)[1].replace(' ', '') == row['Inputs'], name
+        assert re.search(r'\((.*)\)', matlab)[1].replace(' ', '') == row['Inputs'] + (',varargin' if advanced else ''), name
         if row['Outputs']:
             assert re.search(r'\[(.*?)\]', matlab)[1].replace(' ', '') == row['Outputs'], name
 assert (root / 'libs/RDataIO/DESCRIPTION').read_text().startswith('Package: DataBionicIO\n')

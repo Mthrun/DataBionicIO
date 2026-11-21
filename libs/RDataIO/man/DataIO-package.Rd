@@ -1,5 +1,4 @@
-\name{DataIO-package}
-\alias{DataIO-package}
+\name{DataBionicIO-package}
 \alias{DataBionicIO-package}
 \alias{DataBionicIO}
 \alias{DataIO}
@@ -22,8 +21,8 @@ See the vignettes for more examples of how to use the functions for writing and 
 \tabular{ll}{
 Package: \tab DataBionicIO\cr
 Type: \tab Package\cr
-Version: \tab 1.0.1\cr
-Date: \tab 2026-11-19\cr
+Version: \tab 1.0.2\cr
+Date: \tab 2026-11-21\cr
 License: \tab AGPL-3 + file LICENSE\cr
 }
 }

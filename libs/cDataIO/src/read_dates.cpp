@@ -23,6 +23,7 @@
 
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 
 namespace dbt {
 	namespace DataIO {
@@ -85,7 +86,7 @@ namespace dbt {
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
-		FileMetadata process_header_lines_with_timezone(const std::vector<std::string>& headerLines, const std::vector<std::string>& mandatory_columns, const std::string& format_name, bool verbose = true, std::ostream& output_stream = std::cout) {
+		FileMetadata process_header_lines_with_timezone(const std::vector<std::string>& headerLines, const std::vector<std::string>& mandatory_columns, const std::string& format_name, bool verbose = true, std::ostream& output_stream = default_output_stream()) {
 			if (headerLines.empty()) {
 				throw std::invalid_argument("Header lines are empty!");
 			}
@@ -297,6 +298,7 @@ namespace dbt {
 		 * path  Filesystem path.
 		 * verbose  Select information messages; data warnings can remain active.
 		 * output_stream  Destination stream for diagnostics.
+		 * encoding  Optional source encoding; empty selects BOM detection, otherwise UTF-8.
 		 *
 		 * OUTPUT
 		 * Tuple: labels, keys, DST markers, timestamp strings, numeric columns, comments, time zone.
@@ -304,7 +306,7 @@ namespace dbt {
 		 * SPDX-License-Identifier: AGPL-3.0-only
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
-		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::string>, std::vector<std::vector<double>>, std::string, std::string> _read_dates(std::string path, bool verbose, std::ostream& output_stream) {
+		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::string>, std::vector<std::vector<double>>, std::string, std::string> _read_dates(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding) {
 			std::vector<Key> keys;
 			std::vector<std::string> dst;
 			std::vector<std::string> times;
@@ -313,7 +315,7 @@ namespace dbt {
 			std::string comment = "";
 
 			std::vector<std::string> MANDATORY_COLUMNS = {"Key", "Time"};
-			std::ifstream stream;
+			std::ifstream raw_stream;
 			std::string path_csv;
 			std::string path_dts;
 			std::string FORMAT_NAME = "dates";
@@ -343,8 +345,8 @@ namespace dbt {
 				}
 
 				// opening the file is outside of the if to trigger the catch if it can not be loaded
-				stream.open(path_dts, std::ios::binary);
-				if (!stream) {
+				raw_stream.open(path_dts, std::ios::binary);
+				if (!raw_stream) {
 					throw std::invalid_argument("ERROR: File " + path + " does not exist!");
 				}
 			}
@@ -360,12 +362,14 @@ namespace dbt {
 					throw std::invalid_argument("ERROR: File " + path_csv + " does not exist!");
 				}
 				else {
-					stream.open(path_csv, std::ios::binary);
-					if (!stream) {
+					raw_stream.open(path_csv, std::ios::binary);
+					if (!raw_stream) {
 						throw std::invalid_argument("ERROR: File " + path + " does not exist!");
 					}
 				}
 			}
+
+			TextInput stream(std::move(raw_stream), encoding, output_stream);
 
 			auto [headerLines, posAfterHeader] = read_header_lines(stream, output_stream, verbose);
 
@@ -373,7 +377,7 @@ namespace dbt {
 
 			stream.seekg(posAfterHeader);
 
-			std::vector<char> fileContents((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
+			auto fileContents = stream.read_remaining();
 			// close file stream
 			stream.close();
 
@@ -427,6 +431,14 @@ namespace dbt {
 			return { std::move(col_names), std::move(keys), std::move(dst), std::move(times), std::move(numerics), std::move(file_metadata.comment), std::move(file_metadata.timezone)};
 		}
 
+		// INPUT: path, diagnostics, optional input encoding.
+		// OUTPUT: decoded fields; malformed encoding throws.
+		// SPDX-License-Identifier: AGPL-3.0-only
+		// Additional permission: see MATLAB-EXCEPTION.txt.
+		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string> ,std::vector<std::string>, std::vector<std::vector<double>>, std::string, std::string> read_dates(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding) {
+			return _read_dates(path, verbose, output_stream, encoding);
+		}
+
 		/**
 		 * Read a DATES file through the shared core.
 		 *
@@ -442,7 +454,7 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string> ,std::vector<std::string>, std::vector<std::vector<double>>, std::string, std::string> read_dates(std::string path, bool verbose, std::ostream& output_stream) {
-			return(_read_dates(path, verbose, output_stream));
+			return(_read_dates(path, verbose, output_stream, ""));
 		}
 
 		/**
@@ -459,7 +471,7 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::string>, std::vector<std::string>, std::vector<std::vector<double>>, std::string, std::string> read_dates(std::string path, bool verbose) {
-			return(_read_dates(path, verbose, std::cout));
+			return(_read_dates(path, verbose, default_output_stream(), ""));
 		}
 
 	}

@@ -39,6 +39,44 @@ RCPP_MODULE(DataIOModule) {}
 
 
 
+// INPUT: an R string with an optional explicit Latin-1 encoding marker.
+// OUTPUT: UTF-8 bytes; unmarked bytes are assumed to be UTF-8.
+// SPDX-License-Identifier: AGPL-3.0-only
+// Additional permission: see MATLAB-EXCEPTION.txt.
+static std::string utf8_from_r(SEXP value) {
+    if (value == NA_STRING) return "NA";
+    if (Rf_getCharCE(value) == CE_LATIN1) return Rf_translateCharUTF8(value);
+    return std::string(CHAR(value), LENGTH(value));
+}
+static std::vector<std::string> utf8_from_r(const Rcpp::CharacterVector& values) {
+    std::vector<std::string> result; result.reserve(values.size());
+    for (R_xlen_t i = 0; i < values.size(); ++i) result.push_back(utf8_from_r(STRING_ELT(values, i)));
+    return result;
+}
+// INPUT: validated core UTF-8. OUTPUT: explicitly marked R UTF-8 strings.
+// SPDX-License-Identifier: AGPL-3.0-only
+// Additional permission: see MATLAB-EXCEPTION.txt.
+static Rcpp::String utf8_to_r(const std::string& value) {
+    return Rcpp::String(Rf_mkCharLenCE(value.data(), value.size(), CE_UTF8));
+}
+static Rcpp::CharacterVector utf8_to_r(const std::vector<std::string>& values) {
+    Rcpp::CharacterVector result(values.size());
+    for (size_t i = 0; i < values.size(); ++i)
+        SET_STRING_ELT(result, i, Rf_mkCharLenCE(values[i].data(), values[i].size(), CE_UTF8));
+    return result;
+}
+// INPUT: native diagnostics. OUTPUT: encoding warnings as R conditions; other output is preserved.
+// SPDX-License-Identifier: AGPL-3.0-only
+// Additional permission: see MATLAB-EXCEPTION.txt.
+static void text_messages(const std::string& messages) {
+    std::istringstream input(messages);
+    for (std::string line; std::getline(input, line);) {
+        if (line.starts_with("WARNING: Converted input") || line.starts_with("WARNING: Replaced "))
+            Rcpp::warning("%s", line.substr(9).c_str());
+        else Rcpp::Rcout << line << std::endl;
+    }
+}
+
 // IntegerVector truncated large keys. Convert from R numeric values only after checks.
 // bit64 stores bits in doubles; it must not be treated as an ordinary numeric vector.
 /**
@@ -127,6 +165,7 @@ bool the_same_key(SEXP key_a, SEXP key_b) {
  * INPUT
  * path  Filesystem path.
  * verbose  Select information messages; data warnings can remain active.
+ * encoding  Optional source encoding; empty selects a BOM, otherwise UTF-8.
  * keys  NULL or ordinary numeric/integer keys in [-2^53, 2^53].
  * header  Optional character labels; NULL selects defaults.
  * types  Optional integer type codes; NULL selects defaults.
@@ -141,11 +180,12 @@ bool the_same_key(SEXP key_a, SEXP key_b) {
  * Additional permission: see MATLAB-EXCEPTION.txt.
  */
 // [[Rcpp::export]]
-Rcpp::List read_dates(std::string path, bool verbose = true) {
+Rcpp::List read_dates(std::string path, bool verbose = true, std::string encoding = "") {
     std::tuple<std::vector<std::string>, std::vector<dbt::DataIO::Key>, std::vector<std::string>, std::vector<std::string>, std::vector<std::vector<double>>, std::string, std::string> res = {};
     try {
-        std::ostream& output_stream = Rcpp::Rcout;
-        res = dbt::DataIO::read_dates(path, verbose, output_stream);
+        std::ostringstream output_stream;
+        res = dbt::DataIO::read_dates(path, verbose, output_stream, encoding);
+        text_messages(output_stream.str());
     }
     catch (const std::exception& e) {
         Rcpp::stop("Exception occoured when reading " + dbt::DataIO::get_filename(path) + ". " + std::string(e.what()));
@@ -174,9 +214,9 @@ Rcpp::List read_dates(std::string path, bool verbose = true) {
     Rcpp::NumericVector key;
     Rcpp::CharacterVector times;
 
-    times = Rcpp::wrap(_times);
+    times = utf8_to_r(_times);
 	
-    col_names = Rcpp::wrap(_col_names);
+    col_names = utf8_to_r(_col_names);
     key = keys_to_r(_key);
 
     Rcpp::List res_list = Rcpp::List::create(Rcpp::Named("Key") = key, Rcpp::Named("Time") = times);
@@ -195,7 +235,7 @@ Rcpp::List read_dates(std::string path, bool verbose = true) {
         if (_numerics.size() != _further_col_names.size()) {
             throw std::invalid_argument("The number of data columns does not match the number of data column names!");
         }
-        Rcpp::colnames(numerics) = Rcpp::wrap(_further_col_names);
+        Rcpp::colnames(numerics) = utf8_to_r(_further_col_names);
         res_list["Data"] = numerics;
         res_list["Header"] = _further_col_names;
     }
@@ -203,11 +243,11 @@ Rcpp::List read_dates(std::string path, bool verbose = true) {
 
 
     if (!comment.empty()) {
-        res_list["Comments"] = comment;
+        res_list["Comments"] = utf8_to_r(comment);
     }
-    res_list["Timezone"] = timezone;
+    res_list["Timezone"] = utf8_to_r(timezone);
     if (!_dst.empty()) {
-        res_list["DST"] = Rcpp::wrap(_dst);
+        res_list["DST"] = utf8_to_r(_dst);
     }
 
 
@@ -254,7 +294,7 @@ Rcpp::List read_dates(std::string path, bool verbose = true) {
 void write_dates(Rcpp::String path, Rcpp::DataFrame data, SEXP keys, int format, Rcpp::String comment = "", bool overwrite = 1, bool verbose = 1, int version_major = 2, int version_minor = 0) {
 
     std::string _path(path.get_cstring());
-    std::string _comment(comment.get_cstring());
+    std::string _comment = utf8_from_r(comment.get_sexp());
 
     Rcpp::CharacterVector names = data.names();
     std::vector<std::string> col_names;
@@ -267,7 +307,7 @@ void write_dates(Rcpp::String path, Rcpp::DataFrame data, SEXP keys, int format,
     int time_col_ind = 0;
     int dst_col_ind = 0;
     for (unsigned int i = 0; i < names.length(); i++) {
-        std::string name = static_cast<std::string>(names[i]);
+        std::string name = utf8_from_r(STRING_ELT(names, i));
         if(name == "Time") {
             time_col = true;
             time_col_ind = i;
@@ -275,7 +315,7 @@ void write_dates(Rcpp::String path, Rcpp::DataFrame data, SEXP keys, int format,
             has_dst_info = true;
             dst_col_ind = i;
         } else {
-            col_names.push_back(static_cast<std::string>(names[i]));
+            col_names.push_back(utf8_from_r(STRING_ELT(names, i)));
         }
     }
 
@@ -294,13 +334,13 @@ void write_dates(Rcpp::String path, Rcpp::DataFrame data, SEXP keys, int format,
 
     std::vector<std::string> times;
     times.reserve(time_strings.length());
-    times = Rcpp::as<std::vector<std::string>>(time_strings);
+    times = utf8_from_r(time_strings);
 
     if (has_dst_info) {
         dst_strings = data["DST"];
         std::vector<std::string> dst;
         dst.reserve(dst_strings.length());
-        dst = Rcpp::as<std::vector<std::string>>(dst_strings);
+        dst = utf8_from_r(dst_strings);
 
         if (times.size() != dst.size()) {
             Rcpp::stop("Exception occoured when writting " + dbt::DataIO::get_filename(path) + ". Times and DST have to be the same length");
@@ -376,6 +416,7 @@ void write_dates(Rcpp::String path, Rcpp::DataFrame data, SEXP keys, int format,
  * INPUT
  * path  Filesystem path.
  * verbose  Select information messages; data warnings can remain active.
+ * encoding  Optional source encoding; empty selects a BOM, otherwise UTF-8.
  * keys  NULL or ordinary numeric/integer keys in [-2^53, 2^53].
  * header  Optional character labels; NULL selects defaults.
  * types  Optional integer type codes; NULL selects defaults.
@@ -390,11 +431,12 @@ void write_dates(Rcpp::String path, Rcpp::DataFrame data, SEXP keys, int format,
  * Additional permission: see MATLAB-EXCEPTION.txt.
  */
 // [[Rcpp::export]]
-Rcpp::List read_lrn(std::string path, bool verbose = true) {
+Rcpp::List read_lrn(std::string path, bool verbose = true, std::string encoding = "") {
     std::tuple<std::vector<std::string>, std::vector<dbt::DataIO::Key>, std::vector<std::vector<double>>, std::vector<int>, std::string> res = {};
     try {
-        std::ostream& output_stream = Rcpp::Rcout;
-        res = dbt::DataIO::read_lrn(path, verbose, output_stream);
+        std::ostringstream output_stream;
+        res = dbt::DataIO::read_lrn(path, verbose, output_stream, encoding);
+        text_messages(output_stream.str());
     }
     catch (const std::exception& e) {
         Rcpp::stop("Exception occoured when reading " + dbt::DataIO::get_filename(path) + ". " + std::string(e.what()));
@@ -412,7 +454,7 @@ Rcpp::List read_lrn(std::string path, bool verbose = true) {
     Rcpp::NumericVector key;
     Rcpp::IntegerVector types(_types.size());
 
-    col_names = Rcpp::wrap(_col_names);
+    col_names = utf8_to_r(_col_names);
     types = Rcpp::wrap(_types);
     key = keys_to_r(_key);
 
@@ -426,7 +468,7 @@ Rcpp::List read_lrn(std::string path, bool verbose = true) {
             m_numerics(j, i) = _numerics[j][i];
         }
     }
-    Rcpp::colnames(m_numerics) = Rcpp::wrap(_col_names);
+    Rcpp::colnames(m_numerics) = utf8_to_r(_col_names);
 
     res_list["Data"] = m_numerics;
     res_list["Header"] = col_names;
@@ -483,7 +525,7 @@ Rcpp::List read_lrn(std::string path, bool verbose = true) {
 void write_lrn(Rcpp::DataFrame df, Rcpp::Nullable<Rcpp::CharacterVector> header, SEXP keys, Rcpp::Nullable<Rcpp::IntegerVector> types, Rcpp::String path, Rcpp::String comment, int significant_digits, int decimal_digits, bool scientific, bool overwrite = true, bool verbose = true, int version_major = 2, int version_minor = 0) {
 
     std::string _path(path.get_cstring());
-    std::string _comment(comment.get_cstring());
+    std::string _comment = utf8_from_r(comment.get_sexp());
 
     std::vector<dbt::DataIO::Key> key;
     std::vector<int> _types;
@@ -503,7 +545,7 @@ void write_lrn(Rcpp::DataFrame df, Rcpp::Nullable<Rcpp::CharacterVector> header,
         Rcpp::CharacterVector header_tmp;
         header_tmp = header;
         _header.reserve(header_tmp.length());
-        _header = Rcpp::as<std::vector<std::string>>(header_tmp);
+        _header = utf8_from_r(header_tmp);
     }
 
     unsigned int n = df.nrows();
@@ -555,6 +597,7 @@ void write_lrn(Rcpp::DataFrame df, Rcpp::Nullable<Rcpp::CharacterVector> header,
  * INPUT
  * path  Filesystem path.
  * verbose  Select information messages; data warnings can remain active.
+ * encoding  Optional source encoding; empty selects a BOM, otherwise UTF-8.
  * keys  NULL or ordinary numeric/integer keys in [-2^53, 2^53].
  * header  Optional character labels; NULL selects defaults.
  * types  Optional integer type codes; NULL selects defaults.
@@ -569,11 +612,12 @@ void write_lrn(Rcpp::DataFrame df, Rcpp::Nullable<Rcpp::CharacterVector> header,
  * Additional permission: see MATLAB-EXCEPTION.txt.
  */
 // [[Rcpp::export]]
-Rcpp::List read_names(std::string path, bool verbose = true) {
+Rcpp::List read_names(std::string path, bool verbose = true, std::string encoding = "") {
     std::tuple<std::vector<std::string>, std::vector<dbt::DataIO::Key>, std::vector<std::string>, std::vector<std::vector<std::string>>, std::string> res = {};
     try {
-        std::ostream& output_stream = Rcpp::Rcout;
-        res = dbt::DataIO::read_names(path, verbose, output_stream);
+        std::ostringstream output_stream;
+        res = dbt::DataIO::read_names(path, verbose, output_stream, encoding);
+        text_messages(output_stream.str());
     }
     catch (const std::exception& e) {
         Rcpp::stop("Exception occoured when reading " + dbt::DataIO::get_filename(path) + ". " + std::string(e.what()));
@@ -588,8 +632,8 @@ Rcpp::List read_names(std::string path, bool verbose = true) {
     const auto& comment = std::get<4>(res);
 
 
-    Rcpp::CharacterVector col_names = Rcpp::wrap(_col_names);
-    Rcpp::CharacterVector names = Rcpp::wrap(_names);
+    Rcpp::CharacterVector col_names = utf8_to_r(_col_names);
+    Rcpp::CharacterVector names = utf8_to_r(_names);
     // Missing text fields are returned as R NA, not the literal marker "NA".
     for (R_xlen_t i = 0; i < names.size(); ++i)
         if (_names[i] == "NA") names[i] = NA_STRING;
@@ -609,17 +653,18 @@ Rcpp::List read_names(std::string path, bool verbose = true) {
             for (unsigned int j = 0; j < _further_texts[0].size(); j++) {
                 // Preserve missing text as R NA when filling repaired rows.
                 if (_further_texts[i][j] == "NA") ftexts_m(j, i) = NA_STRING;
-                else ftexts_m(j, i) = _further_texts[i][j];
+                else SET_STRING_ELT(ftexts_m, j + i * ftexts_m.nrow(),
+                    Rf_mkCharLenCE(_further_texts[i][j].data(), _further_texts[i][j].size(), CE_UTF8));
             }
         }
-        Rcpp::colnames(ftexts_m) = Rcpp::wrap(_further_col_names);
+        Rcpp::colnames(ftexts_m) = utf8_to_r(_further_col_names);
         res_list["FurtherTexts"] = ftexts_m;
-        res_list["Header"] = Rcpp::wrap(_further_col_names);
+        res_list["Header"] = utf8_to_r(_further_col_names);
     }
     //res_list["Header"] = Rcpp::wrap(_col_names.begin() + 1, _col_names.end());
 
     if(!comment.empty()) {
-        res_list["Comments"] = comment;
+        res_list["Comments"] = utf8_to_r(comment);
     }
 
     return res_list;
@@ -654,6 +699,7 @@ Rcpp::List read_names(std::string path, bool verbose = true) {
  * verbose  Select information messages; data warnings can remain active.
  * version_major  Major output format version; the supported value is 2.
  * version_minor  Minor output format version; the supported value is 0.
+ * replacement  Optional nonempty field replacement; default one underscore.
  * types  Optional integer type codes; NULL selects defaults.
  * df  R data frame with one record per row.
  * data  R data frame with a Time column or times in its first column.
@@ -665,10 +711,10 @@ Rcpp::List read_names(std::string path, bool verbose = true) {
  * Additional permission: see MATLAB-EXCEPTION.txt.
  */
 // [[Rcpp::export]]
-void write_names(Rcpp::CharacterVector names, Rcpp::Nullable<Rcpp::DataFrame> texts_df, Rcpp::Nullable<Rcpp::CharacterVector> header, SEXP keys, Rcpp::String path, Rcpp::String comment, bool overwrite = true, bool verbose = true, int version_major = 2, int version_minor = 0) {
+void write_names(Rcpp::CharacterVector names, Rcpp::Nullable<Rcpp::DataFrame> texts_df, Rcpp::Nullable<Rcpp::CharacterVector> header, SEXP keys, Rcpp::String path, Rcpp::String comment, bool overwrite = true, bool verbose = true, int version_major = 2, int version_minor = 0, Rcpp::String replacement = "_") {
 
     std::string _path(path.get_cstring());
-    std::string _comment(comment.get_cstring());
+    std::string _comment = utf8_from_r(comment.get_sexp());
 
     std::vector<dbt::DataIO::Key> key;
     std::vector<std::string> _header;
@@ -683,10 +729,10 @@ void write_names(Rcpp::CharacterVector names, Rcpp::Nullable<Rcpp::DataFrame> te
         Rcpp::CharacterVector header_tmp;
         header_tmp = header;
         _header.reserve(header_tmp.length());
-        _header = Rcpp::as<std::vector<std::string>>(header_tmp);
+        _header = utf8_from_r(header_tmp);
     }
 
-    _names = Rcpp::as<std::vector<std::string>>(names);
+    _names = utf8_from_r(names);
 
     if (texts_df.isNotNull()) {
         Rcpp::DataFrame texts_df_tmp;
@@ -704,18 +750,19 @@ void write_names(Rcpp::CharacterVector names, Rcpp::Nullable<Rcpp::DataFrame> te
             row.reserve(texts_df_tmp.size());
 
             for (unsigned int j = 0; j < texts_df_tmp.size(); j++) {
-                row.push_back(Rcpp::as<std::string>(vecs[j][i]));
+                row.push_back(utf8_from_r(STRING_ELT(vecs[j], i)));
             }
             // Transfer the completed row instead of allocating and copying it again.
             futher_texts.push_back(std::move(row));
         }
     }
 
-    std::ostream& output_stream = Rcpp::Rcout;
+    std::ostringstream output_stream;
 
     try {
         // Transfer converted data to the writer; retaining a second copy is unnecessary.
-        dbt::DataIO::write_names(std::move(_names), std::move(_header), std::move(key), std::move(futher_texts), _path, _comment, overwrite, verbose, version_major, version_minor, output_stream);
+        dbt::DataIO::write_names(std::move(_names), std::move(_header), std::move(key), std::move(futher_texts), _path, _comment, overwrite, verbose, version_major, version_minor, output_stream, utf8_from_r(replacement.get_sexp()));
+        text_messages(output_stream.str());
     }
     catch (const std::exception& e) {
         Rcpp::stop("Exception occoured when writting " + dbt::DataIO::get_filename(path) + ". " + std::string(e.what()));
@@ -768,7 +815,7 @@ void write_names(Rcpp::CharacterVector names, Rcpp::Nullable<Rcpp::DataFrame> te
 // [[Rcpp::export]]
 void write_cls(Rcpp::NumericVector cls, SEXP keys, double nan_replacement, Rcpp::String path, Rcpp::String comment, bool overwrite = true, bool verbose = true, int version_major = 2, int version_minor = 0) {
     std::string _path(path.get_cstring());
-    std::string _comment(comment.get_cstring());
+    std::string _comment = utf8_from_r(comment.get_sexp());
 
     std::vector<dbt::DataIO::Key> key;
 
@@ -805,6 +852,7 @@ void write_cls(Rcpp::NumericVector cls, SEXP keys, double nan_replacement, Rcpp:
  * INPUT
  * path  Filesystem path.
  * verbose  Select information messages; data warnings can remain active.
+ * encoding  Optional source encoding; empty selects a BOM, otherwise UTF-8.
  * keys  NULL or ordinary numeric/integer keys in [-2^53, 2^53].
  * header  Optional character labels; NULL selects defaults.
  * types  Optional integer type codes; NULL selects defaults.
@@ -818,11 +866,12 @@ void write_cls(Rcpp::NumericVector cls, SEXP keys, double nan_replacement, Rcpp:
  * Additional permission: see MATLAB-EXCEPTION.txt.
  */
 // [[Rcpp::export]]
-Rcpp::List read_cls(std::string path, bool verbose = true) {
+Rcpp::List read_cls(std::string path, bool verbose = true, std::string encoding = "") {
     std::tuple<std::vector<dbt::DataIO::Key>, std::vector<double>, std::vector<double>, std::string> res = {};
     try {
-        std::ostream& output_stream = Rcpp::Rcout;
-        res = dbt::DataIO::read_cls(path, verbose, output_stream);
+        std::ostringstream output_stream;
+        res = dbt::DataIO::read_cls(path, verbose, output_stream, encoding);
+        text_messages(output_stream.str());
     }
     catch (const std::exception& e) {
         Rcpp::stop("Exception occoured when reading " + dbt::DataIO::get_filename(path) + ". " + std::string(e.what()));
@@ -845,7 +894,7 @@ Rcpp::List read_cls(std::string path, bool verbose = true) {
     Rcpp::List res_list = Rcpp::List::create(Rcpp::Named("Key") = key, Rcpp::Named("Cls") = cls, Rcpp::Named("UniqueClasses") = unique_classes);
 
     if (!comment.empty()) {
-        res_list["Comments"] = comment;
+        res_list["Comments"] = utf8_to_r(comment);
     }
 
     return res_list;

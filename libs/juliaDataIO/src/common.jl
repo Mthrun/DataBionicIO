@@ -8,40 +8,43 @@
 export ReadLRN, WriteLRN, ReadCLS, WriteCLS, ReadNAMES, WriteNAMES, ReadDates, WriteDates
 
 """Read LRN. Return Key, Data, Header, DataDefined, Comments in this order."""
-function ReadLRN(FileName; InDirectory=pwd(), Verbose=true)
+function ReadLRN(FileName; InDirectory=pwd(), Verbose=true, Encoding=nothing)
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding: optional known input encoding; omit in normal workflows.
     # OUTPUT
     # Key, Data, Header, DataDefined, Comments in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    value = read_lrn(joinpath(InDirectory, FileName); verbose=Verbose)
+    value = read_lrn(joinpath(InDirectory, FileName); verbose=Verbose, encoding=isnothing(Encoding) ? "" : Encoding)
     return (Key=value.keys, Data=value.data, Header=value.header,
             DataDefined=value.types, Comments=value.comment)
 end
 
 """Read CLS. Return Key, Cls, UniqueClasses, Comments in this order."""
-function ReadCLS(FileName; InDirectory=pwd(), Verbose=true)
+function ReadCLS(FileName; InDirectory=pwd(), Verbose=true, Encoding=nothing)
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding: optional known input encoding; omit in normal workflows.
     # OUTPUT
     # Key, Cls, UniqueClasses, Comments in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    value = read_cls(joinpath(InDirectory, FileName); verbose=Verbose)
+    value = read_cls(joinpath(InDirectory, FileName); verbose=Verbose, encoding=isnothing(Encoding) ? "" : Encoding)
     return (Key=value.keys, Cls=value.classes, UniqueClasses=value.unique_classes,
             Comments=value.comment)
 end
 
 """Read NAMES. Return Key, Names, FurtherTexts, Header, Comments in this order."""
-function ReadNAMES(FileName; InDirectory=pwd(), Verbose=true)
+function ReadNAMES(FileName; InDirectory=pwd(), Verbose=true, Encoding=nothing)
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding: optional known input encoding; omit in normal workflows.
     # OUTPUT
     # Key, Names, FurtherTexts, Header, Comments in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    value = read_names(joinpath(InDirectory, FileName); verbose=Verbose)
+    value = read_names(joinpath(InDirectory, FileName); verbose=Verbose, encoding=isnothing(Encoding) ? "" : Encoding)
     return (Key=value.keys, Names=value.names, FurtherTexts=value.further_texts,
             Header=value.header, Comments=value.comment)
 end
@@ -51,14 +54,15 @@ Read DTS. Return Key, Time, Data, Header, Comments, Timezone, DST in this order.
 Time contains local timestamp strings. Timezone and DST retain their interpretation.
 No native time zone conversion occurs.
 """
-function ReadDates(FileName; InDirectory=pwd(), Verbose=true)
+function ReadDates(FileName; InDirectory=pwd(), Verbose=true, Encoding=nothing)
     # INPUT
     # FileName, InDirectory, Verbose. See the function documentation and API.md.
+    # Encoding: optional known input encoding; omit in normal workflows.
     # OUTPUT
     # Key, Time, Data, Header, Comments, Timezone, DST in this fixed order.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
-    value = read_dates(joinpath(InDirectory, FileName); verbose=Verbose)
+    value = read_dates(joinpath(InDirectory, FileName); verbose=Verbose, encoding=isnothing(Encoding) ? "" : Encoding)
     return (Key=value.keys, Time=value.times, Data=value.data, Header=value.header,
             Comments=value.comment, Timezone=value.timezone, DST=value.dst)
 end
@@ -99,9 +103,10 @@ end
 
 """Write names and optional text rows, with the common argument order."""
 function WriteNAMES(FileName, Names; Key=nothing, FurtherTexts=nothing, Header=nothing,
-        OutDirectory=pwd(), Comments="", Overwrite=true, Verbose=true)
+        OutDirectory=pwd(), Comments="", Overwrite=true, Verbose=true, TextReplacement="_")
     # INPUT
     # FileName, Names, Key, FurtherTexts, Header, OutDirectory, Comments, Overwrite, Verbose. See the function documentation and API.md.
+    # TextReplacement: optional nonempty string; normally use the default underscore.
     # OUTPUT
     # A format 2.0 file. No return value.
     # SPDX-License-Identifier: AGPL-3.0-only
@@ -109,7 +114,7 @@ function WriteNAMES(FileName, Names; Key=nothing, FurtherTexts=nothing, Header=n
     return write_names(joinpath(OutDirectory, FileName), Names; keys=Key,
         further_texts=isnothing(FurtherTexts) ? Matrix{String}(undef, length(Names), 0) : FurtherTexts,
         header=isnothing(Header) ? String[] : Header,
-        comment=isnothing(Comments) ? "" : Comments, overwrite=Overwrite, verbose=Verbose)
+        comment=isnothing(Comments) ? "" : Comments, overwrite=Overwrite, verbose=Verbose, text_replacement=TextReplacement)
 end
 
 """

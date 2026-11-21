@@ -23,6 +23,7 @@
 #include <algorithm>
 
 #include "DataIO/helpers.hpp"
+#include "DataIO/text_encoding.hpp"
 #include "DataIO/legacy_readers.hpp"
 
 
@@ -274,8 +275,16 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::vector<double>>, std::vector<int>, std::string> read_lrn(std::string path, bool verbose, std::ostream& output_stream) {
+			return read_lrn(path, verbose, output_stream, "");
+		}
+
+		// INPUT: path, diagnostic settings, and optional input encoding.
+		// OUTPUT: decoded LRN fields; malformed encoding throws.
+		// SPDX-License-Identifier: AGPL-3.0-only
+		// Additional permission: see MATLAB-EXCEPTION.txt.
+		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::vector<double>>, std::vector<int>, std::string> read_lrn(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding) {
 			path = addext_checkext(path, "lrn");
-			std::ifstream stream = open_read(path);
+			TextInput stream(open_read(path), encoding, output_stream);
 			LRN_Reader doc;
 			doc.output_stream = &output_stream;
 
@@ -310,7 +319,7 @@ namespace dbt {
 		 * Additional permission: see MATLAB-EXCEPTION.txt.
 		 */
 		std::tuple<std::vector<std::string>, std::vector<Key>, std::vector<std::vector<double>>, std::vector<int>, std::string> read_lrn(std::string path, bool verbose) {
-			return read_lrn(path, verbose, std::cout);
+			return read_lrn(path, verbose, default_output_stream());
 		}
 	}
 }

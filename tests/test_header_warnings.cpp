@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     }
     // Text changes must be reported even when progress output is disabled.
     for (bool verbose : {false, true}) {
-        for (char delimiter : {'\t', '\r', '\n'}) {
+        for (char delimiter : {'\t', '\r', '\n', '\0'}) {
             for (bool in_name : {false, true}) {
                 std::ostringstream warnings;
                 const auto path = (directory / "text.names").string();
@@ -70,10 +70,10 @@ int main(int argc, char** argv) {
                 write_names({in_name ? dirty : "AB"}, {"Names", "Extra"},
                             {17}, {{in_name ? "AB" : dirty}}, path, "", true,
                             verbose, 2, 0, warnings);
-                assert(warnings.str().find("WARNING: Detected line breaks") != std::string::npos);
+                assert(warnings.str().find("WARNING: Replaced 1 forbidden text characters in 1 fields") != std::string::npos);
                 const auto result = read_names(path, false, warnings);
-                assert(std::get<2>(result)[0] == "AB");
-                assert(std::get<3>(result)[0][0] == "AB");
+                assert(std::get<2>(result)[0] == (in_name ? "A_B" : "AB"));
+                assert(std::get<3>(result)[0][0] == (in_name ? "AB" : "A_B"));
             }
         }
     }

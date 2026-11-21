@@ -3,14 +3,14 @@
 \title{Get Name of Flowcytometer Device}
 \description{
 Extracts the name of the flowcytometer device from flowcytometer data.
-This data must be given as object of flowFrame-class {flowCore}.
+This data must be given as object of \code{flowFrame} class from \pkg{flowCore}.
 This data can stem from a FCS or a LMD file.
 }
 \usage{
 GetDeviceName(flowFrame)
 }
 \arguments{
-\item{flowFrame}{Object of flowFrame-class {flowCore}.}
+\item{flowFrame}{Object of \code{flowFrame} class from \pkg{flowCore}.}
 }
 \value{
 List of

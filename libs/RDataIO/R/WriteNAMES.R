@@ -1,5 +1,5 @@
 WriteNAMES = function(FileName, Names, Key=NULL, FurtherTexts=NULL, Header=NULL, OutDirectory=getwd(),
-                      Comments = "", Overwrite = TRUE, Verbose = TRUE){   
+                      Comments = "", Overwrite = TRUE, Verbose = TRUE, ...){
 
   # WriteNames(FileName,Names,Key,FurtherTexts,Header);
   # Write Names file
@@ -20,6 +20,13 @@ WriteNAMES = function(FileName, Names, Key=NULL, FurtherTexts=NULL, Header=NULL,
   # Comments                 Vector, Char Array or matrix, these lines will be inserted at top of file with leading #. Default is no comment.
   # Overwrite                Boolean indicating if file should be overwritten. Default is TRUE
   # Verbose                  Logical flag for information messages; warnings remain active.
+  #
+  # ...                     Optional named TextReplacement; normally unnecessary.
+  # DETAILS
+  # TextReplacement defaults to "_" for each actual TAB, LF, CR, or NUL in a text field.
+  # Use a nonempty string without those characters. Consecutive characters are not collapsed.
+  # Normal workflows omit this option. Replacement warns even when Verbose=FALSE.
+  # Unicode sequences and caller inputs remain unchanged apart from output replacement.
   #
   # OUTPUT
   # A format 2.0 NAMES file with keys, names, and additional text.
@@ -87,6 +94,7 @@ WriteNAMES = function(FileName, Names, Key=NULL, FurtherTexts=NULL, Header=NULL,
     stop("Key must contain finite integer values between -2^53 and 2^53")
   }
   
-  write_names(Names, FurtherTexts, Header, Key, path, Comments, overwrite = Overwrite, verbose = Verbose) 
+  write_names(Names, FurtherTexts, Header, Key, path, Comments, overwrite = Overwrite, verbose = Verbose,
+              replacement = .dataio_text_option(list(...), "TextReplacement", "_"))
   
 }

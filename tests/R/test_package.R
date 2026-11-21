@@ -7,6 +7,10 @@
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) .libPaths(c(normalizePath(args[1]), .libPaths()))
 library(DataBionicIO)
+stopifnot(identical(TrimHeader(c(" A_B  ", "C\t\r\n", NA_character_)),
+                    c(" A B", "C", NA_character_)),
+          identical(TrimHeader("A_B ", UnderlineReplacement = "[sep]"), "A[sep]B"),
+          identical(TrimHeader(character()), character()))
 directory <- tempfile("DataIO-basics-")
 dir.create(directory)
 expect_warning <- function(expr) {

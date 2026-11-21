@@ -88,7 +88,7 @@ for (package in c("DataBionicIO", "qslegacy", "Rcpp", "lubridate", "qs2")) {
 }
 tests <- c(basics = "tests/R/test_package.R", keys = "tests/R/test_key64.R",
            same_key = "tests/R/test_same_key.R",
-           common_api = "tests/R/test_common_api.R",
+           common_api = "tests/R/test_common_api.R", encoding = "tests/R/test_text_encoding.R",
            headers = "tests/R/test_header_warnings.R", numbers = "tests/R/test_small_optimizations.R",
            legacy = "tests/legacy/test_readers.R", documentation = "tests/R/test_documentation.R")
 for (name in names(tests))

@@ -1,4 +1,4 @@
-ReadDates <- function(FileName, InDirectory = getwd(), Verbose = TRUE) {
+ReadDates <- function(FileName, InDirectory = getwd(), Verbose = TRUE, ...) {
   #  V = ReadDates(FileName,InDirectory);
   #  Key = V$Key
   #  Time = V$Time
@@ -9,9 +9,15 @@ ReadDates <- function(FileName, InDirectory = getwd(), Verbose = TRUE) {
   # INPUT
   # FileName      FileName of *.dts or *.csv file
   # OPTIONAL
+# ...          Optional named Encoding setting; normally unnecessary. See DETAILS.
   # InDirectory   Directory where *.dts or *.csv file is, default: current dir
   #
-  # OUTPUT list with:
+  # DETAILS
+# Encoding in ... selects UTF-8, Windows-1252, or ISO-8859-1 for known input.
+# Omit it in normal workflows: detect a BOM, otherwise assume UTF-8.
+# Conversion warns even when Verbose=FALSE. Unicode sequences remain unchanged.
+#
+# OUTPUT list with:
   # Key (1:n)     Numeric vector of whole-number keys within +/- 2^53; invalid file keys become NA
   # Time (1:n)    Vector of POSIX Dates/Datetimes
   # Data (1:n, 1:d) matrix
@@ -43,7 +49,8 @@ ReadDates <- function(FileName, InDirectory = getwd(), Verbose = TRUE) {
   }
   
   InDirectory = normalizePath(InDirectory, mustWork = TRUE)
-  res = read_dates(file.path(InDirectory, FileName), Verbose)
+  res = read_dates(file.path(InDirectory, FileName), Verbose,
+                   encoding = .dataio_text_option(list(...), "Encoding", ""))
   if (DEBUG) {
     print(res$Data)
   }

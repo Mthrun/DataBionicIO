@@ -70,27 +70,30 @@ std::string write_with_messages(Operation operation) {
 // SPDX-License-Identifier: AGPL-3.0-only
 // Additional permission: see MATLAB-EXCEPTION.txt.
 JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
+    mod.method("_text_bytes", [](const std::vector<uint8_t>& bytes) {
+        return std::string(bytes.begin(), bytes.end());
+    });
     mod.method("_the_same_key", [](const std::vector<double>& a, const std::vector<double>& b) {
         return dbt::DataIO::the_same_key(a, b);
     });
-    mod.method("_read_lrn", [](const std::string& path, bool verbose) {
+    mod.method("_read_lrn", [](const std::string& path, bool verbose, const std::string& encoding) {
         return read_with_messages([&](std::ostream& out) {
-            return dbt::DataIO::read_lrn(path, verbose, out);
+            return dbt::DataIO::read_lrn(path, verbose, out, encoding);
         });
     });
-    mod.method("_read_cls", [](const std::string& path, bool verbose) {
+    mod.method("_read_cls", [](const std::string& path, bool verbose, const std::string& encoding) {
         return read_with_messages([&](std::ostream& out) {
-            return dbt::DataIO::read_cls(path, verbose, out);
+            return dbt::DataIO::read_cls(path, verbose, out, encoding);
         });
     });
-    mod.method("_read_names", [](const std::string& path, bool verbose) {
+    mod.method("_read_names", [](const std::string& path, bool verbose, const std::string& encoding) {
         return read_with_messages([&](std::ostream& out) {
-            return dbt::DataIO::read_names(path, verbose, out);
+            return dbt::DataIO::read_names(path, verbose, out, encoding);
         });
     });
-    mod.method("_read_dates", [](const std::string& path, bool verbose) {
+    mod.method("_read_dates", [](const std::string& path, bool verbose, const std::string& encoding) {
         return read_with_messages([&](std::ostream& out) {
-            return dbt::DataIO::read_dates(path, verbose, out);
+            return dbt::DataIO::read_dates(path, verbose, out, encoding);
         });
     });
     mod.method("_write_lrn", [](const Strings& header, const Keys& keys,
@@ -112,10 +115,10 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
     });
     mod.method("_write_names", [](const Strings& names, const Strings& header,
         const Keys& keys, const Texts& texts, const std::string& path,
-        const std::string& comment, bool overwrite, bool verbose) {
+        const std::string& comment, bool overwrite, bool verbose, const std::string& replacement) {
         return write_with_messages([&](std::ostream& out) {
             dbt::DataIO::write_names(names, header, keys, texts, path, comment,
-                overwrite, verbose, 2, 0, out);
+                overwrite, verbose, 2, 0, out, replacement);
         });
     });
     mod.method("_write_dates", [](const Strings& header, const Keys& keys,

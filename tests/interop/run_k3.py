@@ -106,6 +106,27 @@ def environment():
     return result
 
 
+def compare_environments(reference, current):
+    # INPUT
+    # reference, current  Recorded local and destination environments.
+    # OUTPUT
+    # Required-environment errors and documented runner image/platform differences.
+    # SPDX-License-Identifier: AGPL-3.0-only
+    # Additional permission: see MATLAB-EXCEPTION.txt.
+    required = ('ImageOS', 'RUNNER_OS', 'RUNNER_ARCH', 'python', 'machine',
+                'TZ', 'locale', 'timezone_hashes')
+    errors = [key for key in required if key not in reference or key not in current
+              or reference[key] != current[key]]
+    for package in ('numpy', 'pandas', 'tzdata'):
+        before = reference.get('python_packages', {}).get(package)
+        after = current.get('python_packages', {}).get(package)
+        if before is None or after is None or before != after:
+            errors.append(package)
+    differences = {key: dict(reference=reference.get(key), current=current.get(key))
+                   for key in ('ImageVersion', 'os') if reference.get(key) != current.get(key)}
+    return errors, differences
+
+
 def run_command(argv, stem, timeout=900, env=None):
     # INPUT
     # argv, stem, timeout, env  Command, log prefix, time limit, and optional environment.
@@ -309,6 +330,7 @@ def cross(args, bundle):
     # args, bundle  Downloaded original outputs, target package, and fixed selection.
     # OUTPUT
     # Eight Python reads with source/destination hashes and configuration checks.
+    # Runner image/platform differences are recorded separately from required equality.
     # SPDX-License-Identifier: AGPL-3.0-only
     # Additional permission: see MATLAB-EXCEPTION.txt.
     out = args.output
@@ -317,11 +339,7 @@ def cross(args, bundle):
     local = args.incoming/args.os
     target = load(local/'transfer.json')
     current = environment()
-    config_fields = ('ImageOS','ImageVersion','python','machine','os','TZ','locale','timezone_hashes')
-    config_errors = [k for k in config_fields if current[k] != target['environment'][k]]
-    for package in ('numpy','pandas','tzdata'):
-        if current['python_packages'].get(package) != target['environment']['python_packages'].get(package):
-            config_errors.append(package)
+    config_errors, runner_differences = compare_environments(target['environment'], current)
     if source_hashes() != target['source']['files']:
         config_errors.append('source_files')
     original_packages = load(local/'package-hashes.json')
@@ -331,6 +349,7 @@ def cross(args, bundle):
         path = ROOT/entry['path']
         if not path.is_file() or sha(path) != entry['sha256']:
             config_errors.append('package:'+entry['path'])
+    save(out/'environment-check.json', dict(errors=config_errors, runner_differences=runner_differences))
     requests, transfer = [], {}
     for c in bundle['comparisons']:
         if c['kind'] != 'cross_os_read' or c['destination_os'] != args.os:
@@ -366,6 +385,7 @@ def cross(args, bundle):
         result=checked(q,actual,p['expected']['Python'],'Python')
         result.update(comparison_id=c['id'], kind='cross_os_read', configuration_id=args.os,
                       transfer=transfer[q['id']],
+                      runner_differences=runner_differences,
                       source_identity=dict(commit=target['source']['commit'], sha256=sha(local/'source.json')),
                       writer_options=p['writer_options'], output_sha256=transfer[q['id']]['destination_sha256'],
                       input_sha256=transfer[q['id']]['original_sha256'],

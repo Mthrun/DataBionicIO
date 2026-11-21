@@ -17,8 +17,8 @@
 #' @keywords file
 #' @examples
 #' 
-#' addext('hallo.data','data') #  'hallo.data'
-#' addext('hallo','data')     #  'hallo.data'
+#' DataBionicIO:::addext('hallo.data','data') #  'hallo.data'
+#' DataBionicIO:::addext('hallo','data')     #  'hallo.data'
 #' 
 #' 
 addext = function(filename,extension){

@@ -116,7 +116,8 @@ def main():
     if len(extensions) != 1:
         raise ValueError("The installed native module is missing or ambiguous")
     for test, argument in (("test_key64.py", extensions[0]), ("test_wrappers.py", site),
-                           ("test_same_key.py", site), ("test_common_api.py", site)):
+                           ("test_same_key.py", site), ("test_common_api.py", site),
+                           ("test_text_encoding.py", args.build / "encoding-fixtures")):
         run([python, ROOT / "tests/Python" / test, argument], logs / (test + ".log"),
             cwd=args.build, env=test_env)
     if args.r_library:
@@ -125,7 +126,7 @@ def main():
         run([python, ROOT / "tests/Python/test_interop.py", site, args.r_library.resolve()],
             logs / "interop.log", cwd=args.build, env=interop_env)
     info.update(python=platform.python_version(), artifact=wheel.name, status="PASS",
-                installation_tests=["native-keys", "wrappers", "same-key", "common-api"])
+                installation_tests=["native-keys", "wrappers", "same-key", "common-api", "text-encoding"])
     if args.r_library:
         info["installation_tests"].append("r-interop")
     args.output.mkdir(parents=True, exist_ok=True)

@@ -26,6 +26,7 @@
 #include <string>
 #include <iostream>
 #include "dataio_exports.hpp"
+#include "output_stream.hpp"
 
 namespace dbt {
     namespace DataIO {
@@ -61,7 +62,13 @@ namespace dbt {
          * SPDX-License-Identifier: AGPL-3.0-only
          * Additional permission: see MATLAB-EXCEPTION.txt.
          */
-        MYLIB_API std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> read_cls(std::string path, bool verbose = true, std::ostream& output_stream = std::cout);
+        MYLIB_API std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> read_cls(std::string path, bool verbose = true, std::ostream& output_stream = default_output_stream());
+
+        // INPUT: existing reader arguments plus optional explicit encoding.
+        // OUTPUT: the same fields as above, decoded as UTF-8.
+        // SPDX-License-Identifier: AGPL-3.0-only
+        // Additional permission: see MATLAB-EXCEPTION.txt.
+        MYLIB_API std::tuple<std::vector<Key>, std::vector<double>, std::vector<double>, std::string> read_cls(std::string path, bool verbose, std::ostream& output_stream, const std::string& encoding);
     }
 }
 

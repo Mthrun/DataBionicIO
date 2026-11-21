@@ -6,15 +6,27 @@
   Load key-class assignments from *.cls file
 }
 \usage{
-ReadCLS(FileName, InDirectory=getwd(), Verbose = TRUE)
+ReadCLS(FileName, InDirectory=getwd(), Verbose = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+\item{...}{Optional exact named encoding setting. Normally omit it. See Details.}
   \item{FileName}{ string, name of the *.cls file }
   \item{InDirectory}{ string of the directory containing the *.cls file }
   \item{Verbose}{If \code{TRUE} (Default), then additional information is printed}
 }
 \details{
+The optional named argument \code{Encoding} in \code{...} is normally unnecessary.
+Omit it in the typical workflow. The reader detects a BOM; otherwise it assumes UTF-8.
+Use \code{Encoding="Windows-1252"} or \code{Encoding="ISO-8859-1"} only for a known input encoding.
+\code{Encoding="UTF-8"} explicitly selects UTF-8. An incompatible BOM causes an error.
+One initial UTF-8 BOM is skipped. UTF-16 and UTF-32 BOMs select complete decoding.
+Legacy conversion gives one warning, also with \code{Verbose=FALSE}.
+Malformed encoding causes an error; the reader does not guess or replace invalid bytes.
+Unicode character sequences are preserved without automatic normalization.
+Unknown, duplicate, or unnamed options in \code{...} cause an error.
+
+
   Files without a generation tag, or with version 1.0, can use spaces between numeric fields.
   They can omit the row-count header; the reader warns and keeps all data rows.
   CLS colour metadata is ignored. Version 2.0 files keep the current header requirements.

@@ -43,7 +43,7 @@ if(MSVC)
     target_compile_options(databionicio_julia PRIVATE /utf-8)
 endif()
 
-foreach(name Project.toml README.md src/DataBionicIO.jl src/common.jl test/runtests.jl test/common_api.jl examples/example.jl)
+foreach(name Project.toml README.md src/DataBionicIO.jl src/common.jl test/runtests.jl test/common_api.jl test/text_encoding.jl examples/example.jl)
     configure_file("${name}" "${julia_package}/${name}" COPYONLY)
 endforeach()
 include("${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/DataBionicIOLicenses.cmake")
@@ -53,6 +53,8 @@ foreach(name CxxWrap-MIT.md libcxxwrap-julia-MIT.md)
         "${julia_package}/LICENSES/${name}" COPYONLY)
 endforeach()
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/../../tests/legacy/samples"
+    DESTINATION "${julia_package}/test")
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/../../tests/encoding"
     DESTINATION "${julia_package}/test")
 add_custom_target(JuliaPackage DEPENDS databionicio_julia)
 add_test(NAME julia-package

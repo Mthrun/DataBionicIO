@@ -1,6 +1,6 @@
 # DataBionicIO for MATLAB
 
-Version: 1.0.1.
+Version: 1.0.2.
 
 The project uses GNU AGPL version 3 only, with a MATLAB linking exception.
 The built package includes `LICENSE` and `MATLAB-EXCEPTION.txt`.

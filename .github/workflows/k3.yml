@@ -95,6 +95,11 @@ jobs:
         id: prepare
         run: python tests/interop/run_k3.py prepare --os '${{ matrix.system }}' --output 'build/k3/${{ matrix.system }}'
 
+      - name: Check the exchange validation rules
+        run: |
+          set -o pipefail
+          python tests/test_k3_environment.py 2>&1 | tee 'build/k3/${{ matrix.system }}/validation-regressions.log'
+
       - name: Build R and run separate regressions
         continue-on-error: true
         run: |

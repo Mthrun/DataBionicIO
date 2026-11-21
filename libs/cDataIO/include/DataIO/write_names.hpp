@@ -24,6 +24,7 @@
 #include <iostream>
 
 #include "dataio_exports.hpp"
+#include "output_stream.hpp"
 
 
 namespace dbt {
@@ -79,6 +80,9 @@ namespace dbt {
             *          verbose:                Whether or not warnings and comments should be printed
             *          version_major:          first number of the version
             *          version_minor:          second number of the version
+            * Text output is UTF-8 without BOM. Each actual TAB, LF, CR, or NUL in
+            * Names or FurtherTexts becomes one underscore, with a summary warning.
+            * The advanced overload accepts another nonempty replacement string.
             **/
 
         inline extern const int NAMES_WRITER_CURRENT_MAJOR = 2;
@@ -101,7 +105,7 @@ namespace dbt {
          *
          * OUTPUT
          * No return value. Creates or replaces the output file according to overwrite.
-         * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+         * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
          * SPDX-License-Identifier: AGPL-3.0-only
          * Additional permission: see MATLAB-EXCEPTION.txt.
          */
@@ -125,11 +129,17 @@ namespace dbt {
          *
          * OUTPUT
          * No return value. Creates or replaces the output file according to overwrite.
-         * Validation and I/O failures throw; diagnostics use output_stream or std::cout.
+         * Validation and I/O failures throw; diagnostics use output_stream or the build-specific console.
          * SPDX-License-Identifier: AGPL-3.0-only
          * Additional permission: see MATLAB-EXCEPTION.txt.
          */
-        MYLIB_API void write_names(std::vector<std::string> names, std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<std::string>> further_texts, std::string path, std::string comment = "", bool overwrite = true, bool verbose = true, int version_major = NAMES_WRITER_CURRENT_MAJOR, int version_minor = NAMES_WRITER_CURRENT_MINOR, std::ostream& output_stream = std::cout);
+        MYLIB_API void write_names(std::vector<std::string> names, std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<std::string>> further_texts, std::string path, std::string comment = "", bool overwrite = true, bool verbose = true, int version_major = NAMES_WRITER_CURRENT_MAJOR, int version_minor = NAMES_WRITER_CURRENT_MINOR, std::ostream& output_stream = default_output_stream());
+
+        // INPUT: existing writer arguments and a nonempty text replacement.
+        // OUTPUT: UTF-8 NAMES file; each TAB, LF, CR, or NUL uses the replacement.
+        // SPDX-License-Identifier: AGPL-3.0-only
+        // Additional permission: see MATLAB-EXCEPTION.txt.
+        MYLIB_API void write_names(std::vector<std::string> names, std::vector<std::string> column_names, std::vector<Key> keys, std::vector<std::vector<std::string>> further_texts, std::string path, std::string comment, bool overwrite, bool verbose, int version_major, int version_minor, std::ostream& output_stream, const std::string& replacement);
     }
 }
 

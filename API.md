@@ -212,3 +212,27 @@ Julia functions with names such as `read_lrn` keep their previous interface.
 Use the `DataBionicIO` interface above for calls shared across languages.
 The R package name replaces `cdbt.DataIO`.
 Existing installed packages are separate from a new source build.
+
+## Advanced text options
+
+Normal workflows omit these options. Existing positional arguments keep their order.
+All four readers accept `Encoding` for a known input encoding. Omission selects a BOM when present, otherwise UTF-8.
+The explicit settings are `UTF-8`, `Windows-1252`, and `ISO-8859-1` (`Latin-1`).
+UTF-16 and UTF-32 input requires an identifying BOM. Conflicting settings and malformed input cause errors.
+Legacy decoding gives one warning. One initial UTF-8 BOM is skipped without a warning.
+Writers always use UTF-8 without a BOM. They preserve Unicode sequences without automatic normalization.
+
+`WriteNAMES` accepts `TextReplacement`, with `_` as the default.
+It replaces each actual TAB, LF, CR, or NUL in `Names` and `FurtherTexts` before writing.
+A CR followed by LF gives two replacements. Spaces and literal backslash escapes remain unchanged.
+The setting must be one nonempty Unicode string without the four forbidden characters.
+One warning gives the replaced-character count and affected-field count, also when `Verbose` is false.
+The writer preserves caller inputs and existing destination files on encoding or replacement-option errors.
+Header rules, missing-value markers, and the numeric DST restriction remain unchanged.
+
+R accepts exact named settings through trailing `...`. Their help is in Details.
+Python accepts these settings as keyword-only arguments. Julia uses keyword arguments.
+MATLAB accepts trailing name-value pairs through `varargin`, after the existing positional arguments.
+Use `[]` for omitted MATLAB positional arguments before the name-value pair.
+Unknown, duplicate, and unnamed advanced options cause errors.
+The table above describes the ordinary arguments. These advanced options do not change that order.

@@ -177,7 +177,13 @@ class Wrappers(unittest.TestCase):
         self.assertEqual(self.read(io.read_names, "a").shape, (2, 2))
 
     def test_text_delimiters_and_unequal_lengths_rejected(self):
-        for value in ("tab\there", "new\nline", "carriage\rreturn", "null\0byte", 12):
+        for value in ("tab\there", "new\nline", "carriage\rreturn", "null\0byte"):
+            with self.subTest(value=value), self.assertWarns(UserWarning):
+                self.write(io.WriteNames, "a", [value], Key=[1])
+            expected = value.translate({ord(c): "_" for c in "\t\r\n\0"})
+            self.assertEqual(self.read(io.ReadNames, "a")["Names"], [expected])
+            (self.directory / "a.names").unlink()
+        for value in (12,):
             with self.subTest(value=value), self.assertRaises((TypeError, ValueError)):
                 self.write(io.WriteNames, "a", [value], Key=[1])
         for fn, data in [(io.WriteLRN, {"A": [1, 2], "B": [3]}),

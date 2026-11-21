@@ -221,7 +221,7 @@ An explicit `Header` argument must contain strings.
 Missing numeric values use `NaN`.
 The writers also accept `None` and Pandas missing values in numeric input.
 Missing text uses `NA` in the file and `None` in the result.
-Text cells cannot contain tabs, line breaks, or NUL characters.
+For NAMES, the writer replaces each TAB, LF, CR, or NUL with one underscore and gives a warning.
 The writers keep spaces, commas, and semicolons in text cells.
 
 ## Results
