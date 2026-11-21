@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "file": "hepta.lrn",
+      "bytes": 12348,
+      "sha256": "273929d84d87c87be77f55bb929921e5473db1c7a42d4b2909005bf3da246152",
+      "source": "https://doi.org/10.1016/j.dib.2020.105501",
+      "note": "Fixed publication fixture. Consecutive keys and Hepta_NNN names were assigned during study preparation."
+    },
+    {
+      "file": "hepta.cls",
+      "bytes": 1193,
+      "sha256": "d32b48d7dc6bd679797518fba12d521646c3351c9b3b812d8b3bc9dcffb174ce",
+      "source": "https://doi.org/10.1016/j.dib.2020.105501",
+      "note": "Fixed publication fixture. Consecutive keys and Hepta_NNN names were assigned during study preparation."
+    },
+    {
+      "file": "hepta.names",
+      "bytes": 2907,
+      "sha256": "25e19285d30909f661c9079b04bba8f30da4e664e2cdde5726cff5062cbd3276",
+      "source": "https://doi.org/10.1016/j.dib.2020.105501",
+      "note": "Fixed publication fixture. Consecutive keys and Hepta_NNN names were assigned during study preparation."
+    },
+    {
+      "file": "HydrologyDaily2013_2014.dts",
+      "bytes": 88683,
+      "sha256": "3452434eb860b29d5eaac638c7e7b806b4cb352bc75c60113634c035a421a6b6",
+      "source": "https://doi.org/10.5281/zenodo.24335147",
+      "note": "Supplementary Data S2 derived calendar-date series. Original analysis inputs: https://doi.org/10.5281/zenodo.4498241."
+    },
+    {
+      "file": "13ColumnNCBIs_Firebrowse_N19637.names",
+      "bytes": 242672,
+      "sha256": "90ef8156c716917292e1c4cc367f4afc2fc235186388a99679ba59d867c2b815",
+      "source": "https://doi.org/10.5281/zenodo.21849070",
+      "note": "Unchanged annotation file. Michael Thrun and Julian M\u00e4rte. CC BY 4.0."
+    },
+    {
+      "file": "14Genexpression_Firebrowse_Cls_N10446.cls",
+      "bytes": 80672,
+      "sha256": "44894bb7fee1fd7f18718b90de953d99c82ddaba6057a7941b81ddaa168c8099",
+      "source": "https://doi.org/10.5281/zenodo.21849070",
+      "note": "Unchanged annotation file. Michael Thrun and Julian M\u00e4rte. CC BY 4.0."
+    },
+    {
+      "file": "15Genexpression_Cls2Diagnosis_N33.names",
+      "bytes": 567,
+      "sha256": "3d881bd43c6ca55da0d14026a84c66b11522e1b22bbd5c4805a1d2105d0c1c02",
+      "source": "https://doi.org/10.5281/zenodo.21849070",
+      "note": "Unchanged annotation file. Michael Thrun and Julian M\u00e4rte. CC BY 4.0."
+    },
+    {
+      "file": "16Genexpression_Cases_N10446.names",
+      "bytes": 354664,
+      "sha256": "486e2d0bd4192ae3f41c4f9b2b6376598fd65f11897a0ff069cb08aba188d5ce",
+      "source": "https://doi.org/10.5281/zenodo.21849070",
+      "note": "Unchanged annotation file. Michael Thrun and Julian M\u00e4rte. CC BY 4.0."
+    }
+  ]
+}

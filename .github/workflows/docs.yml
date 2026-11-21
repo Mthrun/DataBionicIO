@@ -1,0 +1,48 @@
+# OUTPUT
+# A checked HTML documentation artifact for the selected source revision.
+# SPDX-License-Identifier: AGPL-3.0-only
+# Additional permission: see MATLAB-EXCEPTION.txt.
+name: User documentation
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'examples/tutorials/**'
+      - 'examples/excel/README.md'
+      - 'API.md'
+      - 'DESCRIPTION'
+      - '.readthedocs.yaml'
+      - '.github/workflows/docs.yml'
+      - 'tests/check_user_docs.py'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'examples/tutorials/**'
+      - 'examples/excel/README.md'
+      - 'API.md'
+      - 'DESCRIPTION'
+      - '.readthedocs.yaml'
+      - '.github/workflows/docs.yml'
+      - 'tests/check_user_docs.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  html:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r docs/requirements.txt
+      - run: python -m sphinx -n -W --keep-going -b html docs build/docs/html
+      - run: python tests/check_user_docs.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DataBionicIO-user-documentation
+          path: build/docs/html
+          if-no-files-found: error
